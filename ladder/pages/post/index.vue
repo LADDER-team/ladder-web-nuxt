@@ -1,0 +1,152 @@
+<template>
+  <v-layout justify-center
+            ref="scrollWrapRef"
+            id="scroll-wrap"
+            class="layout-ladder-post">
+    <v-flex justify-center
+            align-start
+            class="ladder-posts-wrap">
+      <v-form ref="form" v-model="valid"
+              lazy-validation
+              class="ladder-post-form">
+        <v-text-field
+          v-model="modelTitle"
+          outline
+          :rules="titleRule"
+          class="post-text-field post-title"
+          label="Ladderタイトル"
+          placeholder="初心者がDjangoアプリケーションを作るまで！"></v-text-field>
+        <v-textarea
+          v-model="modelLadderDescription"
+          outline
+          :rules="ladderDescriptionRule"
+          :counter="200"
+          class="post-text-field post-description"
+          label="Ladderの説明"
+          placeholder="半年前までプログラミング初心者だった私がDjangoでアプリケーションをどんな順序で開発することができたのか。初心者の方に参考になればなと思います！諦めずに最後までやりきってみましょう！"></v-textarea>
+        <v-flex v-for="index in unitIndex" :key="index">
+          <ladder-post-form :index="index"
+                            @sub-title-emit="onSubTitle"
+                            @url-emit="onUrl"
+                            @description-emit="onDescription"
+                            class="ladder-post-item"/>
+        </v-flex>
+        <v-layout flex row justify-center
+                  class="ladder-post-icons">
+          <v-icon size="40" @click="clickUnitAdd"
+                  class="ladder-post-add">add_circle_outline
+          </v-icon>
+          <v-icon size="40" @click="clickUnitRemove"
+                  class="ladder-post-remove">remove_circle
+          </v-icon>
+        </v-layout>
+        <v-flex class="ladder-post-btn">
+          <v-btn dark fab large
+                 class="contribution-floating-btn ladder-post-submit">
+            <v-icon dark>done</v-icon>
+          </v-btn>
+        </v-flex>
+      </v-form>
+    </v-flex>
+  </v-layout>
+</template>
+
+<script>
+  import LadderPostForm from '~/components/ladderPostForm.vue'
+
+  export default {
+    name: "LadderPostDetail",
+    layout: 'engineer',
+    components: {
+      LadderPostForm
+    },
+    data() {
+      return {
+        unitIndex: 1,
+        ladderTitle: "",
+        modelTitle: "",
+        modelLadderDescription: "",
+        unit: [],
+        descriptionList: {
+          1: "",
+        },
+        subtitleList: {
+          1: "",
+        },
+        urlList: {
+          1: "",
+        },
+        //validation
+        valid: true,
+        titleRule: [v => !!v || 'タイトルを入力してください'],
+        ladderDescriptionRule: [v => !!v || '説明文を入力してください',
+          v => v.length <= 200 || '説明文は200字以内で入力してください'],
+      }
+    },
+    created() {
+      this.modelTitle = this.modelTitle ? this.modelTitle : ""
+    },
+    methods: {
+      clickUnitAdd() {
+        if (this.unitIndex < 8) {
+          this.unitIndex++;
+        } else {
+          alert('これ以上ユニットは増やせません！')
+        }
+      },
+      clickUnitRemove() {
+        if (this.unitIndex === 1) {
+          alert('これ以上ユニットは削除できません！')
+        } else {
+          this.unitIndex--;
+        }
+      },
+      onDescription(descriptionEmit, index) {
+        this.$set(this.descriptionList, index, descriptionEmit);
+      },
+      onSubTitle(subTitleEmit, index) {
+        this.$set(this.subtitleList, index, subTitleEmit);
+      },
+      onUrl(urlEmit, index) {
+        this.$set(this.urlList, index, urlEmit);
+      },
+    },
+  }
+</script>
+
+<style scoped lang="sass">
+  .ladder-posts-wrap
+    position: relative
+    padding: 40px
+    background-color: #fff
+  .ladder-post-icons
+    max-width: 40px
+    max-height: 40px
+    margin: 0 auto
+    cursor: pointer
+  .ladder-post-add
+    &:hover
+      opacity: .7
+  .ladder-post-remove
+    &:hover
+      opacity: .7
+  .ladder-post-btn
+    z-index: 100
+    position: fixed
+    bottom: 0
+    display: flex
+    align-items: center
+    justify-content: center
+    margin: 0 auto
+    max-width: 700px
+    width: 100%
+  .ladder-post-submit
+    position: absolute!important
+    top: -150px
+    right: -5px
+  .post-description
+    margin: 0 0 24px!important
+    border-bottom: 3px solid $default_border_color
+
+</style>
+
