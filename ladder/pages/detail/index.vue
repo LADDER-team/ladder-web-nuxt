@@ -235,7 +235,6 @@
             list.push(value)
           }
         })
-        console.log(learningStatusList)
         return list.length ? list[0].id : false
       },
       getLadderCreator() {
@@ -334,7 +333,6 @@
             }
           })
           this.learningStatusList = learningStatusList
-          console.log(learningStatusList)
         }).then(()=>{
           this.getLearningIndexes()
         }).catch((error) => {

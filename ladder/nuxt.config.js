@@ -49,6 +49,7 @@ module.exports = {
       ]
     ]
   ],
+  plugins: [{ src: '~/plugins/clientInit.js', ssr: false }],
   vuetify: {
     theme: {
       primary: '#3f51b5',

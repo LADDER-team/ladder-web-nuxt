@@ -17,10 +17,30 @@
 
 <script>
   import AppBar from '~/components/AppBar.vue'
+  import {mapGetters} from 'vuex'
 
   export default {
+    data: () => ({
+      loginToken: ""
+    }),
     components: {
       AppBar
+    },
+    created() {
+      if (this.token) {
+        this.autoAuth()
+      }
+    },
+    methods: {
+      async autoAuth() {
+        userId = await this.tokenDecode()
+        await this.getUser(userId)
+      },
+    },
+    computed: {
+      ...mapGetters('user',{
+        token: 'tokenGetter'
+      })
     }
   }
 </script>
