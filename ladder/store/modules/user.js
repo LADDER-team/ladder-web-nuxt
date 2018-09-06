@@ -29,6 +29,10 @@ const getters = {
   }
 }
 const mutations = {
+  accessTokenMutation(state, token) {
+    state.token = token
+    localStorage.setItem('token', state.token)
+  },
   addEmailMutation(state, payload) {
     state.email = payload.email
   },
