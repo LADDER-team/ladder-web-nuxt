@@ -35,8 +35,8 @@
       return axios({
         method: 'GET',
         url: 'https://api.ladder.noframeschools.com/api/ladder/'
-      }).then((res) => {
-        return {ladderList: res.data.results}
+      }).then((response) => {
+        return {ladderList: response.data.results}
       }).catch((e) => {
         error({statusCode: 404, message: 'Not Found...'})
       })

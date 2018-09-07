@@ -1,12 +1,11 @@
 <template>
   <v-dialog v-model="dialog"
             persistent
-            max-width="500px"
-            class="sign-dialog-btn-wrap">
+            max-width="500">
     <v-btn slot="activator"
            dark round outline small
            class="avatar-btn">
-      <v-avatar :tile=false :size=40>
+      <v-avatar :size="40">
         <v-icon>person_outline</v-icon>
       </v-avatar>
     </v-btn>
@@ -89,7 +88,4 @@
   }
 </script>
 
-<style scoped lang="sass">
-  .sign-dialog-btn-wrap
-    margin: 0 0 0 20px
-</style>
+<style scoped lang="sass"></style>

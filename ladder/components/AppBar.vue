@@ -29,7 +29,8 @@
                alt="">
         </v-avatar>
       </v-btn>
-      <sign-dialog v-if="!isLogin"/>
+      <sign-dialog v-if="!isLogin" class="app-bar-btn"/>
+      <user-menu v-if="isLogin" class="app-bar-btn"/>
     </v-toolbar-items>
   </v-toolbar>
 </template>
@@ -37,11 +38,13 @@
 <script>
   import {mapGetters} from 'vuex'
   import SignDialog from '~/components/SignDialog.vue'
+  import UserMenu from '~/components/UserMenu'
 
   export default {
     name: "tool-bar",
     components: {
-      SignDialog
+      SignDialog,
+      UserMenu
     },
     methods: {
       toLadderPost() {
@@ -72,31 +75,34 @@
   .g-toolbar
     z-index: 300
     background-color: $default_primary_color !important
-    .g-toolbar-title
-      color: #fff
-      display: flex
-      align-items: center
-      &:hover
-        opacity: .7
-    .g-toolbar-logo
-      vertical-align: middle
-      max-width: 150px
-      width: 150px
-    .g-search-wrap
-      padding: 10px 0
-      margin: 0 0 0 30px
-    .g-search-field
-      padding: 5px 10px 0
-      background: #fff
-      border-radius: 30px
-      overflow: hidden
-    .input-group__details
-      display: none
-    .g-toolbar-btn
-      margin: 0 0 0 20px !important
-      border: none !important
-    .g-toolbar-btn-icon
-      max-height: 80%
-      max-width: 80%
-      width: 100%
+  .g-toolbar-title
+    color: #fff
+    display: flex
+    align-items: center
+    &:hover
+      opacity: .7
+  .g-toolbar-logo
+    vertical-align: middle
+    max-width: 150px
+    width: 150px
+  .g-search-wrap
+    padding: 10px 0
+    margin: 0 0 0 30px
+  .g-search-field
+    padding: 5px 10px 0
+    background: #fff
+    border-radius: 30px
+    overflow: hidden
+  .input-group__details
+    display: none
+  .g-toolbar-btn
+    margin: 0 0 0 20px !important
+    border: none !important
+  .g-toolbar-btn-icon
+    max-height: 80%
+    max-width: 80%
+    width: 100%
+
+  .app-bar-btn
+    margin: 0 0 0 20px
 </style>
