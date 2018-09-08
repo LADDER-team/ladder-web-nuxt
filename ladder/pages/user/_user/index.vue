@@ -95,7 +95,7 @@
     },
     methods: {
       unimplemented() {
-        alert("機能搭載までお待ちください！")
+        alert("機能実装をお待ちください！")
       },
     },
     computed: {

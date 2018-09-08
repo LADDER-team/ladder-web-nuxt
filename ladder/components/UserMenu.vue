@@ -14,7 +14,7 @@
             マイページ
           </v-list-tile-title>
         </v-list-tile>
-        <v-list-tile @click="console.log('aaa')">
+        <v-list-tile @click="toHelp">
           <v-list-tile-title>ヘルプ</v-list-tile-title>
         </v-list-tile>
       </v-list>
@@ -33,6 +33,9 @@
       })
     },
     methods: {
+      toHelp(){
+        alert('機能実装をお待ちください！')
+      },
       toMyPage() {
         this.$router.push('/user/' + this.userId + '/')
       }

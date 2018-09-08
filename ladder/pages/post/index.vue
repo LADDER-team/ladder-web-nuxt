@@ -33,15 +33,16 @@
         </v-flex>
         <v-layout flex row justify-center
                   class="ladder-post-icons">
-          <v-icon size="40" @click="clickUnitAdd"
+          <v-icon size="40" @click="addUnit"
                   class="ladder-post-add">add_circle_outline
           </v-icon>
-          <v-icon size="40" @click="clickUnitRemove"
+          <v-icon size="40" @click="removeUnit"
                   class="ladder-post-remove">remove_circle
           </v-icon>
         </v-layout>
         <v-flex class="ladder-post-btn">
           <v-btn dark fab large
+                 @click="postLadder"
                  class="contribution-floating-btn ladder-post-submit">
             <v-icon dark>done</v-icon>
           </v-btn>
@@ -52,6 +53,8 @@
 </template>
 
 <script>
+  import axios from 'axios'
+  import {mapGetters} from 'vuex'
   import LadderPostForm from '~/components/ladderPostForm.vue'
 
   export default {
@@ -87,18 +90,61 @@
       this.modelTitle = this.modelTitle ? this.modelTitle : ""
     },
     methods: {
-      clickUnitAdd() {
+      addUnit() {
         if (this.unitIndex < 8) {
           this.unitIndex++;
         } else {
           alert('これ以上ユニットは増やせません！')
         }
       },
-      clickUnitRemove() {
+      removeUnit() {
         if (this.unitIndex === 1) {
           alert('これ以上ユニットは削除できません！')
         } else {
           this.unitIndex--;
+        }
+      },
+      postLadder() {
+        for (let i = 1; i <= this.unitIndex; i++) {
+          this.unit[i - 1] =
+            {
+              title: this.subtitleList[i],
+              url: this.urlList[i],
+              description: this.descriptionList[i],
+              index: i
+            }
+        }
+        let unit = JSON.stringify(this.unit)
+        unit = JSON.parse(unit)
+
+        if (!this.$refs.form.validate()) {
+          alert('投稿に不備があります！')
+        }else{
+          axios({
+            method: 'POST',
+            url: 'https://api.ladder.noframeschools.com/api/ladder/',
+            headers: {
+              "Accept": "application/json",
+              "Authorization": "JWT " + this.token,
+              "Content-type": "application/json"
+            },
+            data: {
+              title: this.modelTitle,
+              ladder_description: this.modelLadderDescription,
+              tags: [],
+              units: unit
+            }
+          }).then(() => {
+            alert('ラダーを投稿しました！トップページへ遷移します！')
+            this.$router.push('/')
+          }).catch((error) => {
+            if (!this.isLogin) {
+              alert('ログインしてください！')
+            } else {
+              alert('投稿に失敗しました！！')
+            }
+            console.log(error)
+          })
         }
       },
       onDescription(descriptionEmit, index) {
@@ -111,6 +157,12 @@
         this.$set(this.urlList, index, urlEmit);
       },
     },
+    computed: {
+      ...mapGetters('user',{
+        token: 'tokenGetter',
+        isLogin: 'loginGetter'
+      })
+    }
   }
 </script>
 

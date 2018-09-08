@@ -18,7 +18,7 @@
                 class="ladder-links-wrap my-page-ladders-wrap">
           <div v-for="(ladder, index) in learningLadderList" :key="index"
                class="ladder-link-wrap">
-            <router-link :to="`/detail/${ ladder.id }`"
+            <router-link :to="{path: `/detail`, query: {id: ladder.id}}"
                          class="ladder-link">
               <div class="ladder-thumb-wrap">
                 <img :alt="defaultImage.alt+'-'+index"
@@ -38,7 +38,7 @@
                 class="ladder-links-wrap my-page-ladders-wrap">
           <div v-for="(ladder, index) in finishLadderList" :key="index"
                class="ladder-link-wrap">
-            <router-link :to="`/detail/${ ladder.id }`"
+            <router-link :to="{path: `/detail`, query: {id: ladder.id}}"
                          class="ladder-link">
               <div class="ladder-thumb-wrap">
                 <img :alt="defaultImage.alt"
@@ -58,7 +58,7 @@
                 class="ladder-links-wrap my-page-ladders-wrap">
           <div v-for="(ladder, index) in myLadderList" :key="index"
                class="ladder-link-wrap">
-            <router-link :to="`/detail/${ ladder.id }`" :key="index"
+            <router-link :to="{path: `/detail`, query: {id: ladder.id}}"
                          class="ladder-link">
               <div class="ladder-thumb-wrap">
                 <img :alt="defaultImage.alt"
@@ -198,10 +198,10 @@
     border-bottom: 1px solid $default_border_color
     font-weight: normal
   .my-page-not-ladder
+    display: block
     margin: 20px 0 0
     text-align: center
-
-    .ladder-links-wrap
+  .ladder-links-wrap
     display: inline-block
     &:last-child
       border-bottom: none
