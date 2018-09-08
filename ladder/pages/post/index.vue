@@ -60,6 +60,11 @@
   export default {
     name: "LadderPostDetail",
     layout: 'engineer',
+    scrollToTop: true,
+    transitions: {
+      name: 'page',
+      mode: 'out-in'
+    },
     components: {
       LadderPostForm
     },

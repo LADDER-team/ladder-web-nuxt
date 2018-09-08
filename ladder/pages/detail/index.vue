@@ -99,6 +99,10 @@
     name: 'ladder-detail',
     layout: 'engineer',
     scrollToTop: true,
+    transitions: {
+      name: 'page',
+      mode: 'out-in'
+    },
     data: () => ({
       ladderActive: false,
       ladderToUnit: false,

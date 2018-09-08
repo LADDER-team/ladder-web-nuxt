@@ -31,6 +31,10 @@
     name: "ladder-list",
     layout: 'engineer',
     scrollToTop: true,
+    transitions: {
+      name: 'page',
+      mode: 'out-in'
+    },
     asyncData() {
       return axios({
         method: 'GET',

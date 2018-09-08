@@ -83,6 +83,11 @@
   export default {
     name: "LadderManagementPage",
     layout: 'engineer',
+    scrollToTop: true,
+    transitions: {
+      name: 'page',
+      mode: 'out-in'
+    },
     data() {
       return {
         posted: false,
