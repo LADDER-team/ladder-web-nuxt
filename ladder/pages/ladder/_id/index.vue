@@ -156,13 +156,6 @@
           return this.defaultUsername
         }
       },
-      compProfile() {
-        if (this.$store.state.profile) {
-          return this.$store.state.profile
-        } else {
-          return this.defaultProfile
-        }
-      },
       ...mapGetters('user',{
         userId: 'userIdGetter',
         isLogin: 'loginGetter'

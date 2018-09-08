@@ -41,7 +41,7 @@
                 class="ladder-links-wrap my-page-ladders-wrap">
           <div v-for="(ladder, index) in myLadderList" :key="index"
                class="ladder-link-wrap">
-            <router-link :to="`/detail/${ ladder.id }`"
+            <router-link :to="{path: `/detail`, query: {id: ladder.id}}"
                          class="ladder-link">
               <div class="ladder-thumb-wrap">
                 <img :alt="defaultImage.alt"

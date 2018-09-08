@@ -10,4 +10,8 @@ npm-debug.log
 # Nuxt generate
 dist
 
+ide files
 .idea
+
+npm files
+.package-lock.json
