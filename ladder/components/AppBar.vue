@@ -56,7 +56,7 @@
       },
       toLadderManagement() {
         if (this.isLogin) {
-          this.$router.push('/user/' + this.userId + '/ladders/')
+          this.$router.push('/ladder/'+this.userId)
         } else {
           alert("ラダーページのご利用はログイン後に可能となります！")
         }
