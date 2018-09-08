@@ -33,9 +33,7 @@
           <div class="unit-cover-info">
             <p class="unit-cover-info-name subheading">{{ladderCreator}}</p>
             <p class="unit-cover-info-date body-1">
-              {{ladderUpdated.year}}-
-              {{ladderUpdated.month}}-
-              {{ladderUpdated.day}}に更新
+              {{createdAtDate}}に更新
             </p>
           </div>
           <div class="unit-cover-btn-wrap">
@@ -103,6 +101,7 @@
       name: 'page',
       mode: 'out-in'
     },
+    asyncData(){},
     data: () => ({
       ladderActive: false,
       ladderToUnit: false,
@@ -165,6 +164,25 @@
         this.$nextTick(() => {
           this.scrollOffset = this.$el.getElementsByClassName('unit-item')[index].offsetTop - 100
           this.$vuetify.goTo('#scroll-wrap', this.options)
+        })
+      },
+      createdLadderDetail() {
+        axios({
+          method: 'GET',
+          url: 'https://api.ladder.noframeschools.com/api/ladder/' + this.ladderParam + '/'
+        }).then((response) => {
+          this.ladderDetailList = response.data
+          this.unitList = response.data.units
+        }).then(() => {
+          this.unitList = _.indexBy(this.unitList, 'index')
+        }).then(() => {
+          this.createLadderDate(this.ladderDetailList.update_at)
+        }).then(() => {
+          this.getLadderCreator()
+        }).then(() => {
+          // this.getLearningLadder()
+        }).catch((error) => {
+          console.log(error)
         })
       },
       findIndex(e, className, needParent) {
@@ -248,25 +266,6 @@
           url: 'https://api.ladder.noframeschools.com/api/users/' + userId + '/'
         }).then((response) => {
           this.ladderCreator = response.data.name
-        }).catch((error) => {
-          console.log(error)
-        })
-      },
-      createdLadderDetail() {
-        axios({
-          method: 'GET',
-          url: 'https://api.ladder.noframeschools.com/api/ladder/' + this.ladderParam + '/'
-        }).then((response) => {
-          this.ladderDetailList = response.data
-          this.unitList = response.data.units
-        }).then(() => {
-          this.unitList = _.indexBy(this.unitList, 'index')
-        }).then(() => {
-          this.createLadderDate(this.ladderDetailList.update_at)
-        }).then(() => {
-          this.getLadderCreator()
-        }).then(() => {
-          // this.getLearningLadder()
         }).catch((error) => {
           console.log(error)
         })
@@ -438,6 +437,11 @@
       },
       isLearned() {
         return this.learning === 'learned'
+      },
+      createdAtDate(){
+        const date = this.ladderDetailList.update_at
+        const createdAtDate = date?date.slice(0, 4) + "-" + date.slice(5, 7) + "-" + date.slice(8, 10):""
+        return createdAtDate
       },
     }
   }

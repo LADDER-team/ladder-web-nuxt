@@ -26,10 +26,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.vue" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pages/user/_user/index.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="453">
+            <state relative-caret-position="3100">
               <caret line="155" column="8" selection-start-line="155" selection-start-column="8" selection-end-line="155" selection-end-column="8" />
               <folding>
                 <element signature="e#2267#2292#0" expanded="true" />
@@ -47,11 +47,16 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.vue" pinned="false" current-in-tab="false">
+      <file leaf-file-name="index.vue" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pages/detail/index.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="73">
-              <caret line="8" column="17" lean-forward="true" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+            <state relative-caret-position="26">
+              <caret line="103" column="16" selection-start-line="103" selection-start-column="16" selection-end-line="103" selection-end-column="16" />
+              <folding>
+                <element signature="e#4388#4413#0" expanded="true" />
+                <element signature="e#3510#4474#0" />
+                <element signature="n#style#0;n#!!top" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -79,6 +84,7 @@
       <find>for</find>
       <find>my-page-not-ladder</find>
       <find>ladder-w</find>
+      <find>ladderUpdated</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -120,11 +126,11 @@
         <option value="$PROJECT_DIR$/components/ladderPostForm.vue" />
         <option value="$PROJECT_DIR$/assets/styles/sass/_base.sass" />
         <option value="$PROJECT_DIR$/pages/post/index.vue" />
-        <option value="$PROJECT_DIR$/pages/detail/index.vue" />
         <option value="$PROJECT_DIR$/pages/index.vue" />
         <option value="$PROJECT_DIR$/components/LadderListItem.vue" />
         <option value="$PROJECT_DIR$/pages/ladder/_id/index.vue" />
         <option value="$PROJECT_DIR$/pages/user/_user/index.vue" />
+        <option value="$PROJECT_DIR$/pages/detail/index.vue" />
       </list>
     </option>
   </component>
@@ -300,12 +306,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1536046561094</updated>
-      <workItem from="1536046562299" duration="65625000" />
+      <workItem from="1536046562299" duration="67850000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="65625000" />
+    <option name="totallyTimeSpent" value="67850000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="2048" y="0" width="1920" height="1080" extended-state="6" />
@@ -316,13 +322,13 @@
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" show_stripe_button="false" />
       <window_info id="npm" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" sideWeight="0.4997367" weight="0.31153184" />
-      <window_info anchor="bottom" id="TypeScript" weight="0.32874355" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49860725" visible="true" weight="0.117430225" />
+      <window_info anchor="bottom" id="Terminal" sideWeight="0.4997367" weight="0.3108108" />
+      <window_info anchor="bottom" id="TypeScript" weight="0.32848233" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49860725" visible="true" weight="0.117430225" />
       <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32848233" />
       <window_info id="Structure" order="1" sideWeight="0.5013928" side_tool="true" weight="0.16271722" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4997367" visible="true" weight="0.31600833" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.4997367" visible="true" weight="0.23284823" />
       <window_info id="Favorites" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -458,13 +464,6 @@
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/styles/sass/_ladderDetail.sass">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="11" column="14" lean-forward="true" selection-start-line="11" selection-start-column="14" selection-end-line="11" selection-end-column="14" />
         </state>
       </provider>
     </entry>
@@ -690,13 +689,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pages/detail/index.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="73">
-          <caret line="8" column="17" lean-forward="true" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/components/LadderListItem.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
@@ -716,10 +708,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pages/user/_user/index.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="453">
+        <state relative-caret-position="3100">
           <caret line="155" column="8" selection-start-line="155" selection-start-column="8" selection-end-line="155" selection-end-column="8" />
           <folding>
             <element signature="e#2267#2292#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/styles/sass/_ladderDetail.sass">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="25" column="20" lean-forward="true" selection-end-line="191" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/detail/index.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="26">
+          <caret line="103" column="16" selection-start-line="103" selection-start-column="16" selection-end-line="103" selection-end-column="16" />
+          <folding>
+            <element signature="e#4388#4413#0" expanded="true" />
+            <element signature="e#3510#4474#0" />
+            <element signature="n#style#0;n#!!top" />
           </folding>
         </state>
       </provider>
