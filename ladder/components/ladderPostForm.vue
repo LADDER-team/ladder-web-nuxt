@@ -66,6 +66,4 @@
 <style lang="sass" scoped>
   .post-wrap
     margin: 0 0 30px
-  .post-text-field
-    width: 100%
 </style>

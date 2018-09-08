@@ -447,6 +447,7 @@
     position: relative
     align-items: flex-start
     margin: 0 0 0 4%
+    max-width: 800px
   .unit-head
     margin: 0 0 20px
     font-size: 18px
@@ -537,6 +538,7 @@
         width: 6px
         height: 40px
         background: $default_ladder_disable_color
+  .ladder-wrap
   .ladder-inner
     position: fixed
     top: 25%

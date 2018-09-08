@@ -3,8 +3,8 @@
             ref="scrollWrapRef"
             id="scroll-wrap"
             class="layout-ladder-post">
-    <v-flex justify-center
-            align-start
+    <v-flex justify-center align-start
+            md7
             class="ladder-posts-wrap">
       <v-form ref="form" v-model="valid"
               lazy-validation
@@ -174,7 +174,8 @@
 <style scoped lang="sass">
   .ladder-posts-wrap
     position: relative
-    padding: 40px
+    padding: 70px
+    max-width: 800px
     background-color: #fff
   .ladder-post-icons
     max-width: 40px
@@ -204,6 +205,7 @@
   .post-description
     margin: 0 0 24px!important
     border-bottom: 3px solid $default_border_color
-
+  .post-text-field
+    font-size: 18px
 </style>
 
