@@ -50,7 +50,7 @@
       return {
         loginToken: null,
         login: false,
-        temporaryUserId: 0,
+        decodeId: 0,
         userDetail: {},
         decodedToken: {},
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -113,12 +113,12 @@
       },
       tokenDecoded() {
         this.decodedToken = jwt(this.loginToken);
-        this.temporaryUserId = this.decodedToken.user_id;
+        this.decodeId = this.decodedToken.user_id;
       },
       getUser() {
         axios({
           method: 'GET',
-          url: 'https://api.ladder.noframeschools.com/api/users/' + this.temporaryUserId + '/',
+          url: 'https://api.ladder.noframeschools.com/api/users/' + this.decodeId + '/',
         }).then((response) => {
           this.userDetail = response.data
         }).then(() => {
@@ -131,7 +131,7 @@
       setUser() {
         this.addNameAction(this.userDetail.name);
         this.addEmailAction(this.decodedToken.email);
-        this.addUserIdAction(this.temporaryUserId);
+        this.addUserIdAction(this.decodeId);
       },
       clickDialogCancel() {
         this.$emit('cancel')

@@ -26,7 +26,7 @@
   export default {
     data: () => ({
       loginToken: "",
-      userId: 0,
+      decodedId: "",
       decodedToken: {},
       userDetail: {}
     }),
@@ -48,12 +48,12 @@
       },
       tokenDecode() {
         this.decodedToken = jwt(this.token);
-        this.userId = this.decodedToken.user_id;
+        this.decodedId = this.decodedToken.user_id;
       },
       getUser() {
         axios({
           method: 'GET',
-          url: 'https://api.ladder.noframeschools.com/api/users/' + this.userId + '/',
+          url: 'https://api.ladder.noframeschools.com/api/users/' + this.decodedId + '/',
         }).then((response) => {
           this.userDetail = response.data
         }).then(() => {
@@ -69,7 +69,9 @@
       setUser() {
         this.addNameAction(this.userDetail.name);
         this.addEmailAction(this.decodedToken.email);
-        this.addUserIdAction(this.userId);
+        if (!this.userId) {
+          this.addUserIdAction(this.decodedId);
+        }
       },
       ...mapActions('user', [
         'addEmailAction',
@@ -81,7 +83,8 @@
     computed: {
       ...mapGetters('user', {
         token: 'tokenGetter',
-        isLogin: 'loginGetter'
+        isLogin: 'loginGetter',
+        userId: 'userIdGetter',
       })
     }
   }

@@ -43,9 +43,11 @@ const mutations = {
     state.token = payload.token
     localStorage.setItem('token', state.token)
   },
-  addUserIdMutation(state, payload) {
-    state.userId = payload.userId
-    localStorage.setItem('userId', state.userId)
+  addUserIdMutation(state, userId) {
+    state.userId = userId
+    if(state.userId){
+      localStorage.setItem('userId', state.userId)
+    }
   },
   loginEmailMutation(state, payload) {
     state.email = payload.email
