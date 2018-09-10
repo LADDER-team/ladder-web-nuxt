@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="{path: `/detail`, query: {id: ladderId}}"
+  <router-link :to="{path: `/detail/${ladderId}/`}"
                class="ladder-link">
     <div class="ladder-thumb-wrap">
       <img src="~assets/images/ladder_avatar.png"

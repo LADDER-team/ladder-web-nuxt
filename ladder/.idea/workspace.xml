@@ -12,16 +12,16 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FavoritesManager">
+    <favorites_list name="ladder" />
+  </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="index.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pages/ladder/_id/index.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="526">
-              <caret line="182" column="8" selection-start-line="182" selection-start-column="8" selection-end-line="182" selection-end-column="8" />
-              <folding>
-                <element signature="e#3370#3395#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="990">
+              <caret line="68" column="10" selection-start-line="68" selection-start-column="10" selection-end-line="68" selection-end-column="10" />
             </state>
           </provider>
         </entry>
@@ -29,11 +29,8 @@
       <file leaf-file-name="index.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pages/user/_user/index.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3100">
+            <state relative-caret-position="2295">
               <caret line="155" column="8" selection-start-line="155" selection-start-column="8" selection-end-line="155" selection-end-column="8" />
-              <folding>
-                <element signature="e#2267#2292#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -41,22 +38,17 @@
       <file leaf-file-name="LadderListItem.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/components/LadderListItem.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="9" column="17" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
+            <state relative-caret-position="60">
+              <caret line="4" column="22" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="index.vue" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/pages/detail/index.vue">
+        <entry file="file://$PROJECT_DIR$/pages/detail/_id/index.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="26">
-              <caret line="103" column="16" selection-start-line="103" selection-start-column="16" selection-end-line="103" selection-end-column="16" />
-              <folding>
-                <element signature="e#4388#4413#0" expanded="true" />
-                <element signature="e#3510#4474#0" />
-                <element signature="n#style#0;n#!!top" />
-              </folding>
+            <state relative-caret-position="470">
+              <caret line="383" column="41" lean-forward="true" selection-start-line="383" selection-start-column="41" selection-end-line="383" selection-end-column="41" />
             </state>
           </provider>
         </entry>
@@ -85,6 +77,17 @@
       <find>my-page-not-ladder</find>
       <find>ladder-w</find>
       <find>ladderUpdated</find>
+      <find>toS</find>
+      <find>api/use</find>
+      <find>isLearning</find>
+      <find>clickLearnStart</find>
+      <find>findLearnActivateId</find>
+      <find>findIndex</find>
+      <find>clickLadder</find>
+      <find>find</find>
+      <find>getIsLearning</find>
+      <find>console</find>
+      <find>console.log</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -104,7 +107,6 @@
         <option value="$PROJECT_DIR$/pages/user/_user/ladder/_ladder/index.vue" />
         <option value="$PROJECT_DIR$/pages/detail/_ladder/index.vue" />
         <option value="$PROJECT_DIR$/.nuxt/router.js" />
-        <option value="$PROJECT_DIR$/pages/detail/_id/index.vue" />
         <option value="$PROJECT_DIR$/store/modules/user login setting a.js" />
         <option value="$PROJECT_DIR$/components/SignInForm.vue" />
         <option value="$PROJECT_DIR$/components/SignUpForm.vue" />
@@ -127,10 +129,11 @@
         <option value="$PROJECT_DIR$/assets/styles/sass/_base.sass" />
         <option value="$PROJECT_DIR$/pages/post/index.vue" />
         <option value="$PROJECT_DIR$/pages/index.vue" />
-        <option value="$PROJECT_DIR$/components/LadderListItem.vue" />
-        <option value="$PROJECT_DIR$/pages/ladder/_id/index.vue" />
         <option value="$PROJECT_DIR$/pages/user/_user/index.vue" />
         <option value="$PROJECT_DIR$/pages/detail/index.vue" />
+        <option value="$PROJECT_DIR$/pages/ladder/_id/index.vue" />
+        <option value="$PROJECT_DIR$/components/LadderListItem.vue" />
+        <option value="$PROJECT_DIR$/pages/detail/_id/index.vue" />
       </list>
     </option>
   </component>
@@ -150,8 +153,7 @@
       <path value="$PROJECT_DIR$/package.json" />
     </packageJsonPaths>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6" fullScreen="true">
-    <option name="x" value="2048" />
+  <component name="ProjectFrameBounds" fullScreen="true">
     <option name="width" value="1920" />
     <option name="height" value="1080" />
   </component>
@@ -160,7 +162,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -210,6 +211,19 @@
               <item name="ladder" type="b2602c69:ProjectViewProjectNode" />
               <item name="ladder" type="462c0819:PsiDirectoryNode" />
               <item name="pages" type="462c0819:PsiDirectoryNode" />
+              <item name="detail" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ladder" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ladder" type="462c0819:PsiDirectoryNode" />
+              <item name="pages" type="462c0819:PsiDirectoryNode" />
+              <item name="detail" type="462c0819:PsiDirectoryNode" />
+              <item name="_id" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ladder" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ladder" type="462c0819:PsiDirectoryNode" />
+              <item name="pages" type="462c0819:PsiDirectoryNode" />
               <item name="ladder" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -246,6 +260,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -261,11 +276,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/pages/detail/_id" />
       <recent name="$PROJECT_DIR$/pages" />
       <recent name="$PROJECT_DIR$/pages/detail" />
       <recent name="$PROJECT_DIR$/pages/detail/_ladder" />
       <recent name="$PROJECT_DIR$/pages/user/_user/ladder" />
-      <recent name="$PROJECT_DIR$/pages/user" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/static/images" />
@@ -306,57 +321,58 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1536046561094</updated>
-      <workItem from="1536046562299" duration="67850000" />
+      <workItem from="1536046562299" duration="72424000" />
+      <workItem from="1536535997070" duration="2361000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="67850000" />
+    <option name="totallyTimeSpent" value="74785000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="2048" y="0" width="1920" height="1080" extended-state="6" />
+    <frame x="0" y="0" width="2048" height="1280" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4984227" visible="true" weight="0.1100148" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Event Log" sideWeight="0.5002633" side_tool="true" weight="0.21517672" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Version Control" show_stripe_button="false" />
-      <window_info id="npm" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" sideWeight="0.4997367" weight="0.3108108" />
-      <window_info anchor="bottom" id="TypeScript" weight="0.32848233" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49860725" visible="true" weight="0.117430225" />
-      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info active="true" anchor="bottom" id="Event Log" order="7" sideWeight="0.50074" side_tool="true" visible="true" weight="0.19269949" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32848233" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
+      <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Structure" order="1" sideWeight="0.5013928" side_tool="true" weight="0.16271722" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.4997367" visible="true" weight="0.23284823" />
-      <window_info id="Favorites" side_tool="true" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.4997367" weight="0.3108108" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49925998" visible="true" weight="0.19269949" />
+      <window_info id="Favorites" order="2" sideWeight="0.50157726" side_tool="true" visible="true" weight="0.1100148" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="TypeScript" order="7" weight="0.32848233" />
       <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
     </layout>
     <layout-to-restore>
+      <window_info anchor="bottom" id="Version Control" order="4" show_stripe_button="false" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="0" show_stripe_button="false" />
       <window_info id="npm" order="0" side_tool="true" />
       <window_info anchor="bottom" id="Run" order="7" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="Cvs" order="9" weight="0.25" />
-      <window_info active="true" content_ui="combo" id="Project" order="2" sideWeight="0.49860725" visible="true" weight="0.117430225" />
       <window_info id="Structure" order="3" sideWeight="0.5013928" side_tool="true" weight="0.16271722" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="11" />
+      <window_info id="Favorites" order="1" side_tool="true" />
       <window_info anchor="bottom" id="TypeScript" order="1" weight="0.32952183" />
-      <window_info anchor="bottom" id="Message" order="5" />
+      <window_info anchor="bottom" id="Find" order="6" weight="0.32848233" />
       <window_info anchor="bottom" id="Debug" order="8" sideWeight="0.4997367" visible="true" weight="0.3170478" />
       <window_info anchor="bottom" id="Terminal" order="2" sideWeight="0.4997367" weight="0.3128898" />
       <window_info anchor="bottom" id="Event Log" order="3" sideWeight="0.5002633" side_tool="true" weight="0.21517672" />
       <window_info anchor="bottom" id="Inspection" order="10" weight="0.4" />
-      <window_info anchor="bottom" id="Version Control" order="4" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Find" order="6" weight="0.32848233" />
-      <window_info id="Favorites" order="1" side_tool="true" />
+      <window_info anchor="bottom" id="Cvs" order="9" weight="0.25" />
+      <window_info anchor="bottom" id="Message" order="5" />
+      <window_info active="true" content_ui="combo" id="Project" order="2" sideWeight="0.49860725" visible="true" weight="0.117430225" />
     </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -367,10 +383,17 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="11" />
+      <option name="time" value="14" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/pages/detail/_id/index.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3660">
+          <caret line="246" column="8" lean-forward="true" selection-start-line="242" selection-start-column="8" selection-end-line="246" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/.eslintrc.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
@@ -391,13 +414,7 @@
     <entry file="file://$PROJECT_DIR$/assets/icons/ladder_icon_white.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/components/ToolBarComponent.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="373">
-          <caret line="32" column="2" selection-start-line="32" selection-start-column="2" selection-end-line="32" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/components/ToolBarComponent.vue" />
     <entry file="file://$PROJECT_DIR$/assets/styles/sass/_chartTab.sass">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
@@ -419,16 +436,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/plugins/vuetify.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" selection-start-line="2" selection-end-line="2" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/plugins/vuetify.js" />
     <entry file="file://$PROJECT_DIR$/package-lock.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="201">
@@ -530,9 +538,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/plugins/clientInit">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/plugins/clientInit" />
     <entry file="file://$PROJECT_DIR$/store/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="144">
@@ -550,16 +556,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/middleware/loginAuth.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="643">
-          <caret line="46" column="4" selection-start-line="46" selection-start-column="4" selection-end-line="46" selection-end-column="4" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/middleware/loginAuth.js" />
     <entry file="file://$PROJECT_DIR$/store/modules/client.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="100">
@@ -689,33 +686,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/components/LadderListItem.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="9" column="17" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pages/ladder/_id/index.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="526">
-          <caret line="182" column="8" selection-start-line="182" selection-start-column="8" selection-end-line="182" selection-end-column="8" />
-          <folding>
-            <element signature="e#3370#3395#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pages/user/_user/index.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3100">
-          <caret line="155" column="8" selection-start-line="155" selection-start-column="8" selection-end-line="155" selection-end-column="8" />
-          <folding>
-            <element signature="e#2267#2292#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/assets/styles/sass/_ladderDetail.sass">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
@@ -723,15 +693,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pages/detail/index.vue">
+    <entry file="file://$PROJECT_DIR$/pages/user/_user/index.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="26">
-          <caret line="103" column="16" selection-start-line="103" selection-start-column="16" selection-end-line="103" selection-end-column="16" />
-          <folding>
-            <element signature="e#4388#4413#0" expanded="true" />
-            <element signature="e#3510#4474#0" />
-            <element signature="n#style#0;n#!!top" />
-          </folding>
+        <state relative-caret-position="2295">
+          <caret line="155" column="8" selection-start-line="155" selection-start-column="8" selection-end-line="155" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/ladder/_id/index.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="990">
+          <caret line="68" column="10" selection-start-line="68" selection-start-column="10" selection-end-line="68" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/components/LadderListItem.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="22" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/detail/_id/index.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="470">
+          <caret line="383" column="41" lean-forward="true" selection-start-line="383" selection-start-column="41" selection-end-line="383" selection-end-column="41" />
         </state>
       </provider>
     </entry>

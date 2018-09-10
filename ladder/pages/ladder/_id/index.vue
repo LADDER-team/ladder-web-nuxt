@@ -108,13 +108,11 @@
           url: 'https://api.ladder.noframeschools.com/api/users/' + this.userId + '/finish-ladder/'
         }).then((response) => {
           this.finishLadderList = response.data
-          console.log(response.data)
         }).catch((error) => {
           console.log(error)
         })
       },
       getLearningLadders(){
-        console.log(this.userId)
         axios({
           method: 'GET',
           url: 'https://api.ladder.noframeschools.com/api/users/' + this.userId + '/learning-ladder/'

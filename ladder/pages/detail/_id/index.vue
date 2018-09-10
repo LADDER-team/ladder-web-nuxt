@@ -8,14 +8,14 @@
             justify-center
             class="ladder-wrap">
       <div id="ladder-action-wrap" class="ladder-inner">
-        <div @click="clickLadder"
-             :class="{'ladder-item-active': false}"
+        <div @click="clickLadder(0)"
+             :class="{'ladder-item-active': isLearning||isLearned}"
              class="ladder-item">
           <p>{{ladderDetailList.title}}</p>
         </div>
-        <div v-for="(units, key) in unitList" :key="key"
-             @click="clickLadder"
-             :class="{'ladder-item-active': false}"
+        <div v-for="(units, index) in unitList" :key="index"
+             @click="clickLadder(index)"
+             :class="{'ladder-item-active': isLearning&&!learnedStatus(learningUnits, index)||isLearned}"
              class="ladder-item">
           <p>unit:{{ units.index }}</p>
           <p>{{ units.title }}</p>
@@ -38,17 +38,17 @@
           </div>
           <div class="unit-cover-btn-wrap">
             <v-btn @click="clickLearnStart"
-                   v-show="true"
+                   v-show="isWillLearning&&isLogin"
                    class="primary-btn">
               このLadderで学習する
             </v-btn>
             <v-btn @click="clickLearnStart"
-                   v-show="false"
+                   v-show="isLearning"
                    class="learning-btn">
               このLadderで学習中
             </v-btn>
             <v-btn @click="clickLearnStart"
-                   v-show="false"
+                   v-show="isLearned"
                    class="learned-btn">
               このLadderは学習済み
             </v-btn>
@@ -62,13 +62,13 @@
       <div v-for="(units, key) in unitList" :key="key"
            class="unit-item">
         <div class="unit-btn-wrap">
-          <v-btn @click="clickLearnEnd"
-                 v-if="true"
+          <v-btn @click="clickLearnEnd(key)"
+                 v-if="isLearning&&learnedStatus(learningUnits, key)"
                  class="primary-btn unit-btn">
             学習済みにする
           </v-btn>
-          <v-btn @click="clickLearnEnd"
-                 v-if="false"
+          <v-btn @click="clickLearnEnd(key)"
+                 v-if="isLearning&&!learnedStatus(learningUnits, key)"
                  class="learned-btn unit-btn">
             学習済みです！
           </v-btn>
@@ -91,6 +91,7 @@
 </template>
 <script>
   import axios from 'axios'
+  import {mapGetters} from 'vuex'
   import _ from 'underscore'
 
   export default {
@@ -101,16 +102,38 @@
       name: 'page',
       mode: 'out-in'
     },
-    asyncData(){},
+    async asyncData({params}) {
+      const ladderId = params.id
+      let ladderDetailList = []
+      let unitList = []
+      let ladderCreator = ""
+      await axios({
+        method: 'GET',
+        url: 'https://api.ladder.noframeschools.com/api/ladder/' + ladderId + '/'
+      }).then((response) => {
+        ladderDetailList = response.data
+        unitList = _.indexBy(response.data.units, 'index')
+      }).catch((error) => {
+        console.log(error)
+      })
+      await axios({
+        method: 'GET',
+        url: 'https://api.ladder.noframeschools.com/api/users/' + ladderDetailList.user + '/'
+      }).then((response) => {
+        ladderCreator = response.data.name
+      }).catch((error) => {
+        console.log(error)
+      })
+      return {
+        ladderCreator: ladderCreator,
+        ladderDetailList: ladderDetailList,
+        unitList: unitList
+      }
+    },
     data: () => ({
       ladderActive: false,
       ladderToUnit: false,
-      nextLadder: false,
-      prevLadder: false,
       learning: 'willLearning',
-      nextLadderId: null,
-      ladderParam: null,
-      prevLadderId: null,
       duration: 300,
       offsetTop: 0,
       scrollWrapH: 0,
@@ -145,7 +168,6 @@
       finishLadderList: [],
     }),
     created() {
-      this.ladderParam = this.$route.query.id
       this.learningIndexes = []
       this.createdLadderDetail()
     },
@@ -156,40 +178,18 @@
       handleScroll() {
         this.offsetTop = window.pageYOffset
       },
-      clickLadder(e) {
+      clickLadder(index) {
         this.duration = 600
         this.easing = 'easeInOutCubic'
-        let index = this.findIndex(e, '.ladder-item')
 
         this.$nextTick(() => {
           this.scrollOffset = this.$el.getElementsByClassName('unit-item')[index].offsetTop - 100
           this.$vuetify.goTo('#scroll-wrap', this.options)
         })
       },
-      createdLadderDetail() {
-        axios({
-          method: 'GET',
-          url: 'https://api.ladder.noframeschools.com/api/ladder/' + this.ladderParam + '/'
-        }).then((response) => {
-          this.ladderDetailList = response.data
-          this.unitList = response.data.units
-        }).then(() => {
-          this.unitList = _.indexBy(this.unitList, 'index')
-        }).then(() => {
-          this.createLadderDate(this.ladderDetailList.update_at)
-        }).then(() => {
-          this.getLadderCreator()
-        }).then(() => {
-          // this.getLearningLadder()
-        }).catch((error) => {
-          console.log(error)
-        })
-      },
-      findIndex(e, className, needParent) {
-        let nodeList = document.querySelectorAll(className)
-        let target = null;
-        target = needParent ? e.target.parentNode : e.target
-        return Array.prototype.indexOf.call(nodeList, target)
+      clickLearnEnd(index) {
+        let activateId = this.findLearnActivateId(index)
+        this.putLearnActivate(activateId)
       },
       clickLearnStart() {
         if (this.isWillLearning || this.learningList === 0) {
@@ -204,6 +204,157 @@
         } else {
           alert('学習お疲れ様でした！')
         }
+      },
+      createdLadderDetail() {
+        if (Object.keys(this.ladderDetailList).length && Object.keys(this.unitList).length) {
+          this.getLadderCreator()
+          this.getLearningLadder()
+        } else {
+          const ladderId = this.$route.params.id
+          axios({
+            method: 'GET',
+            url: 'https://api.ladder.noframeschools.com/api/ladder/' + ladderId + '/'
+          }).then((response) => {
+            this.ladderDetailList = response.data
+            this.unitList = _.indexBy(response.data.units, 'index')
+          }).then(() => {
+            this.getLadderCreator()
+          }).then(() => {
+            this.getLearningLadder()
+          }).catch((error) => {
+            console.log(error)
+          })
+        }
+      },
+      doLearning() {
+        let learningList = this.learningList,
+          ladderTitle = this.ladderDetailList.title
+        learningList.map((value) => {
+          if (value.title === ladderTitle) {
+            this.learning = 'learning'
+          }
+        })
+      },
+      findLearnActivateId(index) {
+        let list = []
+        let learningStatusList = []
+        const units = this.unitList
+        const unitIndex = units[index].id
+
+        learningStatusList = _.sortBy(this.learningStatusList, (value) => {
+          return value.id
+        })
+        learningStatusList.forEach((value) => {
+          if (value.unit === unitIndex) {
+            list.push(value)
+          }
+        })
+        return list.length ? list[0].id : false
+      },
+      getIsLearning(activateId) {
+        let learningStatusList = []
+        let isLearned = false
+
+        learningStatusList = _.sortBy(this.learningStatusList, (value) => {
+          return value.unit
+        })
+        learningStatusList.forEach((value) => {
+          if (value.id === activateId) {
+            isLearned = value.status
+          }
+        })
+        return isLearned
+      },
+      getLadderCreator() {
+        let userId = this.ladderDetailList.user
+        axios({
+          method: 'GET',
+          url: 'https://api.ladder.noframeschools.com/api/users/' + userId + '/'
+        }).then((response) => {
+          this.ladderCreator = response.data.name
+        }).catch((error) => {
+          console.log(error)
+        })
+      },
+      getLearningIndexes() {
+        let title = this.ladderDetailList.title
+        let learningList = [];
+        this.learningList.forEach((value) => {
+          if (title === value.title) {
+            learningList = value.units
+          }
+        })
+        learningList = _.sortBy(learningList, (value) => {
+          return value.id
+        })
+        learningList.some((value, index) => {
+          let activateId = this.findLearnActivateId(index + 1)
+          let isLearned = this.getIsLearning(activateId)
+          if (isLearned) {
+            if (this.learningIndexes.indexOf(value.index) === -1) {
+              this.learningIndexes.push(value.index)
+              return true
+            }
+          }
+        })
+      },
+      getLearningLadder() {
+        this.learningList = []
+        let userId = this.userId
+        axios({
+          method: 'GET',
+          url: 'https://api.ladder.noframeschools.com/api/users/' + userId + '/learning-ladder/'
+        }).then((response) => {
+          this.learningList = response.data
+        }).then(() => {
+          this.isFinishLadder()
+        }).then(() => {
+          if (this.isWillLearning) {
+            this.doLearning()
+          }
+          if (this.isLearning) {
+            this.getLearningStatus()
+          }
+        }).catch((error) => {
+          console.log(error)
+          console.log("not learning")
+        })
+      },
+      getLearningStatus() {
+        let learningStatusList = []
+        axios({
+          method: 'GET',
+          url: 'https://api.ladder.noframeschools.com/api/learningstatus/'
+        }).then((response) => {
+          response.data.results.forEach((value) => {
+            if (value.user === this.userId) {
+              learningStatusList.push(value)
+            }
+          })
+          this.learningStatusList = learningStatusList
+        }).then(() => {
+          this.getLearningIndexes()
+        }).catch((error) => {
+          console.log(error)
+        })
+      },
+      isFinishLadder() {
+        let thisTitle = this.ladderDetailList.title
+        axios({
+          method: 'GET',
+          url: 'https://api.ladder.noframeschools.com/api/users/' + this.userId + '/finish-ladder/'
+        }).then((response) => {
+          response.data.forEach((value) => {
+            if (value.title === thisTitle) {
+              this.learning = 'learned'
+              if (this.updateId) {
+                alert('学習お疲れ様でした！')
+              }
+            }
+          })
+        }).catch((error) => {
+          console.log(error)
+        })
       },
       postLearnInitialize(index) {
         let units = this.unitList
@@ -243,158 +394,8 @@
           console.log(error)
         })
       },
-      findLearnActivateId(index) {
-        let list = []
-        let units = this.unitList
-        let unitIndex = units[index].id
-        let learningStatusList = []
-
-        learningStatusList = _.sortBy(this.learningStatusList, (value) => {
-          return value.id
-        })
-        learningStatusList.forEach((value) => {
-          if (value.unit === unitIndex) {
-            list.push(value)
-          }
-        })
-        return list.length ? list[0].id : false
-      },
-      getLadderCreator() {
-        let userId = this.ladderDetailList.user
-        axios({
-          method: 'GET',
-          url: 'https://api.ladder.noframeschools.com/api/users/' + userId + '/'
-        }).then((response) => {
-          this.ladderCreator = response.data.name
-        }).catch((error) => {
-          console.log(error)
-        })
-      },
-      createLadderDate(date) {
-        date = date.toString()
-        this.ladderUpdated.year = date.slice(0, 4)
-        this.ladderUpdated.month = date.slice(5, 7)
-        this.ladderUpdated.day = date.slice(8, 10)
-      },
-      getLearningLadder() {
-        this.learningList = []
-        let userId = this.userId
-        axios({
-          method: 'GET',
-          url: 'https://api.ladder.noframeschools.com/api/users/' + userId + '/learning-ladder/'
-        }).then((response) => {
-          this.learningList = response.data
-        }).then(() => {
-          this.isFinishLadder()
-        }).then(() => {
-          if (this.isWillLearning) {
-            this.doLearning()
-          }
-        }).then(() => {
-          if (this.isLearning) {
-            this.getLearningStatus()
-          }
-        }).catch((error) => {
-          console.log(error)
-        })
-      },
-      isFinishLadder() {
-        let id = this.userId
-        let thisTitle = this.ladderDetailList.title
-        axios({
-          method: 'GET',
-          url: 'https://api.ladder.noframeschools.com/api/users/' + id + '/finish-ladder/'
-        }).then((response) => {
-          response.data.forEach((value) => {
-            if (value.title === thisTitle) {
-              this.learning = 'learned'
-              if(this.updateId){alert('学習お疲れ様でした！')}
-            }
-          })
-        }).catch((error) => {
-          console.log(error)
-        })
-      },
-      doLearning() {
-        let learningList = this.learningList,
-          ladderTitle = this.ladderDetailList.title
-        learningList.map((value) => {
-          if (value.title === ladderTitle) {
-            this.learning = 'learning'
-          }
-        })
-      },
-      getLearningStatus() {
-        let learningStatusList = []
-        axios({
-          method: 'GET',
-          url: 'https://api.ladder.noframeschools.com/api/learningstatus/'
-        }).then((response) => {
-          response.data.results.forEach((value) => {
-            if (value.user === this.userId) {
-              learningStatusList.push(value)
-            }
-          })
-          this.learningStatusList = learningStatusList
-        }).then(()=>{
-          this.getLearningIndexes()
-        }).catch((error) => {
-          console.log(error)
-        })
-      },
-      clickLearnEnd(e) {
-        let index = this.findIndex(e, '.unit-btn', true) + 1
-        let activateId = this.findLearnActivateId(index)
-        this.putLearnActivate(activateId)
-      },
-      getIsLearning(activateId) {
-        let learningStatusList = this.learningStatusList
-        let isLearned = false
-        learningStatusList = _.sortBy(this.learningStatusList, (value) => {
-          return value.unit
-        })
-        learningStatusList.forEach((value) => {
-          if (value.id === activateId) {
-            isLearned = value.status
-          }
-        })
-        return isLearned
-      },
-      getLearningIndexes() {
-        let title = this.ladderDetailList.title
-        let learningList = [];
-        this.learningList.forEach((value) => {
-          if (title === value.title) {
-            learningList = value.units
-          }
-        })
-        learningList = _.sortBy(learningList, (value) => {
-          return value.id
-        })
-        learningList.forEach((value, index) => {
-          let activateId = this.findLearnActivateId(index + 1)
-          let isLearned = this.getIsLearning(activateId)
-          if (isLearned) {
-            this.learningIndexes.push(value.index)
-          }
-        })
-      },
     },
     watch: {
-      offsetTop: {
-        handler() {
-          if (this.offsetTop < 100 && this.prevLadderList.length !== 0) {
-            this.prevLadder = true
-          }
-          else if (this.offsetTop > this.scrollWrapH - window.innerHeight * 0.9 - 200 && this.nextLadderList.length !== 0) {
-            this.nextLadder = true
-          }
-          else {
-            this.prevLadder = false
-            this.nextLadder = false
-          }
-        }
-      },
       ladderDetailList: {
         handler() {
           this.$nextTick(() => {
@@ -438,11 +439,15 @@
       isLearned() {
         return this.learning === 'learned'
       },
-      createdAtDate(){
+      createdAtDate() {
         const date = this.ladderDetailList.update_at
-        const createdAtDate = date?date.slice(0, 4) + "-" + date.slice(5, 7) + "-" + date.slice(8, 10):""
-        return createdAtDate
+        return date ? date.slice(0, 4) + "-" + date.slice(5, 7) + "-" + date.slice(8, 10) : ""
       },
+      ...mapGetters('user', {
+        isLogin: 'loginGetter',
+        token: 'tokenGetter',
+        userId: 'userIdGetter'
+      })
     }
   }
 </script>
@@ -476,10 +481,10 @@
     text-align: center
     a:hover
       .unit-image
-        box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2),0px 6px 10px 0px rgba(0, 0, 0, 0.14),0px 1px 18px 0px rgba(0, 0, 0, 0.12)
+        box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12)
   .unit-image
     margin: 0 auto
-    box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2),0px 2px 2px 0px rgba(0, 0, 0, 0.14),0px 3px 1px -2px rgba(0, 0, 0, 0.12)
+    box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)
     max-width: 60%
     transition: .4s all
     width: 60%
@@ -598,7 +603,7 @@
     left: 30%
     padding: 10px 50px
     max-height: 120px
-    background-color: rgba(207,216,220 ,.5)
+    background-color: rgba(207, 216, 220, .5)
     max-width: 900px
     width: 60%
     height: 120px
@@ -635,10 +640,8 @@
     margin: 0 0 10vh
   .unit-description-text
     font-size: 18px
-
   .unit-btn-wrap
     margin: 0 0 8vh
     padding: 7px 0
     text-align: right
-
 </style>
