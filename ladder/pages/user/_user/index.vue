@@ -31,7 +31,7 @@
         <v-flex>
           <div>
             <h3 class="my-page-profile-title">自己紹介</h3>
-            <p>これはプロフィールの例文になります！こんにちは！ここは{{compUser}}のマイページです！今後たくさんの機能が追加予定ですので楽しみにしていてくださいね！</p>
+            <p>これはプロフィールの例文になります！<br>こんにちは！ここは{{compUser}}のマイページです！今後、たくさんの機能が追加予定ですのでお楽しみに！</p>
           </div>
         </v-flex>
       </v-tab-item>
@@ -126,7 +126,7 @@
     width: 100%
     max-width: 500px !important
   .my-page-ladders-title
-    padding: 20px
+    paddin≥g: 20px
     background: #fff
     border-bottom: 1px solid $default_border_color
     text-align: center

@@ -300,7 +300,8 @@
       },
       getLearningLadder() {
         this.learningList = []
-        let userId = this.userId
+        const userId = this.userId?this.userId:this.$store.state.user.userId
+        console.log(userId)
         axios({
           method: 'GET',
           url: 'https://api.ladder.noframeschools.com/api/users/' + userId + '/learning-ladder/'
