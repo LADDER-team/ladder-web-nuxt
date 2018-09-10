@@ -68,27 +68,30 @@
     components: {
       LadderPostForm
     },
-    data() {
+    data: () => ({
+      unitIndex: 1,
+      ladderTitle: "",
+      modelTitle: "",
+      modelLadderDescription: "",
+      unit: [],
+      descriptionList: {
+        1: "",
+      },
+      subtitleList: {
+        1: "",
+      },
+      urlList: {
+        1: "",
+      },
+      //validation
+      valid: true,
+      titleRule: [v => !!v || 'タイトルを入力してください'],
+      ladderDescriptionRule: [v => !!v || '説明文を入力してください',
+        v => v.length <= 200 || '説明文は200字以内で入力してください'],
+    }),
+    head() {
       return {
-        unitIndex: 1,
-        ladderTitle: "",
-        modelTitle: "",
-        modelLadderDescription: "",
-        unit: [],
-        descriptionList: {
-          1: "",
-        },
-        subtitleList: {
-          1: "",
-        },
-        urlList: {
-          1: "",
-        },
-        //validation
-        valid: true,
-        titleRule: [v => !!v || 'タイトルを入力してください'],
-        ladderDescriptionRule: [v => !!v || '説明文を入力してください',
-          v => v.length <= 200 || '説明文は200字以内で入力してください'],
+        title: 'Post'
       }
     },
     created() {
@@ -124,7 +127,7 @@
 
         if (!this.$refs.form.validate()) {
           alert('投稿に不備があります！')
-        }else{
+        } else {
           axios({
             method: 'POST',
             url: 'https://api.ladder.noframeschools.com/api/ladder/',
@@ -163,7 +166,7 @@
       },
     },
     computed: {
-      ...mapGetters('user',{
+      ...mapGetters('user', {
         token: 'tokenGetter',
         isLogin: 'loginGetter'
       })
@@ -199,11 +202,11 @@
     max-width: 700px
     width: 100%
   .ladder-post-submit
-    position: absolute!important
+    position: absolute !important
     top: -150px
     right: -5px
   .post-description
-    margin: 0 0 24px!important
+    margin: 0 0 24px !important
     border-bottom: 3px solid $default_border_color
   .post-text-field
     font-size: 18px

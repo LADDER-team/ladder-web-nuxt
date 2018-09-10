@@ -127,7 +127,7 @@
       return {
         ladderCreator: ladderCreator,
         ladderDetailList: ladderDetailList,
-        unitList: unitList
+        unitList: unitList,
       }
     },
     data: () => ({
@@ -167,6 +167,11 @@
       learningIndexes: [],
       finishLadderList: [],
     }),
+    head() {
+      return {
+        title: this.ladderDetailList.title ? this.ladderDetailList.title : 'Detail'
+      }
+    },
     created() {
       this.learningIndexes = []
       this.createdLadderDetail()
@@ -300,7 +305,7 @@
       },
       getLearningLadder() {
         this.learningList = []
-        const userId = this.userId?this.userId:this.$store.state.user.userId
+        const userId = this.userId ? this.userId : this.$store.state.user.userId
         console.log(userId)
         axios({
           method: 'GET',

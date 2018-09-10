@@ -31,7 +31,7 @@
         <v-flex>
           <div>
             <h3 class="my-page-profile-title">自己紹介</h3>
-            <p>これはプロフィールの例文になります！<br>こんにちは！ここは{{compUser}}のマイページです！今後、たくさんの機能が追加予定ですのでお楽しみに！</p>
+            <p>これはプロフィールの例文になります！<br/>こんにちは！ここは{{compUser}}のマイページです！今後、たくさんの機能が追加予定ですのでお楽しみに！</p>
           </div>
         </v-flex>
       </v-tab-item>
@@ -63,18 +63,21 @@
       name: 'page',
       mode: 'out-in'
     },
-    data() {
+    data: () => ({
+      posted: false,
+      avatarSize: 100,
+      defaultUsername: 'ユーザー',
+      model: 'tab-1',
+      profile: '',
+      defaultImage: {
+        src: "http://via.placeholder.com/350x150",
+        alt: "placeholder-image"
+      },
+      myLadderList: [],
+    }),
+    head() {
       return {
-        posted: false,
-        avatarSize: 100,
-        defaultUsername: 'ユーザー',
-        model: 'tab-1',
-        profile: '',
-        defaultImage: {
-          src: "http://via.placeholder.com/350x150",
-          alt: "placeholder-image"
-        },
-        myLadderList: [],
+        title: 'MyPage'
       }
     },
     components: {
@@ -126,7 +129,7 @@
     width: 100%
     max-width: 500px !important
   .my-page-ladders-title
-    paddin≥g: 20px
+    padding: 20px
     background: #fff
     border-bottom: 1px solid $default_border_color
     text-align: center

@@ -38,31 +38,31 @@
     width: 100%
     &:hover
       opacity: .7
-    .ladder-info-wrap
-      width: 100%
-    .ladder-link-title
-      margin: 0 0 10px
-      width: 100%
-      text-decoration: none
-      font-size: 20px
-      font-weight: normal
+  .ladder-info-wrap
+    width: 100%
+  .ladder-link-title
+    margin: 0 0 10px
+    width: 100%
+    text-decoration: none
+    font-size: 20px
+    font-weight: normal
+    color: #000
+  .ladder-link-attach
+    text-decoration: none
+    text-align: right
+    color: $default_tertiary_color
+    font-size: 11px
+    span
+      font-size: 14px
       color: #000
-    .ladder-link-attach
-      text-decoration: none
-      text-align: right
-      color: $default_tertiary_color
-      font-size: 11px
-      span
-        font-size: 14px
-        color: #000
-        margin: 0 0 0 5px
-    .ladder-thumb-wrap
-      min-width: 50px
-      width: 50px
-      height: 50px
-      margin: 0 20px 0 0
-    .ladder-thumb
-      max-width: 100%
-      width: 100%
-      height: 100%
+      margin: 0 0 0 5px
+  .ladder-thumb-wrap
+    min-width: 50px
+    width: 50px
+    height: 50px
+    margin: 0 20px 0 0
+  .ladder-thumb
+    max-width: 100%
+    width: 100%
+    height: 100%
 </style>

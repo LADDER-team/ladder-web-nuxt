@@ -78,6 +78,11 @@
         finishLadderList: []
       }
     },
+    head() {
+      return {
+        title: 'LadderManage'
+      }
+    },
     components: {
       LadderListItem
     },

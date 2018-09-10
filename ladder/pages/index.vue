@@ -42,6 +42,11 @@
         ladderList: []
       }
     },
+    head() {
+      return {
+        title: 'Top'
+      }
+    },
     components: {
       LadderListItem
     },
