@@ -2,7 +2,7 @@
   "name": "ladder",
   "version": "1.0.0",
   "description": "Nuxt.js project",
-  "author": "tetty0217 <tettaro_01291978@ezweb.ne.jp>",
+  "author": "tetty0217 <tettyneec0217@gmail.com>",
   "private": true,
   "scripts": {
     "dev": "nuxt",
