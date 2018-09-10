@@ -12,12 +12,14 @@
         <nuxt/>
       </v-container>
     </v-content>
+    <bottom-bar/>
   </v-app>
 </template>
 
 <script>
   import {mapGetters, mapActions} from 'vuex'
-  import AppBar from '~/components/AppBar.vue'
+  import AppBar from '~/components/AppBar'
+  import BottomBar from '~/components/BottomBar'
   import axios from 'axios'
   import jwt from 'jwt-decode'
 
@@ -29,7 +31,8 @@
       userDetail: {}
     }),
     components: {
-      AppBar
+      AppBar,
+      BottomBar
     },
     created() {
       if (this.token) {
@@ -43,9 +46,9 @@
         await this.tokenDecode()
         await this.getUser()
       },
-      async tokenDecode() {
-        this.decodedToken = await jwt(this.token);
-        this.userId = await this.decodedToken.user_id;
+      tokenDecode() {
+        this.decodedToken = jwt(this.token);
+        this.userId = this.decodedToken.user_id;
       },
       getUser() {
         axios({

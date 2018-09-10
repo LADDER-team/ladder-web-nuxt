@@ -113,16 +113,12 @@
       }).then((response) => {
         ladderDetailList = response.data
         unitList = _.indexBy(response.data.units, 'index')
-      }).catch((error) => {
-        console.log(error)
       })
       await axios({
         method: 'GET',
         url: 'https://api.ladder.noframeschools.com/api/users/' + ladderDetailList.user + '/'
       }).then((response) => {
         ladderCreator = response.data.name
-      }).catch((error) => {
-        console.log(error)
       })
       return {
         ladderCreator: ladderCreator,
@@ -254,7 +250,7 @@
             list.push(value)
           }
         })
-        return list.length ? list[0].id : false
+        return list.length ? list[0].id : null
       },
       getIsLearning(activateId) {
         let learningStatusList = []
@@ -305,11 +301,9 @@
       },
       getLearningLadder() {
         this.learningList = []
-        const userId = this.userId ? this.userId : this.$store.state.user.userId
-        console.log(userId)
         axios({
           method: 'GET',
-          url: 'https://api.ladder.noframeschools.com/api/users/' + userId + '/learning-ladder/'
+          url: 'https://api.ladder.noframeschools.com/api/users/' + this.userId + '/learning-ladder/'
         }).then((response) => {
           this.learningList = response.data
         }).then(() => {

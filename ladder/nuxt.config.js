@@ -8,10 +8,16 @@ module.exports = {
       {charset: 'utf-8'},
       {name: 'viewport', content: 'width=device-width, initial-scale=1'},
       {name: 'robots', content: 'noindex'},
+      {name: "msapplication-TileColor", content: "#4597f5"},
+      {name: "theme-color", content: "#4597f5"},
       {hid: 'description', name: 'description', content: 'the ladder description'}
     ],
     link: [
-      {rel: 'icon', type: 'image/x-icon', href: '/icons/ladder_icon_white.png'}
+      {rel: "apple-touch-icon", sizes: "180x180", href: "/favicons/apple-touch-icon.png"},
+      {rel: "icon", type: "image/png", sizes: "32x32", href: "/favicons/favicon-32x32.png"},
+      {rel: "icon", type: "image/png", sizes: "16x16", href: "/favicons/favicon-16x16.png"},
+      {rel: "manifest", href: "/favicons/site.webmanifest"},
+      {rel: "mask-icon", href: "/favicons/safari-pinned-tab.svg", color: "#4597f5"}
     ]
   },
   titleTemplate: (titleChunk) => {
@@ -54,7 +60,7 @@ module.exports = {
       ]
     ]
   ],
-  plugins: [{ src: '~/plugins/clientInit.js', ssr: false }],
+  plugins: [{src: '~/plugins/clientInit.js', ssr: false}],
   vuetify: {
     theme: {
       primary: '#3f51b5',

@@ -45,6 +45,7 @@ const mutations = {
   },
   addUserIdMutation(state, payload) {
     state.userId = payload.userId
+    localStorage.setItem('userId', state.userId)
   },
   loginEmailMutation(state, payload) {
     state.email = payload.email
