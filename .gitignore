@@ -1,0 +1,8 @@
+# dependencies
+/ladder/node_modules
+
+ide files
+/ladder/.idea
+
+npm files
+/ladder/.package-lock.json
