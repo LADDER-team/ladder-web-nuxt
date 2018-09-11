@@ -75,6 +75,11 @@
       },
       myLadderList: [],
     }),
+    fetch({store, redirect}){
+      if(!store.state.user.isLogin){
+        return redirect('/')
+      }
+    },
     head() {
       return {
         title: 'MyPage'
@@ -84,8 +89,7 @@
       LadderListItem
     },
     beforeMount() {
-      const userIdParam = this.$route.params.user
-      const userId = userIdParam ? userIdParam : 0
+      const userId = this.userId ? this.userId : 0
       axios({
         method: 'GET',
         url: 'https://api.ladder.noframeschools.com/api/users/' + userId + '/'
@@ -111,7 +115,8 @@
       },
       ...mapGetters('user', {
         isLogin: 'loginGetter',
-        name: 'nameGetter'
+        name: 'nameGetter',
+        userId: 'userIdGetter'
       })
     },
   }
