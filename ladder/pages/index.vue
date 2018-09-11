@@ -32,8 +32,8 @@
         url: 'https://api.ladder.noframeschools.com/api/ladder/'
       }).then((response) => {
         return {ladderList: response.data.results}
-      }).catch((e) => {
-        console.log(e)
+      }).catch((error) => {
+        console.log(error)
       })
     },
     data() {

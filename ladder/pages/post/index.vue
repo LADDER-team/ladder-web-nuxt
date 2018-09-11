@@ -113,7 +113,6 @@
         }
       },
       postLadder() {
-        console.log(this.$store.state.user)
         if (!this.isLogin) {
           alert('ログインしてください！')
           return
@@ -181,35 +180,32 @@
     padding: 70px
     max-width: 800px
     background-color: #fff
-    .ladder-post-icons
-      max-width: 40px
-      max-height: 40px
-      margin: 0 auto
-      cursor: pointer
-    .ladder-post-add
-      &:hover
-        opacity: .7
-    .ladder-post-remove
-      &:hover
-        opacity: .7
-    .ladder-post-btn
-      z-index: 100
-      position: fixed
-      bottom: 0
-      display: flex
-      align-items: center
-      justify-content: center
-      margin: 0 auto
-      max-width: 700px
-      width: 100%
-    .ladder-post-submit
-      position: absolute !important
-      top: -150px
-      right: -5px
-    .post-description
-      margin: 0 0 24px !important
-      border-bottom: 3px solid $default_border_color
-    .post-text-field
-      font-size: 18px
+  .ladder-post-icons
+    max-width: 40px
+    max-height: 40px
+    margin: 0 auto
+    cursor: pointer
+  .ladder-post-add
+    &:hover
+      opacity: .7
+  .ladder-post-remove
+    &:hover
+      opacity: .7
+  .ladder-post-btn
+    z-index: 100
+    position: fixed
+    bottom: 150px
+    display: block
+    margin: 0 auto
+    max-width: 770px
+    width: 55%
+  .ladder-post-submit
+    position: absolute !important
+    right: 0
+  .post-description
+    margin: 0 0 24px !important
+    border-bottom: 3px solid $default_border_color
+  .post-text-field
+    font-size: 18px
 </style>
 

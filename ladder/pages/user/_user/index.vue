@@ -83,7 +83,7 @@
     components: {
       LadderListItem
     },
-    created() {
+    beforeMount() {
       const userIdParam = this.$route.params.user
       const userId = userIdParam ? userIdParam : 0
       axios({
