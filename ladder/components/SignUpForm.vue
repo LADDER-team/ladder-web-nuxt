@@ -12,18 +12,21 @@
             <v-text-field
               v-model="modelName"
               :rules="nameRules"
+              prepend-icon="person"
               label="名前"
               ref="nameRef"
               required></v-text-field>
             <v-text-field
               v-model="modelEmail"
               :rules="emailRules"
+              prepend-icon="email"
               ref="emailRef"
               label="メールアドレス"
               required></v-text-field>
             <v-text-field
               v-model="modelPass"
               :rules="passRules"
+              prepend-icon="lock"
               ref="passRef"
               type="password"
               label="パスワード"
@@ -31,6 +34,7 @@
             <v-text-field
               v-model="modelConfirm"
               :rules="confirmRules"
+              prepend-icon="lock"
               type="password"
               label="パスワード（再確認）"
               required></v-text-field>
