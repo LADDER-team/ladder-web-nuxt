@@ -26,7 +26,7 @@
       <v-tab href="#tab-1" class="my-page-tab">プロフィール</v-tab>
       <v-tab href="#tab-2" class="my-page-tab">投稿Ladder</v-tab>
     </v-tabs>
-    <v-tabs-items v-model="model" class="my-page-tab-items">
+    <v-tabs-items md8 v-model="model" class="my-page-tab-items">
       <v-tab-item id="tab-1" class="my-page-tab-item my-page-profile">
         <v-flex>
           <div>
@@ -35,7 +35,7 @@
           </div>
         </v-flex>
       </v-tab-item>
-      <v-tab-item id="tab-2" class="my-page-tab-item">
+      <v-tab-item md8 id="tab-2" class="my-page-tab-item">
         <p v-show="!posted" class="my-page-not-ladder">投稿したLadderがありません</p>
         <v-flex align-start　justify-center
                 class="ladder-links-wrap my-page-ladders-wrap">
@@ -66,7 +66,7 @@
     data: () => ({
       posted: false,
       avatarSize: 100,
-      defaultUsername: 'ユーザー',
+      defaultUsername: '',
       model: 'tab-1',
       profile: '',
       defaultImage: {
@@ -127,7 +127,7 @@
     width: 100%
   .my-page-ladders-wrap
     width: 100%
-    max-width: 500px !important
+    max-width: 600px !important
   .my-page-ladders-title
     padding: 20px
     background: #fff
@@ -137,7 +137,7 @@
   .my-page-avatar
     margin: 0 40px 0 0
   .my-page-tab-items
-    max-width: 500px
+    max-width: 600px
     width: 100%
     background-color: #fff
   .my-page-tab-item

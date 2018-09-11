@@ -14,7 +14,7 @@
     <v-tabs-items v-model="model" class="my-page-tab-items">
       <v-tab-item id="tab-1" class="my-page-tab-item">
         <p v-show="!learningLadderList.length" class="my-page-not-ladder">投稿したLadderがありません</p>
-        <v-flex align-start　justify-center
+        <v-flex md8 align-start　justify-center
                 class="ladder-links-wrap my-page-ladders-wrap">
           <div v-for="(ladder, index) in learningLadderList" :key="index"
                class="ladder-link-wrap">
@@ -154,7 +154,7 @@
     width: 100%
   .my-page-ladders-wrap
     width: 100%
-    max-width: 500px!important
+    max-width: 600px!important
   .my-page-ladders-title
     padding: 20px
     background: #fff
@@ -164,7 +164,7 @@
   .my-page-avatar
     margin: 0 40px 0 0
   .my-page-tab-items
-    max-width: 500px
+    max-width: 600px
     width: 100%
     background-color: #fff
   .my-page-tab-item

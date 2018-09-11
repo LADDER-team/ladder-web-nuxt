@@ -27,19 +27,20 @@
 
   export default {
     name: "user-menu",
+    methods: {
+      toHelp() {
+        alert('機能実装をお待ちください！')
+      },
+      toMyPage() {
+        const userId = typeof this.userId === 'number' ? this.userId : parseInt(this.userId)
+        this.$router.push('/user/' + userId + '/')
+      }
+    },
     computed: {
       ...mapGetters('user', {
         userId: 'userIdGetter'
       })
     },
-    methods: {
-      toHelp(){
-        alert('機能実装をお待ちください！')
-      },
-      toMyPage() {
-        this.$router.push('/user/' + this.userId + '/')
-      }
-    }
   }
 </script>
 
