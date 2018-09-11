@@ -12,6 +12,7 @@
             <v-text-field
               v-model="modelEmail"
               :rules="emailRules"
+              prepend-icon="email"
               ref="emailRef"
               label="メールアドレス"
               required
@@ -19,6 +20,7 @@
             <v-text-field
               v-model="modelPass"
               :rules="passRules"
+              prepend-icon="lock"
               ref="passRef"
               type="password"
               label="パスワード"

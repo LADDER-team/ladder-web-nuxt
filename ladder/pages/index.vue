@@ -1,6 +1,5 @@
 <template>
-  <v-layout md8 lg8
-            justify-center
+  <v-layout justify-start fill-height
             class="layout-ladder-list">
     <v-flex align-start　justify-center
             class="ladder-links-wrap">
@@ -32,8 +31,8 @@
         url: 'https://api.ladder.noframeschools.com/api/ladder/'
       }).then((response) => {
         return {ladderList: response.data.results}
-      }).catch((e) => {
-        error({statusCode: 404, message: 'Not Found...'})
+      }).catch((error) => {
+        console.log(error)
       })
     },
     data() {
@@ -67,7 +66,11 @@
 
 <style lang="sass" scoped>
   .ladder-links-wrap
+    overflow-y: auto
     display: inline-block
+    max-width: 600px
+    width: 100%
+    height: 85%
     &:last-child
       border-bottom: none
 </style>

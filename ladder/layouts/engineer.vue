@@ -1,12 +1,9 @@
 <template>
   <v-app id="inspire" indig>
     <app-bar/>
-    <v-content id="window">
+    <v-content id="window" class="contents-wrap">
       <v-container
-        fluid
-        fill-height
-        justify-center
-        align-start
+        fluid fill-height justify-center align-start
         class="g-container"
       >
         <nuxt/>
@@ -91,6 +88,7 @@
 </script>
 
 <style lang="sass" scoped>
-
+  .contents-wrap
+    overflow: hidden
 </style>
 

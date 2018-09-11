@@ -49,21 +49,21 @@
     methods: {
       toLadderPost() {
         if (this.isLogin) {
-          this.$router.push('/post')
+          this.$router.push('/post/')
         } else {
           alert("投稿ですか？まずはログインしてください！")
         }
       },
       toLadderManagement() {
         if (this.isLogin) {
-          this.$router.push('/ladder/'+this.userId)
+          this.$router.push('/ladder/' + this.userId + '/')
         } else {
           alert("ラダーページのご利用はログイン後に可能となります！")
         }
       }
     },
     computed: {
-      ...mapGetters('user',{
+      ...mapGetters('user', {
         isLogin: 'loginGetter',
         userId: 'userIdGetter'
       })

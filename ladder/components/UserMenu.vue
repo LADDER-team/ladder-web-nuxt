@@ -17,29 +17,42 @@
         <v-list-tile @click="toHelp">
           <v-list-tile-title>ヘルプ</v-list-tile-title>
         </v-list-tile>
+        <v-list-tile @click="logout">
+          <v-list-tile-title>ログアウト</v-list-tile-title>
+        </v-list-tile>
       </v-list>
     </v-menu>
   </div>
 </template>
 
 <script>
-  import {mapGetters} from 'vuex'
+  import {mapGetters, mapActions} from 'vuex'
 
   export default {
     name: "user-menu",
+    methods: {
+      toHelp() {
+        alert('機能実装をお待ちください！')
+      },
+      toMyPage() {
+        const userId = typeof this.userId === 'number' ? this.userId : parseInt(this.userId)
+        this.$router.push('/user/' + userId + '/')
+      },
+      logout() {
+        localStorage.clear()
+        this.logoutAction()
+        alert('正常にログアウトされました！TOPへ遷移します！')
+        this.$router.push('/')
+      },
+      ...mapActions('user', [
+        'logoutAction'
+      ])
+    },
     computed: {
       ...mapGetters('user', {
         userId: 'userIdGetter'
       })
     },
-    methods: {
-      toHelp(){
-        alert('機能実装をお待ちください！')
-      },
-      toMyPage() {
-        this.$router.push('/user/' + this.userId + '/')
-      }
-    }
   }
 </script>
 

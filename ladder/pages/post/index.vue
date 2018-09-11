@@ -94,7 +94,7 @@
         title: 'Post'
       }
     },
-    created() {
+    beforeMount() {
       this.modelTitle = this.modelTitle ? this.modelTitle : ""
     },
     methods: {
@@ -113,6 +113,10 @@
         }
       },
       postLadder() {
+        if (!this.isLogin) {
+          alert('ログインしてください！')
+          return
+        }
         for (let i = 1; i <= this.unitIndex; i++) {
           this.unit[i - 1] =
             {
@@ -146,11 +150,7 @@
             alert('ラダーを投稿しました！トップページへ遷移します！')
             this.$router.push('/')
           }).catch((error) => {
-            if (!this.isLogin) {
-              alert('ログインしてください！')
-            } else {
-              alert('投稿に失敗しました！！')
-            }
+            alert('投稿に失敗しました！！')
             console.log(error)
           })
         }
@@ -194,17 +194,14 @@
   .ladder-post-btn
     z-index: 100
     position: fixed
-    bottom: 0
-    display: flex
-    align-items: center
-    justify-content: center
+    bottom: 150px
+    display: block
     margin: 0 auto
-    max-width: 700px
-    width: 100%
+    max-width: 770px
+    width: 55%
   .ladder-post-submit
     position: absolute !important
-    top: -150px
-    right: -5px
+    right: 0
   .post-description
     margin: 0 0 24px !important
     border-bottom: 3px solid $default_border_color
