@@ -33,7 +33,7 @@
       }).then((response) => {
         return {ladderList: response.data.results}
       }).catch((e) => {
-        error({statusCode: 404, message: 'Not Found...'})
+        console.log(e)
       })
     },
     data() {

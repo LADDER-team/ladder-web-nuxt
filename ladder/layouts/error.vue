@@ -4,7 +4,9 @@
     <div class="container error-wrap">
       <h2 v-if="error.statusCode === 404" class="display-1">ページが見つかりません！</h2>
       <h2 v-else class="display-1">エラーが発生しました！</h2>
-      <p class="back-link"><nuxt-link to="/" class="subheading" >TOPへ戻る</nuxt-link></p>
+      <p class="back-link">
+        <nuxt-link to="/" class="subheading">TOPへ戻る</nuxt-link>
+      </p>
     </div>
   </v-layout>
 </template>

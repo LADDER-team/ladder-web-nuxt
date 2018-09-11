@@ -94,7 +94,7 @@
         title: 'Post'
       }
     },
-    created() {
+    beforeMount() {
       this.modelTitle = this.modelTitle ? this.modelTitle : ""
     },
     methods: {
@@ -113,6 +113,11 @@
         }
       },
       postLadder() {
+        console.log(this.$store.state.user)
+        if (!this.isLogin) {
+          alert('ログインしてください！')
+          return
+        }
         for (let i = 1; i <= this.unitIndex; i++) {
           this.unit[i - 1] =
             {
@@ -146,11 +151,7 @@
             alert('ラダーを投稿しました！トップページへ遷移します！')
             this.$router.push('/')
           }).catch((error) => {
-            if (!this.isLogin) {
-              alert('ログインしてください！')
-            } else {
-              alert('投稿に失敗しました！！')
-            }
+            alert('投稿に失敗しました！！')
             console.log(error)
           })
         }
@@ -180,35 +181,35 @@
     padding: 70px
     max-width: 800px
     background-color: #fff
-  .ladder-post-icons
-    max-width: 40px
-    max-height: 40px
-    margin: 0 auto
-    cursor: pointer
-  .ladder-post-add
-    &:hover
-      opacity: .7
-  .ladder-post-remove
-    &:hover
-      opacity: .7
-  .ladder-post-btn
-    z-index: 100
-    position: fixed
-    bottom: 0
-    display: flex
-    align-items: center
-    justify-content: center
-    margin: 0 auto
-    max-width: 700px
-    width: 100%
-  .ladder-post-submit
-    position: absolute !important
-    top: -150px
-    right: -5px
-  .post-description
-    margin: 0 0 24px !important
-    border-bottom: 3px solid $default_border_color
-  .post-text-field
-    font-size: 18px
+    .ladder-post-icons
+      max-width: 40px
+      max-height: 40px
+      margin: 0 auto
+      cursor: pointer
+    .ladder-post-add
+      &:hover
+        opacity: .7
+    .ladder-post-remove
+      &:hover
+        opacity: .7
+    .ladder-post-btn
+      z-index: 100
+      position: fixed
+      bottom: 0
+      display: flex
+      align-items: center
+      justify-content: center
+      margin: 0 auto
+      max-width: 700px
+      width: 100%
+    .ladder-post-submit
+      position: absolute !important
+      top: -150px
+      right: -5px
+    .post-description
+      margin: 0 0 24px !important
+      border-bottom: 3px solid $default_border_color
+    .post-text-field
+      font-size: 18px
 </style>
 
