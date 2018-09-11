@@ -12,6 +12,8 @@ dist
 
 ide files
 .idea
+.idea/workspace.xml
+
 
 npm files
 .package-lock.json

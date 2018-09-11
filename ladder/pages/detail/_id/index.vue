@@ -209,7 +209,9 @@
       createdLadderDetail() {
         if (Object.keys(this.ladderDetailList).length && Object.keys(this.unitList).length) {
           this.getLadderCreator()
-          this.getLearningLadder()
+          if(this.isLogin) {
+            this.getLearningLadder()
+          }
         } else {
           const ladderId = this.$route.params.id
           axios({
@@ -221,7 +223,9 @@
           }).then(() => {
             this.getLadderCreator()
           }).then(() => {
-            this.getLearningLadder()
+            if(this.isLogin){
+              this.getLearningLadder()
+            }
           }).catch((error) => {
             console.log(error)
           })

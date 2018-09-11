@@ -14,7 +14,7 @@
     <v-tabs-items v-model="model" class="my-page-tab-items">
       <v-tab-item id="tab-1" class="my-page-tab-item">
         <p v-show="!learningLadderList.length" class="my-page-not-ladder">投稿したLadderがありません</p>
-        <v-flex align-start　justify-center
+        <v-flex md8 align-start　justify-center
                 class="ladder-links-wrap my-page-ladders-wrap">
           <div v-for="(ladder, index) in learningLadderList" :key="index"
                class="ladder-link-wrap">
@@ -78,9 +78,14 @@
         finishLadderList: []
       }
     },
+    fetch({store, redirect}){
+      if(!store.state.user.isLogin){
+        return redirect('/')
+      }
+    },
     head() {
       return {
-        title: 'LadderManage'
+        title: 'Ladder-Manage'
       }
     },
     components: {
@@ -154,7 +159,7 @@
     width: 100%
   .my-page-ladders-wrap
     width: 100%
-    max-width: 500px!important
+    max-width: 600px!important
   .my-page-ladders-title
     padding: 20px
     background: #fff
@@ -164,11 +169,13 @@
   .my-page-avatar
     margin: 0 40px 0 0
   .my-page-tab-items
-    max-width: 500px
+    max-width: 600px
     width: 100%
-    background-color: #fff
+    height: 100%
   .my-page-tab-item
+    overflow: scroll
     width: 100%
+    height: 80%
   .my-page-profile
     padding: 20px 40px
   .my-page-profile-title
@@ -176,8 +183,9 @@
     border-bottom: 1px solid $default_border_color
     font-weight: normal
   .my-page-not-ladder
-    display: block
-    margin: 20px 0 0
+    height: 70px
+    background-color: #fff
+    line-height: 7em
     text-align: center
   .ladder-links-wrap
     display: inline-block
