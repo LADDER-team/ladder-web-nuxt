@@ -78,6 +78,11 @@
         finishLadderList: []
       }
     },
+    fetch({store, redirect}){
+      if(!store.state.user.isLogin){
+        return redirect('/')
+      }
+    },
     head() {
       return {
         title: 'LadderManage'
