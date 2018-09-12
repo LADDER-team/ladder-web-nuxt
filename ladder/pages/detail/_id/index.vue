@@ -37,17 +37,17 @@
             </p>
           </div>
           <div class="unit-cover-btn-wrap">
-            <v-btn @click="clickLearnStart"
+            <v-btn @click="learnStart"
                    v-show="isWillLearning&&isLogin"
                    class="primary-btn">
               このLadderで学習する
             </v-btn>
-            <v-btn @click="clickLearnStart"
+            <v-btn @click="learnStart"
                    v-show="isLearning"
                    class="learning-btn">
               このLadderで学習中
             </v-btn>
-            <v-btn @click="clickLearnStart"
+            <v-btn @click="learnStart"
                    v-show="isLearned"
                    class="learned-btn">
               このLadderは学習済み
@@ -62,12 +62,12 @@
       <div v-for="(units, key) in unitList" :key="key"
            class="unit-item">
         <div class="unit-btn-wrap">
-          <v-btn @click="clickLearnEnd(key)"
+          <v-btn @click="learnFinish(key)"
                  v-if="isLearning&&learnedStatus(learningUnits, key)"
                  class="primary-btn unit-btn">
             学習済みにする
           </v-btn>
-          <v-btn @click="clickLearnEnd(key)"
+          <v-btn @click="learnFinish(key)"
                  v-if="isLearning&&!learnedStatus(learningUnits, key)"
                  class="learned-btn unit-btn">
             学習済みです！
@@ -129,25 +129,16 @@
     data: () => ({
       ladderActive: false,
       ladderToUnit: false,
-      learning: 'willLearning',
       duration: 300,
       offsetTop: 0,
+      scrollOffset: 0,
       scrollWrapH: 0,
       selectedLadder: 0,
-      scrollOffset: 0,
-      unitH: 0,
       unitPosition: 0,
-      unitScroll: 0,
-      unitActivate: 0,
       updateId: 0,
       easing: '',
       ladderCreator: '',
-      ladderUpdated: {
-        year: '',
-        month: '',
-        day: '',
-      },
-      url: 'https://blinky.nemui.org/shot/xlarge?',
+      learning: 'willLearning',
       image: {
         src: 'https://s.wordpress.com/mshots/v1/',
         height: 1600,
@@ -155,13 +146,10 @@
         alt: '画像がないよ！'
       },
       ladderDetailList: [],
-      unitList: [],
-      nextLadderList: [],
-      prevLadderList: [],
       learningList: [],
       learningStatusList: [],
       learningIndexes: [],
-      finishLadderList: [],
+      unitList: [],
     }),
     head() {
       return {
@@ -176,9 +164,6 @@
       window.addEventListener('scroll', this.handleScroll)
     },
     methods: {
-      handleScroll() {
-        this.offsetTop = window.pageYOffset
-      },
       clickLadder(index) {
         this.duration = 600
         this.easing = 'easeInOutCubic'
@@ -187,24 +172,6 @@
           this.scrollOffset = this.$el.getElementsByClassName('unit-item')[index].offsetTop - 100
           this.$vuetify.goTo('#scroll-wrap', this.options)
         })
-      },
-      clickLearnEnd(index) {
-        let activateId = this.findLearnActivateId(index)
-        this.putLearnActivate(activateId)
-      },
-      clickLearnStart() {
-        if (this.isWillLearning || this.learningList === 0) {
-          let list = this.unitList
-          for (let index in list) {
-            setTimeout(() => {
-              this.postLearnInitialize(index)
-            }, 100)
-          }
-        } else if (this.isLearning) {
-          alert('学習ファイトです！')
-        } else {
-          alert('学習お疲れ様でした！')
-        }
       },
       createdLadderDetail() {
         if (Object.keys(this.ladderDetailList).length && Object.keys(this.unitList).length) {
@@ -342,6 +309,9 @@
           console.log(error)
         })
       },
+      handleScroll() {
+        this.offsetTop = window.pageYOffset
+      },
       isFinishLadder() {
         let thisTitle = this.ladderDetailList.title
         axios({
@@ -359,6 +329,24 @@
         }).catch((error) => {
           console.log(error)
         })
+      },
+      learnFinish(index) {
+        let activateId = this.findLearnActivateId(index)
+        this.putLearnActivate(activateId)
+      },
+      learnStart() {
+        if (this.isWillLearning || this.learningList === 0) {
+          let list = this.unitList
+          for (let index in list) {
+            setTimeout(() => {
+              this.postLearnInitialize(index)
+            }, 100)
+          }
+        } else if (this.isLearning) {
+          alert('学習ファイトです！')
+        } else {
+          alert('学習お疲れ様でした！')
+        }
       },
       postLearnInitialize(index) {
         let units = this.unitList

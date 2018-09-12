@@ -6,8 +6,9 @@
     <v-card-text>
       <v-container grid-list-md>
         <v-layout wrap>
-          <v-form ref="form" v-model="valid"
-                  lazy-validation
+          <v-form lazy-validation
+                  ref="form"
+                  v-model="valid"
                   class="sign-in-form">
             <v-text-field
               v-model="modelEmail"
@@ -15,8 +16,7 @@
               prepend-icon="email"
               ref="emailRef"
               label="メールアドレス"
-              required
-            ></v-text-field>
+              required></v-text-field>
             <v-text-field
               v-model="modelPass"
               :rules="passRules"
@@ -32,10 +32,10 @@
     <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn flat　color="blue darken-1"
-             @click="clickDialogCancel">キャンセル
+             @click="cancelDialog">キャンセル
       </v-btn>
       <v-btn flat　color="blue darken-1"
-             @click.native="clickLoginPost">ログイン
+             @click="loginUser">ログイン
       </v-btn>
     </v-card-actions>
   </v-card>
@@ -53,8 +53,8 @@
         loginToken: null,
         login: false,
         decodeId: 0,
-        userDetail: {},
         decodedToken: {},
+        userDetail: {},
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         //validation
         valid: true,
@@ -68,7 +68,7 @@
       }
     },
     methods: {
-      clickLoginPost() {
+      loginUser() {
         if (this.$refs.form.validate()) {
           axios({
             method: 'POST',
@@ -82,18 +82,11 @@
               password: this.modelPass
             }
           }).then((response) => {
-            this.loginToken = JSON.stringify(response.data.token).replace(/[\"]/g, "");
-            this.addToken();
+            this.loginToken = JSON.stringify(response.data.token).replace(/[\"]/g, "")
+            this.addTokenAction(this.loginToken)
+            this.login = true
           }).then(() => {
-            this.login = !this.$store.state.isLogin ? true : alert("ログイン済みです")
-          }).then(() => {
-            this.emitLogin()
-            alert("ログインしました！")
-            if (!this.$store.state.isLogin) {
-              setTimeout(() => {
-                this.loginPromise()
-              }, 200)
-            }
+            this.doLogin()
           }).then(() => {
             this.tokenDecoded()
           }).then(() => {
@@ -104,18 +97,17 @@
           })
         }
       },
-      addToken() {
-        this.addTokenAction(this.loginToken)
+      cancelDialog() {
+        this.$emit('cancel')
       },
-      loginPromise() {
-        this.loginAction(this.login)
-      },
-      emitLogin() {
+      doLogin(){
         this.$emit('login')
-      },
-      tokenDecoded() {
-        this.decodedToken = jwt(this.loginToken);
-        this.decodeId = this.decodedToken.user_id;
+        alert("ログインしました！")
+        if (!this.isLogin) {
+          setTimeout(() => {
+            this.loginAction(this.login)
+          }, 200)
+        }
       },
       getUser() {
         axios({
@@ -131,12 +123,13 @@
         })
       },
       setUser() {
-        this.addNameAction(this.userDetail.name);
         this.addEmailAction(this.decodedToken.email);
+        this.addNameAction(this.userDetail.name);
         this.addUserIdAction(this.decodeId);
       },
-      clickDialogCancel() {
-        this.$emit('cancel')
+      tokenDecoded() {
+        this.decodedToken = jwt(this.loginToken);
+        this.decodeId = this.decodedToken.user_id;
       },
       ...mapActions('user',[
         'addEmailAction',
@@ -150,7 +143,6 @@
       ...mapGetters('user',{
         email: 'emailGetter',
         isLogin: 'loginGetter',
-        password: 'passGetter',
         token: 'tokenGetter',
         userId: 'userIdGetter'
       }),

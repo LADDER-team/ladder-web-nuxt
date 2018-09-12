@@ -102,7 +102,6 @@
     max-height: 80%
     max-width: 80%
     width: 100%
-
   .app-bar-btn
     margin: 0 0 0 20px
 </style>

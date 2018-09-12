@@ -65,14 +65,11 @@
       name: 'page',
       mode: 'out-in'
     },
-    components: {
-      LadderPostForm
-    },
     data: () => ({
       unitIndex: 1,
       ladderTitle: "",
-      modelTitle: "",
       modelLadderDescription: "",
+      modelTitle: "",
       unit: [],
       descriptionList: {
         1: "",
@@ -93,6 +90,9 @@
       return {
         title: 'Post'
       }
+    },
+    components: {
+      LadderPostForm
     },
     beforeMount() {
       this.modelTitle = this.modelTitle ? this.modelTitle : ""

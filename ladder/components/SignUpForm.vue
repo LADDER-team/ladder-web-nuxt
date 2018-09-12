@@ -6,8 +6,9 @@
     <v-card-text>
       <v-container grid-list-md>
         <v-layout wrap>
-          <v-form ref="form" v-model="valid"
-                  lazy-validation
+          <v-form lazy-validation
+                  v-model="valid"
+                  ref="form"
                   class="sign-up-form">
             <v-text-field
               v-model="modelName"
@@ -42,7 +43,7 @@
         </v-layout>
         <p class="dialog-help">
           登録済みの方はこちらから
-          <a href="#" @click="clickDirectLogin">ログイン</a>
+          <a href="#" @click="directLogin">ログイン</a>
           してください
         </p>
       </v-container>
@@ -61,21 +62,23 @@
 </template>
 
 <script>
-  import {mapState, mapGetters, mapMutations, mapActions} from 'vuex'
+  import {mapGetters, mapActions} from 'vuex'
   import axios from 'axios'
+  import jwt from 'jwt-decode'
 
   export default {
     name: "sign-up-form",
     data() {
       return {
         sign: false,
+        valid: true,
+        decodedId: 0,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
-        valid: true,
+        //validation
         modelName: "",
         nameRules: [v => !!v || '名前を入力してください'],
-        //validation
         modelEmail: "",
         emailRules: [
           v => !!v || 'メールアドレスを入力してください',
@@ -97,8 +100,38 @@
       cancelDialog() {
         this.$emit('cancel')
       },
-      clickDirectLogin() {
+      directLogin() {
         this.$emit('direct-login');
+      },
+      doLogin() {
+        this.$emit('login')
+        this.loginAction(this.login)
+      },
+      loginUser() {
+        axios({
+          method: 'POST',
+          url: 'https://api.ladder.noframeschools.com/api/api-auth/',
+          headers: {
+            "Accept": "application/json",
+            'Content-Type': 'application/json'
+          },
+          data: {
+            email: this.modelEmail,
+            password: this.modelPass
+          }
+        }).then((response) => {
+          this.loginToken = JSON.stringify(response.data.token).replace(/[\"]/g, "")
+          this.login = true
+          this.addTokenAction(this.loginToken)
+        }).then(() => {
+          this.doLogin()
+        }).then(() => {
+          this.tokenDecoded()
+        }).then(() => {
+          this.setUser()
+        }).catch((error) => {
+          console.log(error)
+        })
       },
       postUser() {
         if (this.$refs.form.validate()) {
@@ -115,81 +148,41 @@
               password: this.modelPass
             }
           }).then(() => {
-            this.sign = true
+            this.signAction(true)
           }).then(() => {
-            this.addSign()
+            this.$emit('sign')
           }).then(() => {
-            this.emitSign()
-          }).then(() => {
-            this.loginPost()
+            this.loginUser()
           }).catch((error) => {
             alert("登録に失敗しました")
             console.log(error)
           })
         }
       },
-      // },
-      addSign() {
-        this.signAction(this.sign)
-      },
-      emitSign() {
-        this.$emit('sign')
-      },
-      loginPost() {
-        axios({
-          method: 'POST',
-          url: 'https://api.ladder.noframeschools.com/api/api-auth/',
-          headers: {
-            "Accept": "application/json",
-            'Content-Type': 'application/json'
-          },
-          data: {
-            email: this.modelEmail,
-            password: this.modelPass
-          }
-        }).then((response) => {
-          this.loginToken = JSON.stringify(response.data.token).replace(/[\"]/g, "")
-          this.addToken()
-        }).then(() => {
-          this.login = !this.login ? true : alert("ログイン済みです")
-        }).then(() => {
-          this.loginPromise()
-        }).then(() => {
-          this.emitLogin()
-          alert("ご登録ありがとうございます！")
-        }).then(() => {
-          this.setUser()
-        }).catch((error) => {
-          console.log(error)
-        })
-      },
-      addToken() {
-        this.addTokenAction(this.loginToken)
-      },
-      loginPromise() {
-        this.loginAction(this.login)
-      },
-      emitLogin() {
-        this.$emit('login')
+      tokenDecoded() {
+        const decodedToken = jwt(this.loginToken);
+        this.decodedId = decodedToken.user_id;
       },
       setUser() {
-        this.addNameAction(this.modelName);
         this.addEmailAction(this.modelEmail);
+        this.addNameAction(this.modelName);
+        this.addUserIdAction(this.decodedId);
+        alert('ご登録ありがとうございます！')
       },
-      ...mapActions('user',[
+      ...mapActions('user', [
         'addEmailAction',
         'addNameAction',
         'addTokenAction',
+        'addUserIdAction',
         'loginAction',
         'signAction'
       ])
     },
     computed: {
-      ...mapGetters('user',{
-        name: 'nameGetter',
+      ...mapGetters('user', {
         email: 'emailGetter',
+        name: 'nameGetter',
         isLogin: 'loginGetter',
-        isSign: 'signGetter',
         token: 'tokenGetter'
       }),
     },
