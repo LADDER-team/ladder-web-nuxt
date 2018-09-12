@@ -62,27 +62,25 @@
       name: 'page',
       mode: 'out-in'
     },
-    data() {
-      return {
-        posted: false,
-        avatarSize: 100,
-        defaultUsername: 'ユーザー',
-        model: 'tab-1',
-        profile: '',
-        defaultImage: {
-          src: "http://via.placeholder.com/350x150",
-          alt: "placeholder-image"
-        },
-        learningLadderList: [],
-        myLadderList: [],
-        finishLadderList: []
-      }
-    },
-    fetch({store, redirect}){
-      if(!store.state.user.isLogin){
+    fetch({store, redirect}) {
+      if (!store.state.user.isLogin) {
         return redirect('/')
       }
     },
+    data: () => ({
+      posted: false,
+      avatarSize: 100,
+      defaultUsername: 'ユーザー',
+      model: 'tab-1',
+      profile: '',
+      defaultImage: {
+        src: "http://via.placeholder.com/350x150",
+        alt: "placeholder-image"
+      },
+      learningLadderList: [],
+      myLadderList: [],
+      finishLadderList: []
+    }),
     head() {
       return {
         title: 'Ladder-Manage'
@@ -92,27 +90,15 @@
       LadderListItem
     },
     created() {
-      setTimeout(() => {
-        this.getMyLadders()
-        this.getFinishLadders()
-        this.getLearningLadders()
-      }, 100)
+      this.getFinishLadders()
+      this.getLearningLadders()
+      this.getMyLadders()
     },
     methods: {
       unimplemented() {
         alert("機能搭載までお待ちください！")
       },
-      getMyLadders(){
-        axios({
-          method: 'GET',
-          url: 'https://api.ladder.noframeschools.com/api/users/' + this.userId + '/'
-        }).then((response) => {
-          this.myLadderList = response.data.my_ladders
-        }).catch((error) => {
-          console.log(error)
-        })
-      },
-      getFinishLadders(){
+      getFinishLadders() {
         axios({
           method: 'GET',
           url: 'https://api.ladder.noframeschools.com/api/users/' + this.userId + '/finish-ladder/'
@@ -122,7 +108,7 @@
           console.log(error)
         })
       },
-      getLearningLadders(){
+      getLearningLadders() {
         axios({
           method: 'GET',
           url: 'https://api.ladder.noframeschools.com/api/users/' + this.userId + '/learning-ladder/'
@@ -131,19 +117,22 @@
         }).catch((error) => {
           console.log(error)
         })
+      },
+      getMyLadders() {
+        axios({
+          method: 'GET',
+          url: 'https://api.ladder.noframeschools.com/api/users/' + this.userId + '/'
+        }).then((response) => {
+          this.myLadderList = response.data.my_ladders
+        }).catch((error) => {
+          console.log(error)
+        })
       }
     },
     computed: {
-      compUser() {
-        if (this.$store.state.name) {
-          return this.$store.state.name
-        } else {
-          return this.defaultUsername
-        }
-      },
-      ...mapGetters('user',{
+      ...mapGetters('user', {
+        isLogin: 'loginGetter',
         userId: 'userIdGetter',
-        isLogin: 'loginGetter'
       })
     },
   }
@@ -159,7 +148,7 @@
     width: 100%
   .my-page-ladders-wrap
     width: 100%
-    max-width: 600px!important
+    max-width: 600px !important
   .my-page-ladders-title
     padding: 20px
     background: #fff
@@ -183,9 +172,8 @@
     border-bottom: 1px solid $default_border_color
     font-weight: normal
   .my-page-not-ladder
-    height: 70px
+    padding: 28px 0
     background-color: #fff
-    line-height: 7em
     text-align: center
   .ladder-links-wrap
     display: inline-block

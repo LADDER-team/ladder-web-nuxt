@@ -17,7 +17,7 @@
         <v-list-tile @click="toHelp">
           <v-list-tile-title>ヘルプ</v-list-tile-title>
         </v-list-tile>
-        <v-list-tile @click="logout">
+        <v-list-tile @click="doLogout">
           <v-list-tile-title>ログアウト</v-list-tile-title>
         </v-list-tile>
       </v-list>
@@ -38,7 +38,7 @@
         const userId = typeof this.userId === 'number' ? this.userId : parseInt(this.userId)
         this.$router.push('/user/' + userId + '/')
       },
-      logout() {
+      doLogout() {
         localStorage.clear()
         this.logoutAction()
         alert('正常にログアウトされました！TOPへ遷移します！')

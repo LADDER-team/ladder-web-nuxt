@@ -36,14 +36,12 @@
     props: {
       index: 0
     },
-    data() {
-      return {
-        testRule: [v => !!v || 'タイトルを入力してください'],
-        modelDescription: "",
-        modelSubTitle: "",
-        modelUrl: "",
-      }
-    },
+    data:()=> ({
+      modelDescription: "",
+      modelSubTitle: "",
+      modelUrl: "",
+      testRule: [v => !!v || 'タイトルを入力してください'],
+    }),
     created() {
       this.modelDescription = this.modelDescription ? this.modelDescription : ""
       this.modelSubTitle = this.modelSubTitle ? this.modelSubTitle : ""

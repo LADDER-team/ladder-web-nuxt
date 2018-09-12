@@ -35,12 +35,10 @@
         console.log(error)
       })
     },
-    data() {
-      return {
-        chartDialog: false,
-        ladderList: []
-      }
-    },
+    data:() =>({
+      chartDialog: false,
+      ladderList: []
+    }),
     head() {
       return {
         title: 'Top'

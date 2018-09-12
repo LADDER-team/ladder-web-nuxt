@@ -22,8 +22,8 @@
 
   export default {
     data: () => ({
-      loginToken: "",
       decodedId: "",
+      loginToken: "",
       decodedToken: {},
       userDetail: {}
     }),
@@ -64,8 +64,8 @@
         })
       },
       setUser() {
-        this.addNameAction(this.userDetail.name);
         this.addEmailAction(this.decodedToken.email);
+        this.addNameAction(this.userDetail.name);
         if (!this.userId) {
           this.addUserIdAction(this.decodedId);
         }
@@ -79,8 +79,8 @@
     },
     computed: {
       ...mapGetters('user', {
-        token: 'tokenGetter',
         isLogin: 'loginGetter',
+        token: 'tokenGetter',
         userId: 'userIdGetter',
       })
     }

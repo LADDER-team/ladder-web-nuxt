@@ -9,7 +9,7 @@
         </v-avatar>
       </v-flex>
       <v-flex justify-start align-center>
-        <h2 class="display-1">{{compUser}}</h2>
+        <h2 class="display-1">{{userDisplay}}</h2>
         <v-btn depressed ripple
                @click="unimplemented"
                class="primary-btn">
@@ -31,7 +31,7 @@
         <v-flex>
           <div>
             <h3 class="my-page-profile-title">自己紹介</h3>
-            <p>これはプロフィールの例文になります！<br/>こんにちは！ここは{{compUser}}のマイページです！今後、たくさんの機能が追加予定ですのでお楽しみに！</p>
+            <p>これはプロフィールの例文になります！<br/>こんにちは！ここは{{userDisplay}}のマイページです！今後、たくさんの機能が追加予定ですのでお楽しみに！</p>
           </div>
         </v-flex>
       </v-tab-item>
@@ -106,7 +106,7 @@
       },
     },
     computed: {
-      compUser() {
+      userDisplay() {
         if (this.name) {
           return this.name
         } else {
