@@ -1,5 +1,5 @@
 <template>
-  <v-layout justify-start fill-height
+  <v-layout justify-center fill-height
             class="layout-ladder-list">
     <v-flex align-start　justify-center
             class="ladder-links-wrap">
@@ -28,7 +28,10 @@
     asyncData() {
       return axios({
         method: 'GET',
-        url: 'https://api.ladder.noframeschools.com/api/ladder/'
+        url: 'http://127.0.0.1:8080/api/ladder/',
+        header: {
+          'Access-Control-Allow-Origin': '*'
+        }
       }).then((response) => {
         return {ladderList: response.data.results}
       }).catch((error) => {
@@ -51,7 +54,10 @@
       if (!this.ladderList.length) {
         axios({
           method: 'GET',
-          url: 'https://api.ladder.noframeschools.com/api/ladder/'
+          url: 'http://127.0.0.1:8080/api/ladder/',
+          headers: {
+            'Access-Control-Allow-Origin': '*'
+          }
         }).then((response) => {
           this.ladderList = response.data.results
         }).catch((error) => {
@@ -67,8 +73,9 @@
     overflow-y: auto
     display: inline-block
     max-width: 600px
-    width: 100%
     height: 85%
     &:last-child
       border-bottom: none
+  .ladder-link-wrap
+    width: 100%
 </style>

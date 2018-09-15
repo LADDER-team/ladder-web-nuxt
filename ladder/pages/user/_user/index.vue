@@ -92,7 +92,7 @@
       const userId = this.userId ? this.userId : 0
       axios({
         method: 'GET',
-        url: 'https://api.ladder.noframeschools.com/api/users/' + userId + '/'
+        url: 'http://127.0.0.1:8080/api/users/' + userId + '/'
       }).then((response) => {
         this.myLadderList = response.data.my_ladders
         this.posted = response.data.my_ladders.length !== 0
