@@ -16,6 +16,7 @@
 <script>
   import axios from 'axios'
   import LadderListItem from '~/components/LadderListItem'
+  import _ from 'underscore'
 
   export default {
     name: "ladder-list",
@@ -33,12 +34,16 @@
           'Access-Control-Allow-Origin': '*'
         }
       }).then((response) => {
-        return {ladderList: response.data.results}
+        return {
+          ladderList: _.sortBy(response.data.results, (value) => {
+            return -value.id
+          })
+        }
       }).catch((error) => {
         console.log(error)
       })
     },
-    data:() =>({
+    data: () => ({
       chartDialog: false,
       ladderList: []
     }),
@@ -59,7 +64,9 @@
             'Access-Control-Allow-Origin': '*'
           }
         }).then((response) => {
-          this.ladderList = response.data.results
+          this.ladderList = _.sortBy(response.data.results, (value) => {
+            return -value.id
+          })
         }).catch((error) => {
           console.log(error)
         })
