@@ -53,6 +53,7 @@
               このLadderは学習済み
             </v-btn>
           </div>
+          <ladder-menu :ladderId="ladderId"/>
         </v-flex>
         <h2 class="unit-title unit-cover-title display-1">{{ladderDetailList.title}}</h2>
         <div class="unit-description">
@@ -93,6 +94,7 @@
   import axios from 'axios'
   import {mapGetters} from 'vuex'
   import _ from 'underscore'
+  import LadderMenu from '~/components/LadderMenu'
 
   export default {
     name: 'ladder-detail',
@@ -156,6 +158,7 @@
         title: this.ladderDetailList.title ? this.ladderDetailList.title : 'Detail'
       }
     },
+    components: {LadderMenu},
     created() {
       this.learningIndexes = []
       this.createdLadderDetail()
@@ -309,7 +312,7 @@
         })
       },
       async learnFinish(index) {
-        const activateId = this.learningStatusList[index-1].id
+        const activateId = this.learningStatusList[index - 1].id
         if (activateId) {
           await this.putLearnActivate(activateId)
         }
@@ -394,6 +397,7 @@
           easing: this.easing
         }
       },
+      ladderId() { return this.$route.params.id},
       learnedStatus() {
         return (array, key) => {
           return array.indexOf(parseInt(key)) === -1

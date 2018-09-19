@@ -19,21 +19,21 @@
       width="500"
       class="ladder-manage-btn-wrap">
       <v-btn slot="activator" flat
-             :class="{'public-btn': temp, 'private-btn': !temp}"
+             :class="{'public-btn': isPublic, 'private-btn': !isPublic}"
              class="ladder-manage-btn">
-        {{temp?"公開中":"非公開"}}
+        {{isPublic?"公開中":"非公開"}}
       </v-btn>
       <v-card>
         <v-card-title
           class="headline manage-dialog-title"
           primary-title>
-          {{temp?"非公開":"公開"}}設定
+          {{isPublic?"非公開":"公開"}}設定
         </v-card-title>
-        <v-card-text v-show="temp" class="body-2">
+        <v-card-text v-show="isPublic" class="body-2">
           {{title}} は【公開中】です！<br>
           【非公開】にするとトップの一覧にこのラダーが表示されなくなります！
         </v-card-text>
-        <v-card-text v-show="!temp" class="body-2">
+        <v-card-text v-show="!isPublic" class="body-2">
           {{title}} は【非公開】です！<br>
           【公開中】にするとトップページにこのラダーが表示されるようになります！
         </v-card-text>
@@ -47,8 +47,8 @@
           </v-btn>
           <v-btn
             color="primary" flat
-            @click="dialog = false">
-            {{temp?"非公開にする":"公開する"}}
+            @click="publishLadder">
+            {{isPublic?"非公開にする":"公開する"}}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -57,6 +57,9 @@
 </template>
 
 <script>
+  import axios from 'axios'
+  import {mapGetters} from 'vuex'
+
   export default {
     name: "ladder-list-item",
     props: {
@@ -64,12 +67,24 @@
       ladderId: 0,
       title: "",
       manage: false,
-      isPublic: true,
+      isPublic: false,
     },
     data: () => ({
       dialog: false,
-      temp: true,
     }),
+    methods: {
+      publishLadder() {
+        this.dialog = false
+        this.$emit('publish-emit')
+      }
+    },
+    computed: {
+      ...mapGetters('user', {
+        token: 'tokenGetter',
+        isLogin: 'loginGetter',
+        userId: 'userIdGetter'
+      })
+    }
   }
 </script>
 

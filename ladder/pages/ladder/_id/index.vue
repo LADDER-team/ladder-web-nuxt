@@ -21,7 +21,8 @@
             <ladder-list-item :ladderId="ladder.id"
                               :title="ladder.title"
                               :manage="true"
-                              :isPublic="ladder.is_public"/>
+                              :isPublic="ladder.is_public"
+                              @publish-emit="getMyLadders"/>
           </div>
         </v-flex>
       </v-tab-item>
@@ -51,6 +52,7 @@
   </v-layout>
 </template>
 
+
 <script>
   import axios from 'axios'
   import {mapGetters} from 'vuex'
@@ -63,11 +65,6 @@
     transitions: {
       name: 'page',
       mode: 'out-in'
-    },
-    fetch({store, redirect}) {
-      if (!store.state.user.isLogin) {
-        return redirect('/')
-      }
     },
     data: () => ({
       posted: false,
@@ -139,7 +136,6 @@
     },
   }
 </script>
-
 <style scoped lang="sass">
   .my-page-wrap
     overflow: hidden
