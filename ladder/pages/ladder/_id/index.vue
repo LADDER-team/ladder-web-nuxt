@@ -7,13 +7,26 @@
             color="white"
             slider-color="blue"
             class="my-page-tabs">
-      <v-tab href="#tab-1" class="my-page-tab">学習中 Ladder</v-tab>
-      <v-tab href="#tab-2" class="my-page-tab">学習済 Ladder</v-tab>
-      <v-tab href="#tab-3" class="my-page-tab">投稿 Ladder</v-tab>
+      <v-tab href="#tab-1" class="my-page-tab">投稿 Ladder</v-tab>
+      <v-tab href="#tab-2" class="my-page-tab">学習中 Ladder</v-tab>
+      <v-tab href="#tab-3" class="my-page-tab">学習済 Ladder</v-tab>
     </v-tabs>
     <v-tabs-items v-model="model" class="my-page-tab-items">
       <v-tab-item id="tab-1" class="my-page-tab-item">
-        <p v-show="!learningLadderList.length" class="my-page-not-ladder">投稿したLadderがありません</p>
+        <p v-show="!myLadderList.length" class="my-page-not-ladder">投稿したLadderがありません</p>
+        <v-flex align-start　justify-center
+                class="ladder-links-wrap my-page-ladders-wrap">
+          <div v-for="(ladder, index) in myLadderList" :key="index"
+               class="ladder-link-wrap">
+            <ladder-list-item :ladderId="ladder.id"
+                              :title="ladder.title"
+                              :manage="true"
+                              :isPublic="ladder.is_public"/>
+          </div>
+        </v-flex>
+      </v-tab-item>
+      <v-tab-item id="tab-2" class="my-page-tab-item">
+        <p v-show="!learningLadderList.length" class="my-page-not-ladder">学習中のLadderがありません</p>
         <v-flex md8 align-start　justify-center
                 class="ladder-links-wrap my-page-ladders-wrap">
           <div v-for="(ladder, index) in learningLadderList" :key="index"
@@ -23,22 +36,11 @@
           </div>
         </v-flex>
       </v-tab-item>
-      <v-tab-item id="tab-2" class="my-page-tab-item">
+      <v-tab-item id="tab-3" class="my-page-tab-item">
         <p v-show="!finishLadderList.length" class="my-page-not-ladder">学習済みのLadderがありません</p>
         <v-flex align-start　justify-center
                 class="ladder-links-wrap my-page-ladders-wrap">
           <div v-for="(ladder, index) in finishLadderList" :key="index"
-               class="ladder-link-wrap">
-            <ladder-list-item :ladderId="ladder.id"
-                              :title="ladder.title"/>
-          </div>
-        </v-flex>
-      </v-tab-item>
-      <v-tab-item id="tab-3" class="my-page-tab-item">
-        <p v-show="!myLadderList.length" class="my-page-not-ladder">投稿したLadderがありません</p>
-        <v-flex align-start　justify-center
-                class="ladder-links-wrap my-page-ladders-wrap">
-          <div v-for="(ladder, index) in myLadderList" :key="index"
                class="ladder-link-wrap">
             <ladder-list-item :ladderId="ladder.id"
                               :title="ladder.title"/>
