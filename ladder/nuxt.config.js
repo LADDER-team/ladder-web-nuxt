@@ -25,7 +25,7 @@ module.exports = {
     return titleChunk ? `${titleChunk} | LADDER` : 'LADDER';
   },
   generate: {
-    fallback: true, // '404.html' を使用したい場合
+    fallback: true,
   },
   /*
   ** Customize the progress bar color
@@ -60,7 +60,10 @@ module.exports = {
       ]
     ]
   ],
-  plugins: [{src: '~/plugins/clientInit.js', ssr: false}],
+  plugins: [
+    {src: '~plugins/clientInit.js', ssr: false},
+    {src: '~plugins/ga.js', ssr: false}
+  ],
   vuetify: {
     theme: {
       primary: '#3f51b5',
