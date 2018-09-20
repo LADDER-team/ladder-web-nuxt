@@ -14,11 +14,6 @@
   export default {
     props: ['error'],
     layout: 'engineer',
-    scrollToTop: true,
-    transitions: {
-      name: 'page',
-      mode: 'out-in'
-    },
   }
 </script>
 <style lang="sass" scoped>

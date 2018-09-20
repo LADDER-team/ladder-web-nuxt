@@ -86,6 +86,16 @@
       ladderDescriptionRule: [v => !!v || '説明文を入力してください',
         v => v.length <= 200 || '説明文は200字以内で入力してください'],
     }),
+    async asyncData({params}) {
+      let ladderDetailList = []
+      await axios({
+        method: 'GET',
+        url: 'http://127.0.0.1:8080/api/ladder/' + params.id + '/'
+      })
+      return {
+        ladderDetailList: ladderDetailList,
+      }
+    },
     head() {
       return {
         title: 'Post'
@@ -95,7 +105,12 @@
       LadderPostForm
     },
     beforeMount() {
+      const ladderId = this.$route.params.id
       this.modelTitle = this.modelTitle ? this.modelTitle : ""
+      axios({
+        method: 'GET',
+        url: 'http://127.0.0.1:8080/api/ladder/' + ladderId + '/'
+      })
     },
     methods: {
       addUnit() {

@@ -53,7 +53,8 @@
               このLadderは学習済み
             </v-btn>
           </div>
-          <ladder-menu :ladderId="ladderId"/>
+          <ladder-menu :ladderId="ladderId"
+                       :user="ladderDetailList.user"/>
         </v-flex>
         <h2 class="unit-title unit-cover-title display-1">{{ladderDetailList.title}}</h2>
         <div class="unit-description">
@@ -397,7 +398,9 @@
           easing: this.easing
         }
       },
-      ladderId() { return this.$route.params.id},
+      ladderId() {
+        return this.$route.params.id
+      },
       learnedStatus() {
         return (array, key) => {
           return array.indexOf(parseInt(key)) === -1

@@ -9,9 +9,14 @@
         </v-avatar>
       </v-btn>
       <v-list>
-        <v-list-tile @click="toEdit">
+        <v-list-tile @click="toEdit" v-show="userId === user">
           <v-list-tile-title>
             ラダーを編集する
+          </v-list-tile-title>
+        </v-list-tile>
+        <v-list-tile @click="toHelp">
+          <v-list-tile-title>
+            ヘルプ
           </v-list-tile-title>
         </v-list-tile>
       </v-list>
@@ -26,10 +31,11 @@
     name: "ladder-menu",
     props: {
       ladderId: 0,
+      user: 0,
     },
     methods: {
       toHelp() {
-        alert('機能実装をお待ちください！')
+        alert('自分で投稿したラダーの場合、編集メニューが追加されます。')
       },
       toEdit(){
         this.$router.push({ path: `/ladder/edit/${this.ladderId}/`})
@@ -37,7 +43,7 @@
     },
     computed: {
       ...mapGetters('user', {
-        userId: 'userIdGetter'
+        userId: 'userIdGetter',
       })
     },
   }
