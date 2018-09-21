@@ -34,7 +34,7 @@
         </v-flex>
         <v-flex class="ladder-post-btn">
           <v-btn dark fab large
-                 @click="postLadder"
+                 @click="editLadder"
                  class="contribution-floating-btn ladder-post-submit">
             <v-icon dark>done</v-icon>
           </v-btn>
@@ -66,7 +66,6 @@
         url: 'http://127.0.0.1:8080/api/ladder/' + params.id + '/'
       }).then((response) => {
         ladderDetailList = response.data
-        console.log(response.data.units)
         unitsList = _.sortBy(response.data.units, (value) => {
           return value.index
         })
@@ -127,48 +126,40 @@
       })
     },
     methods: {
-      postLadder() {
+      editLadder() {
         if (!this.isLogin) {
           alert('ログインしてください！')
           return
         }
-        for (let i = 1; i <= this.unitIndex; i++) {
-          this.unit[i - 1] =
-            {
-              title: this.subtitleList[i],
-              url: this.urlList[i],
-              description: this.descriptionList[i],
-              index: i
-            }
-        }
-        let unit = JSON.stringify(this.unit)
-        unit = JSON.parse(unit)
-
         if (!this.$refs.form.validate()) {
-          alert('投稿に不備があります！')
-        } else {
-          axios({
-            method: 'POST',
-            url: 'http://127.0.0.1:8080/api/ladder/',
-            headers: {
-              "Accept": "application/json",
-              "Authorization": "JWT " + this.token,
-              "Content-type": "application/json"
-            },
-            data: {
-              title: this.modelTitle,
-              ladder_description: this.modelLadderDescription,
-              tags: [],
-              units: unit
-            }
-          }).then(() => {
-            alert('ラダーを投稿しました！トップページへ遷移します！')
-            this.$router.push('/')
-          }).catch((error) => {
-            alert('投稿に失敗しました！！')
-            console.log(error)
-          })
+          alert('投稿内容に不備があります！確認してください！')
+          return
         }
+
+        this.unitsList.forEach((value)=>{
+
+        })
+        axios({
+          method: 'PUT',
+          url: 'http://127.0.0.1:8080/api/unit/'+this.unitsList.id+'/',
+          headers: {
+            "Accept": "application/json",
+            "Authorization": "JWT " + this.token,
+            "Content-type": "application/json"
+          },
+          data: {
+            title: this.modelTitle,
+            ladder_description: this.modelLadderDescription,
+            tags: [],
+            units: unit
+          }
+        }).then(() => {
+          alert('ラダーを投稿しました！トップページへ遷移します！')
+          this.$router.push('/')
+        }).catch((error) => {
+          alert('投稿に失敗しました！！')
+          console.log(error)
+        })
       },
       onDescription(descriptionEmit, index) {
         this.$set(this.descriptionList, index, descriptionEmit);
@@ -179,12 +170,14 @@
       onUrl(urlEmit, index) {
         this.$set(this.urlList, index, urlEmit);
       },
-    },
+    }
+    ,
     computed: {
-      ...mapGetters('user', {
-        token: 'tokenGetter',
-        isLogin: 'loginGetter'
-      })
+      ...
+        mapGetters('user', {
+          token: 'tokenGetter',
+          isLogin: 'loginGetter'
+        })
     }
   }
 </script>
