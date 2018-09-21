@@ -24,22 +24,14 @@
           class="post-text-field post-description"
           label="Ladderの説明"
           placeholder="半年前までプログラミング初心者だった私がDjangoでアプリケーションをどんな順序で開発することができたのか。初心者の方に参考になればなと思います！諦めずに最後までやりきってみましょう！"></v-textarea>
-        <v-flex v-for="index in unitIndex" :key="index">
-          <ladder-post-form :index="index"
+        <v-flex v-for="(unit, index) in unitsList" :key="index">
+          <ladder-post-form :index="index+1"
+                            :unit="unit"
                             @sub-title-emit="onSubTitle"
                             @url-emit="onUrl"
                             @description-emit="onDescription"
                             class="ladder-post-item"/>
         </v-flex>
-        <v-layout flex row justify-center
-                  class="ladder-post-icons">
-          <v-icon size="40" @click="addUnit"
-                  class="ladder-post-add">add_circle_outline
-          </v-icon>
-          <v-icon size="40" @click="removeUnit"
-                  class="ladder-post-remove">remove_circle
-          </v-icon>
-        </v-layout>
         <v-flex class="ladder-post-btn">
           <v-btn dark fab large
                  @click="postLadder"
@@ -54,6 +46,7 @@
 
 <script>
   import axios from 'axios'
+  import _ from 'underscore'
   import {mapGetters} from 'vuex'
   import LadderPostForm from '~/components/ladderPostForm.vue'
 
@@ -65,12 +58,34 @@
       name: 'page',
       mode: 'out-in'
     },
+    async asyncData({params}) {
+      let ladderDetailList = []
+      let unitsList = []
+      await axios({
+        method: 'GET',
+        url: 'http://127.0.0.1:8080/api/ladder/' + params.id + '/'
+      }).then((response) => {
+        ladderDetailList = response.data
+        console.log(response.data.units)
+        unitsList = _.sortBy(response.data.units, (value) => {
+          return value.index
+        })
+      })
+      return {
+        ladderDetailList: ladderDetailList,
+        unitsList: unitsList,
+        modelTitle: ladderDetailList.title,
+        modelLadderDescription: ladderDetailList.ladder_description,
+      }
+    },
     data: () => ({
       unitIndex: 1,
       ladderTitle: "",
       modelLadderDescription: "",
       modelTitle: "",
       unit: [],
+      unitsList: [],
+      ladderDetailList: [],
       descriptionList: {
         1: "",
       },
@@ -86,47 +101,32 @@
       ladderDescriptionRule: [v => !!v || '説明文を入力してください',
         v => v.length <= 200 || '説明文は200字以内で入力してください'],
     }),
-    async asyncData({params}) {
-      let ladderDetailList = []
-      await axios({
-        method: 'GET',
-        url: 'http://127.0.0.1:8080/api/ladder/' + params.id + '/'
-      })
-      return {
-        ladderDetailList: ladderDetailList,
-      }
-    },
     head() {
       return {
-        title: 'Post'
+        title: 'Edit'
       }
     },
     components: {
       LadderPostForm
     },
-    beforeMount() {
+    created() {
       const ladderId = this.$route.params.id
-      this.modelTitle = this.modelTitle ? this.modelTitle : ""
       axios({
         method: 'GET',
         url: 'http://127.0.0.1:8080/api/ladder/' + ladderId + '/'
+      }).then((response) => {
+        this.ladderDetailList = response.data
+        this.unitsList = _.sortBy(response.data.units, (value) => {
+          return value.index
+        })
+      }).then(() => {
+        this.modelTitle = this.ladderDetailList.title
+        this.modelLadderDescription = this.ladderDetailList.ladder_description
+      }).catch((error) => {
+        console.log(error)
       })
     },
     methods: {
-      addUnit() {
-        if (this.unitIndex < 8) {
-          this.unitIndex++;
-        } else {
-          alert('これ以上ユニットは増やせません！')
-        }
-      },
-      removeUnit() {
-        if (this.unitIndex === 1) {
-          alert('これ以上ユニットは削除できません！')
-        } else {
-          this.unitIndex--;
-        }
-      },
       postLadder() {
         if (!this.isLogin) {
           alert('ログインしてください！')

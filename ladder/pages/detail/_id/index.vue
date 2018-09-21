@@ -38,7 +38,7 @@
           </div>
           <div class="unit-cover-btn-wrap">
             <v-btn @click="learnStart"
-                   v-show="isWillLearning&&isLogin"
+                   v-show="isWillLearning"
                    class="primary-btn">
               このLadderで学習する
             </v-btn>
@@ -319,17 +319,21 @@
         }
       },
       learnStart() {
-        if (this.isWillLearning || this.learningList === 0) {
-          let list = this.unitList
-          for (let index in list) {
-            setTimeout(() => {
-              this.postLearnInitialize(index)
-            }, 100)
+        if(this.isLogin) {
+          if (this.isWillLearning || this.learningList === 0) {
+            let list = this.unitList
+            for (let index in list) {
+              setTimeout(() => {
+                this.postLearnInitialize(index)
+              }, 100)
+            }
+          } else if (this.isLearning) {
+            alert('学習ファイトです！')
+          } else {
+            alert('学習お疲れ様でした！')
           }
-        } else if (this.isLearning) {
-          alert('学習ファイトです！')
-        } else {
-          alert('学習お疲れ様でした！')
+        }else{
+          alert('学習を始めるにはまずログインです！')
         }
       },
       postLearnInitialize(index) {

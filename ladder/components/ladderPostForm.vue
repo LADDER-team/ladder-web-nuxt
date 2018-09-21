@@ -34,18 +34,19 @@
   export default {
     name: "ladder-post-form",
     props: {
-      index: 0
+      index: 0,
+      unit: null,
     },
-    data:()=> ({
+    data: () => ({
       modelDescription: "",
       modelSubTitle: "",
       modelUrl: "",
       testRule: [v => !!v || 'タイトルを入力してください'],
     }),
-    created() {
-      this.modelDescription = this.modelDescription ? this.modelDescription : ""
-      this.modelSubTitle = this.modelSubTitle ? this.modelSubTitle : ""
-      this.modelUrl = this.modelUrl ? this.modelUrl : ""
+    mounted() {
+      this.modelDescription = this.unit.description ? this.unit.description : ""
+      this.modelSubTitle = this.unit.title ? this.unit.title : ""
+      this.modelUrl = this.unit.url ? this.unit.url : ""
     },
     methods: {
       inputSubTitle() {
