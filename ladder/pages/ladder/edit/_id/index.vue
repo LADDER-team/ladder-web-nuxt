@@ -136,30 +136,24 @@
           return
         }
 
-        this.unitsList.forEach((value)=>{
+        if(this.modelTitle || this.modelLadderDescription){
+          axios({
+            method: 'PUT',
+            url: 'http://127.0.0.1:8080/api/ladder/'+this.ladderDetailList.id+'/',
+            headers: {
+              "Accept": "application/json",
+              "Authorization": "JWT " + this.token,
+              "Content-type": "application/json"
+            },
+            data: {
+              title: this.modelTitle,
+              ladder_description: this.modelLadderDescription,
+            }
+          }).catch((error) => {
+            console.log(error)
+          })
+        }
 
-        })
-        axios({
-          method: 'PUT',
-          url: 'http://127.0.0.1:8080/api/unit/'+this.unitsList.id+'/',
-          headers: {
-            "Accept": "application/json",
-            "Authorization": "JWT " + this.token,
-            "Content-type": "application/json"
-          },
-          data: {
-            title: this.modelTitle,
-            ladder_description: this.modelLadderDescription,
-            tags: [],
-            units: unit
-          }
-        }).then(() => {
-          alert('ラダーを投稿しました！トップページへ遷移します！')
-          this.$router.push('/')
-        }).catch((error) => {
-          alert('投稿に失敗しました！！')
-          console.log(error)
-        })
       },
       onDescription(descriptionEmit, index) {
         this.$set(this.descriptionList, index, descriptionEmit);
