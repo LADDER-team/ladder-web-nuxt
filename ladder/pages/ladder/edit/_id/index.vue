@@ -27,6 +27,7 @@
         <v-flex v-for="(unit, index) in unitsList" :key="index">
           <ladder-post-form :index="index+1"
                             :unit="unit"
+                            :isEdit="true"
                             @sub-title-emit="onSubTitle"
                             @url-emit="onUrl"
                             @description-emit="onDescription"
@@ -136,10 +137,10 @@
           return
         }
 
-        if(this.modelTitle || this.modelLadderDescription){
+        if (this.modelTitle || this.modelLadderDescription) {
           axios({
             method: 'PUT',
-            url: 'http://127.0.0.1:8080/api/ladder/'+this.ladderDetailList.id+'/',
+            url: 'http://127.0.0.1:8080/api/ladder/' + this.ladderDetailList.id + '/',
             headers: {
               "Accept": "application/json",
               "Authorization": "JWT " + this.token,
@@ -150,10 +151,35 @@
               ladder_description: this.modelLadderDescription,
             }
           }).catch((error) => {
+            alert('ladderのタイトルと説明の変更に失敗しました！')
             console.log(error)
           })
         }
 
+        if (this.unitsList.length) {
+          this.unitsList.forEach((value, index) => {
+            axios({
+              method: 'PUT',
+              url: 'http://127.0.0.1:8080/api/unit/' + value.id + '/',
+              headers: {
+                "Accept": "application/json",
+                "Authorization": "JWT " + this.token,
+                "Content-type": "application/json"
+              },
+              data: {
+                title: this.subtitleList[index + 1],
+                description: this.descriptionList[index + 1],
+                url: this.urlList[index + 1],
+              }
+            }).catch((error) => {
+              alert('ユニットの変更に失敗しました！')
+              console.log(error)
+            })
+          })
+        }
+
+        alert('ユニットを編集しました！TOPへ遷移します！')
+        this.$router.push('/')
       },
       onDescription(descriptionEmit, index) {
         this.$set(this.descriptionList, index, descriptionEmit);

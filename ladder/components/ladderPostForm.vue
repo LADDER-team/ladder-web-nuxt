@@ -36,6 +36,7 @@
     props: {
       index: 0,
       unit: null,
+      isEdit: false
     },
     data: () => ({
       modelDescription: "",
@@ -47,6 +48,11 @@
       this.modelDescription = this.unit.description ? this.unit.description : ""
       this.modelSubTitle = this.unit.title ? this.unit.title : ""
       this.modelUrl = this.unit.url ? this.unit.url : ""
+      if(this.isEdit){
+        this.inputSubTitle()
+        this.inputUrl()
+        this.inputDescription()
+      }
     },
     methods: {
       inputSubTitle() {
