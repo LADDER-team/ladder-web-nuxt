@@ -45,10 +45,10 @@
       testRule: [v => !!v || 'タイトルを入力してください'],
     }),
     mounted() {
-      this.modelDescription = this.unit.description ? this.unit.description : ""
-      this.modelSubTitle = this.unit.title ? this.unit.title : ""
-      this.modelUrl = this.unit.url ? this.unit.url : ""
       if(this.isEdit){
+        this.modelDescription = this.unit.description ? this.unit.description : ""
+        this.modelSubTitle = this.unit.title ? this.unit.title : ""
+        this.modelUrl = this.unit.url ? this.unit.url : ""
         this.inputSubTitle()
         this.inputUrl()
         this.inputDescription()

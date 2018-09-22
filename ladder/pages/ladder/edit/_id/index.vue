@@ -178,8 +178,10 @@
           })
         }
 
-        alert('ユニットを編集しました！TOPへ遷移します！')
-        this.$router.push('/')
+        setTimeout(()=>{
+          alert('ユニットを編集しました！Ladderへ遷移します！')
+          this.$router.push('/detail/' + this.ladderDetailList.id + '/')
+        }, this.unitsList.length * 100)
       },
       onDescription(descriptionEmit, index) {
         this.$set(this.descriptionList, index, descriptionEmit);
@@ -193,8 +195,7 @@
     }
     ,
     computed: {
-      ...
-        mapGetters('user', {
+      ...mapGetters('user', {
           token: 'tokenGetter',
           isLogin: 'loginGetter'
         })
