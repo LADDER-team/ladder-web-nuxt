@@ -243,24 +243,25 @@
       },
       getLearningLadder() {
         this.learningList = []
-        axios({
-          method: 'GET',
-          url: 'http://127.0.0.1:8080/api/users/' + this.userId + '/learning-ladder/'
-        }).then((response) => {
-          this.learningList = response.data
-        }).then(() => {
-          this.isFinishLadder()
-        }).then(() => {
-          if (this.isWillLearning) {
-            this.doLearning()
-          }
-          if (this.isLearning) {
-            this.getLearningStatus()
-          }
-        }).catch((error) => {
-          console.log(error)
-          console.log("not learning")
-        })
+        if(this.userId){
+          axios({
+            method: 'GET',
+            url: 'http://127.0.0.1:8080/api/users/' + this.userId + '/learning-ladder/'
+          }).then((response) => {
+            this.learningList = response.data
+          }).then(() => {
+            this.isFinishLadder()
+          }).then(() => {
+            if (this.isWillLearning) {
+              this.doLearning()
+            }
+            if (this.isLearning) {
+              this.getLearningStatus()
+            }
+          }).catch((error) => {
+            console.log(error)
+          })
+        }
       },
       getLearningStatus() {
         const ladderId = this.ladderDetailList.id
