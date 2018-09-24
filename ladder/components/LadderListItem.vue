@@ -25,7 +25,7 @@
       </v-btn>
       <v-card>
         <v-card-title
-          class="headline manage-dialog-title"
+          class="headline dialog-title"
           primary-title>
           {{isPublic?"非公開":"公開"}}設定
         </v-card-title>
@@ -139,7 +139,5 @@
     position: absolute
     top: 0
     right: 0
-  .manage-dialog-title
-    background: $default_primary_color
-    color: #fff
+
 </style>

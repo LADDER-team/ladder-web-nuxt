@@ -27,17 +27,43 @@
         <v-flex v-for="(unit, index) in unitsList" :key="index">
           <ladder-post-form :index="index+1"
                             :unit="unit"
+                            :isEdit="true"
                             @sub-title-emit="onSubTitle"
                             @url-emit="onUrl"
                             @description-emit="onDescription"
                             class="ladder-post-item"/>
         </v-flex>
-        <v-flex class="ladder-post-btn">
-          <v-btn dark fab large
-                 @click="editLadder"
-                 class="contribution-floating-btn ladder-post-submit">
-            <v-icon dark>done</v-icon>
-          </v-btn>
+        <v-flex class="ladder-post-dialog-wrap">
+          <v-dialog v-model="dialog" width="500">
+            <v-btn slot="activator"
+                   dark fab large
+                   class="contribution-floating-btn ladder-post-submit">
+              <v-icon dark>done</v-icon>
+            </v-btn>
+            <v-card>
+              <v-card-title class="headline dialog-title" primary-title>
+                編集確認
+              </v-card-title>
+              <v-card-text>
+                {{ladderDetailList.title}} の編集を適用しますか？
+                適用後はラダー画面へ遷移します！
+              </v-card-text>
+              <v-divider></v-divider>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  color="secondary" flat
+                  @click="dialog = false">
+                  キャンセル
+                </v-btn>
+                <v-btn
+                  color="primary" flat
+                  @click="editLadder">
+                  適用する
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
         </v-flex>
       </v-form>
     </v-flex>
@@ -78,6 +104,7 @@
       }
     },
     data: () => ({
+      dialog: false,
       unitIndex: 1,
       ladderTitle: "",
       modelLadderDescription: "",
@@ -136,10 +163,10 @@
           return
         }
 
-        if(this.modelTitle || this.modelLadderDescription){
+        if (this.modelTitle || this.modelLadderDescription) {
           axios({
             method: 'PUT',
-            url: 'http://127.0.0.1:8080/api/ladder/'+this.ladderDetailList.id+'/',
+            url: 'http://127.0.0.1:8080/api/ladder/' + this.ladderDetailList.id + '/',
             headers: {
               "Accept": "application/json",
               "Authorization": "JWT " + this.token,
@@ -150,10 +177,35 @@
               ladder_description: this.modelLadderDescription,
             }
           }).catch((error) => {
+            alert('ladderのタイトルと説明の変更に失敗しました！')
             console.log(error)
           })
         }
 
+        if (this.unitsList.length) {
+          this.unitsList.forEach((value, index) => {
+            axios({
+              method: 'PUT',
+              url: 'http://127.0.0.1:8080/api/unit/' + value.id + '/',
+              headers: {
+                "Accept": "application/json",
+                "Authorization": "JWT " + this.token,
+                "Content-type": "application/json"
+              },
+              data: {
+                title: this.subtitleList[index + 1],
+                description: this.descriptionList[index + 1],
+                url: this.urlList[index + 1],
+              }
+            }).catch((error) => {
+              alert('ユニットの変更に失敗しました！')
+              console.log(error)
+            })
+          })
+        }
+        setTimeout(() => {
+          this.$router.push('/detail/' + this.ladderDetailList.id + '/')
+        }, this.unitsList.length * 100)
       },
       onDescription(descriptionEmit, index) {
         this.$set(this.descriptionList, index, descriptionEmit);
@@ -164,14 +216,20 @@
       onUrl(urlEmit, index) {
         this.$set(this.urlList, index, urlEmit);
       },
+      validateForm() {
+        if (!this.$refs.form.validate)
+          alert('フォームを全て埋めてください！')
+        setTimeout(() => {
+          this.dialog = false
+        }, 1)
+      },
     }
     ,
     computed: {
-      ...
-        mapGetters('user', {
-          token: 'tokenGetter',
-          isLogin: 'loginGetter'
-        })
+      ...mapGetters('user', {
+        token: 'tokenGetter',
+        isLogin: 'loginGetter'
+      })
     }
   }
 </script>
@@ -182,32 +240,32 @@
     padding: 70px
     max-width: 800px
     background-color: #fff
-  .ladder-post-icons
-    max-width: 40px
-    max-height: 40px
-    margin: 0 auto
-    cursor: pointer
-  .ladder-post-add
-    &:hover
-      opacity: .7
-  .ladder-post-remove
-    &:hover
-      opacity: .7
-  .ladder-post-btn
-    z-index: 100
-    position: fixed
-    bottom: 150px
-    display: block
-    margin: 0 auto
-    max-width: 770px
-    width: 55%
-  .ladder-post-submit
-    position: absolute !important
-    right: 0
-  .post-description
-    margin: 0 0 24px !important
-    border-bottom: 3px solid $default_border_color
-  .post-text-field
-    font-size: 18px
+    .ladder-post-icons
+      max-width: 40px
+      max-height: 40px
+      margin: 0 auto
+      cursor: pointer
+    .ladder-post-add
+      &:hover
+        opacity: .7
+    .ladder-post-remove
+      &:hover
+        opacity: .7
+    .ladder-post-dialog-wrap
+      z-index: 100
+      position: fixed
+      bottom: 150px
+      display: block
+      margin: 0 auto
+      max-width: 770px
+      width: 55%
+    .ladder-post-submit
+      position: absolute !important
+      right: 0
+    .post-description
+      margin: 0 0 24px !important
+      border-bottom: 3px solid $default_border_color
+    .post-text-field
+      font-size: 18px
 </style>
 
