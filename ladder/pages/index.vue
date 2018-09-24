@@ -29,7 +29,7 @@
     asyncData() {
       return axios({
         method: 'GET',
-        url: 'http://127.0.0.1:8080/api/ladder/',
+        url: 'https://api.ladder.noframeschools.com/api/ladder/',
       }).then((response) => {
         return {
           ladderList: _.sortBy(response.data.results, (value) => {
@@ -56,7 +56,7 @@
       if (!this.ladderList.length) {
         axios({
           method: 'GET',
-          url: 'http://127.0.0.1:8080/api/ladder/',
+          url: 'https://api.ladder.noframeschools.com/api/ladder/',
         }).then((response) => {
           this.ladderList = _.sortBy(response.data.results, (value) => {
             return -value.id
@@ -73,7 +73,7 @@
   .ladder-links-wrap
     overflow-y: auto
     display: inline-block
-    max-width: 600px
+    max-width: 650px
     height: 85%
     &:last-child
       border-bottom: none
