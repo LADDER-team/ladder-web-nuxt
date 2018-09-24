@@ -13,51 +13,17 @@
         </p>
       </div>
     </router-link>
-    <v-dialog
-      v-if="manage"
-      v-model="dialog"
-      width="500"
-      class="ladder-manage-btn-wrap">
+    <div class="ladder-manage-btn-wrap">
       <v-btn slot="activator" flat
              :class="{'public-btn': isPublic, 'private-btn': !isPublic}"
              class="ladder-manage-btn">
         {{isPublic?"公開中":"非公開"}}
       </v-btn>
-      <v-card>
-        <v-card-title
-          class="headline dialog-title"
-          primary-title>
-          {{isPublic?"非公開":"公開"}}設定
-        </v-card-title>
-        <v-card-text v-show="isPublic" class="body-2">
-          {{title}} は【公開中】です！<br>
-          【非公開】にするとトップの一覧にこのラダーが表示されなくなります！
-        </v-card-text>
-        <v-card-text v-show="!isPublic" class="body-2">
-          {{title}} は【非公開】です！<br>
-          【公開中】にするとトップページにこのラダーが表示されるようになります！
-        </v-card-text>
-        <v-divider></v-divider>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="secondary" flat
-            @click="dialog = false">
-            キャンセル
-          </v-btn>
-          <v-btn
-            color="primary" flat
-            @click="publishLadder">
-            {{isPublic?"非公開にする":"公開する"}}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    </div>
   </div>
 </template>
 
 <script>
-  import axios from 'axios'
   import {mapGetters} from 'vuex'
 
   export default {
@@ -76,7 +42,7 @@
       publishLadder() {
         this.dialog = false
         this.$emit('publish-emit')
-      }
+      },
     },
     computed: {
       ...mapGetters('user', {
