@@ -29,7 +29,7 @@
     asyncData() {
       return axios({
         method: 'GET',
-        url: 'http://127.0.0.1:8080/api/ladder/',
+        url: 'https://api.ladder.noframeschools.com/api/ladder/',
         header: {
           'Access-Control-Allow-Origin': '*'
         }
@@ -59,7 +59,7 @@
       if (!this.ladderList.length) {
         axios({
           method: 'GET',
-          url: 'http://127.0.0.1:8080/api/ladder/',
+          url: 'https://api.ladder.noframeschools.com/api/ladder/',
           headers: {
             'Access-Control-Allow-Origin': '*'
           }

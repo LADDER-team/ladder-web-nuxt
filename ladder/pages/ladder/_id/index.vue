@@ -100,7 +100,7 @@
       getFinishLadders() {
         axios({
           method: 'GET',
-          url: 'http://127.0.0.1:8080/api/users/' + this.userId + '/finish-ladder/'
+          url: 'https://api.ladder.noframeschools.com/api/users/' + this.userId + '/finish-ladder/'
         }).then((response) => {
           this.finishLadderList = response.data
         }).catch((error) => {
@@ -110,7 +110,7 @@
       getLearningLadders() {
         axios({
           method: 'GET',
-          url: 'http://127.0.0.1:8080/api/users/' + this.userId + '/learning-ladder/'
+          url: 'https://api.ladder.noframeschools.com/api/users/' + this.userId + '/learning-ladder/'
         }).then((response) => {
           this.learningLadderList = response.data
         }).catch((error) => {
@@ -120,7 +120,7 @@
       getMyLadders() {
         axios({
           method: 'GET',
-          url: 'http://127.0.0.1:8080/api/users/' + this.userId + '/'
+          url: 'https://api.ladder.noframeschools.com/api/users/' + this.userId + '/'
         }).then((response) => {
           this.myLadderList = response.data.my_ladders
         }).catch((error) => {
