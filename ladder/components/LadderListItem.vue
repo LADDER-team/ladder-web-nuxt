@@ -13,7 +13,7 @@
         </p>
       </div>
     </router-link>
-    <div class="ladder-manage-btn-wrap">
+    <div v-if="manage" class="ladder-manage-btn-wrap">
       <v-btn slot="activator" flat
              :class="{'public-btn': isPublic, 'private-btn': !isPublic}"
              class="ladder-manage-btn">
@@ -38,12 +38,6 @@
     data: () => ({
       dialog: false,
     }),
-    methods: {
-      publishLadder() {
-        this.dialog = false
-        this.$emit('publish-emit')
-      },
-    },
     computed: {
       ...mapGetters('user', {
         token: 'tokenGetter',
