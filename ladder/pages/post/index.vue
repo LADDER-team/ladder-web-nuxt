@@ -40,12 +40,38 @@
                   class="ladder-post-remove">remove_circle
           </v-icon>
         </v-layout>
-        <v-flex class="ladder-post-btn">
-          <v-btn dark fab large
-                 @click="postLadder"
-                 class="contribution-floating-btn ladder-post-submit">
-            <v-icon dark>done</v-icon>
-          </v-btn>
+        <v-flex class="ladder-post-dialog-wrap">
+          <v-dialog v-model="dialog" width="500">
+            <v-btn slot="activator"
+                   dark fab large
+                   @click="validateForm"
+                   class="contribution-floating-btn ladder-post-submit">
+              <v-icon dark>done</v-icon>
+            </v-btn>
+            <v-card>
+              <v-card-title class="headline dialog-title" primary-title>
+                編集確認
+              </v-card-title>
+              <v-card-text>
+                {{this.modelTitle}}を投稿しますか？
+                投稿完了後はTOPに遷移します！
+              </v-card-text>
+              <v-divider></v-divider>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  color="secondary" flat
+                  @click="dialog = false">
+                  キャンセル
+                </v-btn>
+                <v-btn
+                  color="primary" flat
+                  @click="postLadder">
+                  投稿する
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
         </v-flex>
       </v-form>
     </v-flex>
@@ -66,6 +92,7 @@
       mode: 'out-in'
     },
     data: () => ({
+      dialog: false,
       unitIndex: 1,
       ladderTitle: "",
       modelLadderDescription: "",
@@ -147,7 +174,6 @@
               units: unit
             }
           }).then(() => {
-            alert('ラダーを投稿しました！トップページへ遷移します！')
             this.$router.push('/')
           }).catch((error) => {
             alert('投稿に失敗しました！！')
@@ -164,6 +190,21 @@
       onUrl(urlEmit, index) {
         this.$set(this.urlList, index, urlEmit);
       },
+      validateForm() {
+        !this.modelTitle && !this.modelLadderDescription ? this.unInputForm(0)
+          : !this.modelTitle ? this.unInputForm(1)
+          : !this.modelLadderDescription ? this.unInputForm(2)
+            : console.log('true')
+      },
+      unInputForm(input) {
+        const message = input === 0 ? "ラダーのタイトルと説明文を入力してください！"
+          : input === 1 ? "ラダーのタイトルを入力してください！"
+            : "ラダーの説明文を入力してください！"
+        alert(message)
+        setTimeout(() => {
+          this.dialog = false
+        }, 1)
+      }
     },
     computed: {
       ...mapGetters('user', {
@@ -191,7 +232,7 @@
   .ladder-post-remove
     &:hover
       opacity: .7
-  .ladder-post-btn
+  .ladder-post-dialog-wrap
     z-index: 100
     position: fixed
     bottom: 150px

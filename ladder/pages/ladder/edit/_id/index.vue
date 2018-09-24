@@ -24,28 +24,46 @@
           class="post-text-field post-description"
           label="Ladderの説明"
           placeholder="半年前までプログラミング初心者だった私がDjangoでアプリケーションをどんな順序で開発することができたのか。初心者の方に参考になればなと思います！諦めずに最後までやりきってみましょう！"></v-textarea>
-        <v-flex v-for="index in unitIndex" :key="index">
-          <ladder-post-form :index="index"
+        <v-flex v-for="(unit, index) in unitsList" :key="index">
+          <ladder-post-form :index="index+1"
+                            :unit="unit"
+                            :isEdit="true"
                             @sub-title-emit="onSubTitle"
                             @url-emit="onUrl"
                             @description-emit="onDescription"
                             class="ladder-post-item"/>
         </v-flex>
-        <v-layout flex row justify-center
-                  class="ladder-post-icons">
-          <v-icon size="40" @click="addUnit"
-                  class="ladder-post-add">add_circle_outline
-          </v-icon>
-          <v-icon size="40" @click="removeUnit"
-                  class="ladder-post-remove">remove_circle
-          </v-icon>
-        </v-layout>
-        <v-flex class="ladder-post-btn">
-          <v-btn dark fab large
-                 @click="postLadder"
-                 class="contribution-floating-btn ladder-post-submit">
-            <v-icon dark>done</v-icon>
-          </v-btn>
+        <v-flex class="ladder-post-dialog-wrap">
+          <v-dialog v-model="dialog" width="500">
+            <v-btn slot="activator"
+                   dark fab large
+                   class="contribution-floating-btn ladder-post-submit">
+              <v-icon dark>done</v-icon>
+            </v-btn>
+            <v-card>
+              <v-card-title class="headline dialog-title" primary-title>
+                編集確認
+              </v-card-title>
+              <v-card-text>
+                {{ladderDetailList.title}} の編集を適用しますか？
+                適用後はラダー画面へ遷移します！
+              </v-card-text>
+              <v-divider></v-divider>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  color="secondary" flat
+                  @click="dialog = false">
+                  キャンセル
+                </v-btn>
+                <v-btn
+                  color="primary" flat
+                  @click="editLadder">
+                  適用する
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
         </v-flex>
       </v-form>
     </v-flex>
@@ -54,6 +72,7 @@
 
 <script>
   import axios from 'axios'
+  import _ from 'underscore'
   import {mapGetters} from 'vuex'
   import LadderPostForm from '~/components/ladderPostForm.vue'
 
@@ -65,12 +84,34 @@
       name: 'page',
       mode: 'out-in'
     },
+    async asyncData({params}) {
+      let ladderDetailList = []
+      let unitsList = []
+      await axios({
+        method: 'GET',
+        url: 'http://127.0.0.1:8080/api/ladder/' + params.id + '/'
+      }).then((response) => {
+        ladderDetailList = response.data
+        unitsList = _.sortBy(response.data.units, (value) => {
+          return value.index
+        })
+      })
+      return {
+        ladderDetailList: ladderDetailList,
+        unitsList: unitsList,
+        modelTitle: ladderDetailList.title,
+        modelLadderDescription: ladderDetailList.ladder_description,
+      }
+    },
     data: () => ({
+      dialog: false,
       unitIndex: 1,
       ladderTitle: "",
       modelLadderDescription: "",
       modelTitle: "",
       unit: [],
+      unitsList: [],
+      ladderDetailList: [],
       descriptionList: {
         1: "",
       },
@@ -86,70 +127,46 @@
       ladderDescriptionRule: [v => !!v || '説明文を入力してください',
         v => v.length <= 200 || '説明文は200字以内で入力してください'],
     }),
-    async asyncData({params}) {
-      let ladderDetailList = []
-      await axios({
-        method: 'GET',
-        url: 'http://127.0.0.1:8080/api/ladder/' + params.id + '/'
-      })
-      return {
-        ladderDetailList: ladderDetailList,
-      }
-    },
     head() {
       return {
-        title: 'Post'
+        title: 'Edit'
       }
     },
     components: {
       LadderPostForm
     },
-    beforeMount() {
+    created() {
       const ladderId = this.$route.params.id
-      this.modelTitle = this.modelTitle ? this.modelTitle : ""
       axios({
         method: 'GET',
         url: 'http://127.0.0.1:8080/api/ladder/' + ladderId + '/'
+      }).then((response) => {
+        this.ladderDetailList = response.data
+        this.unitsList = _.sortBy(response.data.units, (value) => {
+          return value.index
+        })
+      }).then(() => {
+        this.modelTitle = this.ladderDetailList.title
+        this.modelLadderDescription = this.ladderDetailList.ladder_description
+      }).catch((error) => {
+        console.log(error)
       })
     },
     methods: {
-      addUnit() {
-        if (this.unitIndex < 8) {
-          this.unitIndex++;
-        } else {
-          alert('これ以上ユニットは増やせません！')
-        }
-      },
-      removeUnit() {
-        if (this.unitIndex === 1) {
-          alert('これ以上ユニットは削除できません！')
-        } else {
-          this.unitIndex--;
-        }
-      },
-      postLadder() {
+      editLadder() {
         if (!this.isLogin) {
           alert('ログインしてください！')
           return
         }
-        for (let i = 1; i <= this.unitIndex; i++) {
-          this.unit[i - 1] =
-            {
-              title: this.subtitleList[i],
-              url: this.urlList[i],
-              description: this.descriptionList[i],
-              index: i
-            }
-        }
-        let unit = JSON.stringify(this.unit)
-        unit = JSON.parse(unit)
-
         if (!this.$refs.form.validate()) {
-          alert('投稿に不備があります！')
-        } else {
+          alert('投稿内容に不備があります！確認してください！')
+          return
+        }
+
+        if (this.modelTitle || this.modelLadderDescription) {
           axios({
-            method: 'POST',
-            url: 'http://127.0.0.1:8080/api/ladder/',
+            method: 'PUT',
+            url: 'http://127.0.0.1:8080/api/ladder/' + this.ladderDetailList.id + '/',
             headers: {
               "Accept": "application/json",
               "Authorization": "JWT " + this.token,
@@ -158,17 +175,37 @@
             data: {
               title: this.modelTitle,
               ladder_description: this.modelLadderDescription,
-              tags: [],
-              units: unit
             }
-          }).then(() => {
-            alert('ラダーを投稿しました！トップページへ遷移します！')
-            this.$router.push('/')
           }).catch((error) => {
-            alert('投稿に失敗しました！！')
+            alert('ladderのタイトルと説明の変更に失敗しました！')
             console.log(error)
           })
         }
+
+        if (this.unitsList.length) {
+          this.unitsList.forEach((value, index) => {
+            axios({
+              method: 'PUT',
+              url: 'http://127.0.0.1:8080/api/unit/' + value.id + '/',
+              headers: {
+                "Accept": "application/json",
+                "Authorization": "JWT " + this.token,
+                "Content-type": "application/json"
+              },
+              data: {
+                title: this.subtitleList[index + 1],
+                description: this.descriptionList[index + 1],
+                url: this.urlList[index + 1],
+              }
+            }).catch((error) => {
+              alert('ユニットの変更に失敗しました！')
+              console.log(error)
+            })
+          })
+        }
+        setTimeout(() => {
+          this.$router.push('/detail/' + this.ladderDetailList.id + '/')
+        }, this.unitsList.length * 100)
       },
       onDescription(descriptionEmit, index) {
         this.$set(this.descriptionList, index, descriptionEmit);
@@ -179,7 +216,15 @@
       onUrl(urlEmit, index) {
         this.$set(this.urlList, index, urlEmit);
       },
-    },
+      validateForm() {
+        if (!this.$refs.form.validate)
+          alert('フォームを全て埋めてください！')
+        setTimeout(() => {
+          this.dialog = false
+        }, 1)
+      },
+    }
+    ,
     computed: {
       ...mapGetters('user', {
         token: 'tokenGetter',
@@ -195,32 +240,32 @@
     padding: 70px
     max-width: 800px
     background-color: #fff
-  .ladder-post-icons
-    max-width: 40px
-    max-height: 40px
-    margin: 0 auto
-    cursor: pointer
-  .ladder-post-add
-    &:hover
-      opacity: .7
-  .ladder-post-remove
-    &:hover
-      opacity: .7
-  .ladder-post-btn
-    z-index: 100
-    position: fixed
-    bottom: 150px
-    display: block
-    margin: 0 auto
-    max-width: 770px
-    width: 55%
-  .ladder-post-submit
-    position: absolute !important
-    right: 0
-  .post-description
-    margin: 0 0 24px !important
-    border-bottom: 3px solid $default_border_color
-  .post-text-field
-    font-size: 18px
+    .ladder-post-icons
+      max-width: 40px
+      max-height: 40px
+      margin: 0 auto
+      cursor: pointer
+    .ladder-post-add
+      &:hover
+        opacity: .7
+    .ladder-post-remove
+      &:hover
+        opacity: .7
+    .ladder-post-dialog-wrap
+      z-index: 100
+      position: fixed
+      bottom: 150px
+      display: block
+      margin: 0 auto
+      max-width: 770px
+      width: 55%
+    .ladder-post-submit
+      position: absolute !important
+      right: 0
+    .post-description
+      margin: 0 0 24px !important
+      border-bottom: 3px solid $default_border_color
+    .post-text-field
+      font-size: 18px
 </style>
 
