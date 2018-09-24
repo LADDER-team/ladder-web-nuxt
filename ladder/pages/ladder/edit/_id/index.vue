@@ -90,7 +90,7 @@
       let ladderDetailList = []
       await axios({
         method: 'GET',
-        url: 'https://api.ladder.noframeschools.com/api/ladder/' + params.id + '/'
+        url: 'http://127.0.0.1:8080/api/ladder/' + params.id + '/'
       })
       return {
         ladderDetailList: ladderDetailList,
@@ -109,7 +109,7 @@
       this.modelTitle = this.modelTitle ? this.modelTitle : ""
       axios({
         method: 'GET',
-        url: 'https://api.ladder.noframeschools.com/api/ladder/' + ladderId + '/'
+        url: 'http://127.0.0.1:8080/api/ladder/' + ladderId + '/'
       })
     },
     methods: {
@@ -149,7 +149,7 @@
         } else {
           axios({
             method: 'POST',
-            url: 'https://api.ladder.noframeschools.com/api/ladder/',
+            url: 'http://127.0.0.1:8080/api/ladder/',
             headers: {
               "Accept": "application/json",
               "Authorization": "JWT " + this.token,
