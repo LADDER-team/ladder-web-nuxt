@@ -211,6 +211,18 @@
         token: 'tokenGetter',
         isLogin: 'loginGetter'
       })
+    },
+    watch: {
+      modelLadderDescription: {
+        handler(){
+          console.log(this.modelLadderDescription)
+        }
+      },
+      modelTitle: {
+        handler(){
+          console.log(this.modelTitle)
+        }
+      }
     }
   }
 </script>

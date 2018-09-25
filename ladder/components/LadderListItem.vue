@@ -135,6 +135,7 @@
 
   .manage-ladder-wrap
     display: flex
+    padding: 0 75px 0 0
   .ladder-manage-btn-wrap
     position: absolute
     top: 0

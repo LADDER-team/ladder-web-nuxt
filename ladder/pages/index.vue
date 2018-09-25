@@ -73,7 +73,7 @@
   .ladder-links-wrap
     overflow-y: auto
     display: inline-block
-    max-width: 600px
+    max-width: 650px
     height: 85%
     &:last-child
       border-bottom: none

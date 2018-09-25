@@ -146,7 +146,7 @@
     width: 100%
   .my-page-ladders-wrap
     width: 100%
-    max-width: 600px !important
+    max-width: 650px !important
   .my-page-ladders-title
     padding: 20px
     background: #fff
@@ -156,7 +156,7 @@
   .my-page-avatar
     margin: 0 40px 0 0
   .my-page-tab-items
-    max-width: 600px
+    max-width: 650px
     width: 100%
     height: 100%
   .my-page-tab-item
