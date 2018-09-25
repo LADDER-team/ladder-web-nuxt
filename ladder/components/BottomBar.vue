@@ -7,5 +7,6 @@
   .g-footer
     background: $default_secondary_color !important
   .g-footer-text
+    font-size: 12px
     margin: 0 auto
 </style>

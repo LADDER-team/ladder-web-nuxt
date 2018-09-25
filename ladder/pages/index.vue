@@ -71,10 +71,12 @@
 
 <style lang="sass" scoped>
   .ladder-links-wrap
-    overflow-y: auto
-    display: inline-block
-    max-width: 650px
+    overflow: scroll
+    width: 100%
     height: 85%
+    @media (min-width: $media_desktop_sm)
+      display: inline-block
+      max-width: 650px
     &:last-child
       border-bottom: none
   .ladder-link-wrap
