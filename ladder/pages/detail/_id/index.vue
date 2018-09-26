@@ -25,7 +25,7 @@
     <v-flex md7 lg7 align-start justify-center
             id="unit-items"
             class="unit-wrap">
-      <div class="unit-item">
+      <div class="unit-item unit-cover">
         <v-flex layout row class="unit-cover-info-wrap">
           <v-avatar tile :size=40 class="unit-cover-avatar">
             <img src="~assets/images/ladder_avatar.png" alt="avatar">
@@ -54,9 +54,10 @@
             </v-btn>
           </div>
           <ladder-menu :ladderId="ladderId"
-                       :user="ladderDetailList.user"/>
+                       :user="ladderDetailList.user"
+                       class="ladder-menu"/>
         </v-flex>
-        <h2 class="unit-title unit-cover-title display-1">{{ladderDetailList.title}}</h2>
+        <h2 class="unit-title unit-cover-title">{{ladderDetailList.title}}</h2>
         <div class="unit-description">
           <p class="unit-description-text">{{ladderDetailList.ladder_description}}</p>
         </div>
@@ -75,7 +76,7 @@
             学習済みです！
           </v-btn>
         </div>
-        <h2 class="unit-title display-1">{{ units.title }}</h2>
+        <h2 class="unit-title">{{ units.title }}</h2>
         <v-flex align-center justify-center
                 class="unit-image-wrap">
           <a :href="units.url" target="_blank">
@@ -243,7 +244,7 @@
       },
       getLearningLadder() {
         this.learningList = []
-        if(this.userId){
+        if (this.userId) {
           axios({
             method: 'GET',
             url: 'http://127.0.0.1:8080/api/users/' + this.userId + '/learning-ladder/'
@@ -320,7 +321,7 @@
         }
       },
       learnStart() {
-        if(this.isLogin) {
+        if (this.isLogin) {
           if (this.isWillLearning || this.learningList === 0) {
             let list = this.unitList
             for (let index in list) {
@@ -333,7 +334,7 @@
           } else {
             alert('学習お疲れ様でした！')
           }
-        }else{
+        } else {
           alert('学習を始めるにはまずログインです！')
         }
       },
@@ -439,45 +440,67 @@
   .unit-wrap
     position: relative
     align-items: flex-start
-    margin: 0 0 0 4%
-    max-width: 800px
+    @media (min-width: $media_desktop_sm)
+      margin: 0 0 0 4%
+      max-width: 800px
   .unit-head
     margin: 0 0 20px
     font-size: 18px
     color: #B0BEC5
   .unit-item
-    padding: 20px 30px 40px
-    margin: 0 0 60px
+    padding: 40px 15px 15px
+    margin: 0 0 30px
     height: 90vh
     background: #fff
+    box-shadow: $default_shadow_card
+    border-radius: 16px
+    @media (min-width: $media_desktop_sm)
+      padding: 20px 30px 40px
+      margin: 0 0 60px
+      box-shadow: none
   .unit-title
     margin: 0 0 30px
     text-align: center
-    font-size: 28px
+    font-size: 24px
+    font-weight: 400
+    @media (min-width: $media_desktop_sm)
+      margin: 0 0 30px
+      text-align: center
+      font-size: 32px
   .unit-point
     text-align: center
   .unit-point-item
-    background: #ECEFF1
     padding: 5px 10px
+    background: #ECEFF1
   .unit-image-wrap
-    margin: 40px auto
-    max-width: 800px
+    width: 100%
+    margin: 0 auto 30px
     text-align: center
-    a:hover
-      .unit-image
-        box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12)
+    @media (min-width: $media_desktop_sm)
+      margin: 40px auto
+      max-width: 800px
+      a:hover
+        .unit-image
+          box-shadow: $default_shadow_image_hover
   .unit-image
     margin: 0 auto
-    box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)
-    max-width: 60%
-    transition: .4s all
-    width: 60%
+    width: 80%
+    box-shadow: $default_shadow_image
+    @media (min-width: $media_desktop_sm)
+      transition: .4s all
+      box-shadow: $default_shadow_image
+      max-width: 60%
+      width: 60%
   .unit-description
-    font-size: 18px
+    font-size: 14px
     border-left: 3px solid #64B5F6
     padding: 0 0 0 10px
-    width: 80%
+    width: 90%
     margin: 0 auto
+    @media(min-width: $media_desktop_sm)
+      font-size: 18px
+      padding: 0 0 0 10px
+      width: 80%
   .ladder-item
     position: relative
     background: $default_ladder_disable_color
@@ -531,7 +554,6 @@
         width: 6px
         height: 40px
         background: $default_ladder_disable_color
-  .ladder-wrap
   .ladder-inner
     position: fixed
     top: 25%
@@ -580,6 +602,10 @@
         height: 40px
         background: $default_ladder_activate_color
 
+  .ladder-menu
+    display: none
+    @media (min-width: $media_desktop_sm)
+      display: block
   .peg-link
     z-index: 100
     position: fixed
@@ -607,7 +633,7 @@
       vertical-align: super
 
   .unit-cover
-    padding: 20px 30px 40px
+    padding-top: 20px
   .unit-cover-avatar
     border: 1px solid $default_border_color
   .unit-cover-info-wrap
@@ -619,13 +645,23 @@
     color: $default_small_text_color
     white-space: nowrap
   .unit-cover-btn-wrap
-    margin: 0 0 0 auto
+    display: none
+    @media (min-width: $media_desktop_sm)
+      display: block
+      margin: 0 0 0 auto
   .unit-cover-title
-    margin: 0 0 10vh
+    margin: 0 0 5vh
+    @media (min-width: $media_desktop_sm)
+      margin: 0 0 10vh
   .unit-description-text
-    font-size: 18px
+    font-size: 14px
+    @media (min-width: $media_desktop_sm)
+      font-size: 18px
   .unit-btn-wrap
-    margin: 0 0 8vh
-    padding: 7px 0
-    text-align: right
+    display: none
+    @media (min-width: $media_desktop_sm)
+      display: block
+      padding: 7px 0
+      margin: 0 0 8vh
+      text-align: right
 </style>
