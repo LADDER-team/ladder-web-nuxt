@@ -110,7 +110,7 @@
       loginUser() {
         axios({
           method: 'POST',
-          url: 'https://api.ladder.noframeschools.com/api/api-auth/',
+          url: 'http://localhost:8080/api/api-auth/',
           headers: {
             "Accept": "application/json",
             'Content-Type': 'application/json'
@@ -137,7 +137,7 @@
         if (this.$refs.form.validate()) {
           axios({
             method: 'POST',
-            url: 'https://api.ladder.noframeschools.com/api/users/',
+            url: 'http://localhost:8080/api/users/',
             headers: {
               "Accept": "application/json",
               'Content-Type': 'application/json',
