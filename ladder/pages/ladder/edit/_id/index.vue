@@ -89,7 +89,7 @@
       let unitsList = []
       await axios({
         method: 'GET',
-        url: 'http://127.0.0.1:8080/api/ladder/' + params.id + '/'
+        url: 'https://api.ladder.noframeschools.com/api/ladder/' + params.id + '/'
       }).then((response) => {
         ladderDetailList = response.data
         unitsList = _.sortBy(response.data.units, (value) => {
@@ -100,7 +100,7 @@
         ladderDetailList: ladderDetailList,
         unitsList: unitsList,
         modelTitle: ladderDetailList.title,
-        modelLadderDescription: ladderDetailList.ladder_description,
+        modelLadderDescription: ladderDetailList.ladder_description ? ladderDetailList.ladder_description : "",
       }
     },
     data: () => ({
@@ -139,7 +139,7 @@
       const ladderId = this.$route.params.id
       axios({
         method: 'GET',
-        url: 'http://127.0.0.1:8080/api/ladder/' + ladderId + '/'
+        url: 'https://api.ladder.noframeschools.com/api/ladder/' + ladderId + '/'
       }).then((response) => {
         this.ladderDetailList = response.data
         this.unitsList = _.sortBy(response.data.units, (value) => {
@@ -147,7 +147,7 @@
         })
       }).then(() => {
         this.modelTitle = this.ladderDetailList.title
-        this.modelLadderDescription = this.ladderDetailList.ladder_description
+        this.modelLadderDescription = this.ladderDetailList.ladder_description ? this.ladderDetailList.ladder_description : ""
       }).catch((error) => {
         console.log(error)
       })
@@ -166,7 +166,7 @@
         if (this.modelTitle || this.modelLadderDescription) {
           axios({
             method: 'PUT',
-            url: 'http://127.0.0.1:8080/api/ladder/' + this.ladderDetailList.id + '/',
+            url: 'https://api.ladder.noframeschools.com/api/ladder/' + this.ladderDetailList.id + '/',
             headers: {
               "Accept": "application/json",
               "Authorization": "JWT " + this.token,
@@ -186,7 +186,7 @@
           this.unitsList.forEach((value, index) => {
             axios({
               method: 'PUT',
-              url: 'http://127.0.0.1:8080/api/unit/' + value.id + '/',
+              url: 'https://api.ladder.noframeschools.com/api/unit/' + value.id + '/',
               headers: {
                 "Accept": "application/json",
                 "Authorization": "JWT " + this.token,
@@ -240,32 +240,32 @@
     padding: 70px
     max-width: 800px
     background-color: #fff
-    .ladder-post-icons
-      max-width: 40px
-      max-height: 40px
-      margin: 0 auto
-      cursor: pointer
-    .ladder-post-add
-      &:hover
-        opacity: .7
-    .ladder-post-remove
-      &:hover
-        opacity: .7
-    .ladder-post-dialog-wrap
-      z-index: 100
-      position: fixed
-      bottom: 150px
-      display: block
-      margin: 0 auto
-      max-width: 770px
-      width: 55%
-    .ladder-post-submit
-      position: absolute !important
-      right: 0
-    .post-description
-      margin: 0 0 24px !important
-      border-bottom: 3px solid $default_border_color
-    .post-text-field
-      font-size: 18px
+  .ladder-post-icons
+    max-width: 40px
+    max-height: 40px
+    margin: 0 auto
+    cursor: pointer
+  .ladder-post-add
+    &:hover
+      opacity: .7
+  .ladder-post-remove
+    &:hover
+      opacity: .7
+  .ladder-post-dialog-wrap
+    z-index: 100
+    position: fixed
+    bottom: 150px
+    display: block
+    margin: 0 auto
+    max-width: 770px
+    width: 55%
+  .ladder-post-submit
+    position: absolute !important
+    right: 0
+  .post-description
+    margin: 0 0 24px !important
+    border-bottom: 3px solid $default_border_color
+  .post-text-field
+    font-size: 18px
 </style>
 

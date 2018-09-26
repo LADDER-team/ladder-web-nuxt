@@ -112,14 +112,14 @@
       let ladderCreator = ""
       await axios({
         method: 'GET',
-        url: 'http://127.0.0.1:8080/api/ladder/' + ladderId + '/'
+        url: 'https://api.ladder.noframeschools.com/api/ladder/' + ladderId + '/'
       }).then((response) => {
         ladderDetailList = response.data
         unitList = _.indexBy(response.data.units, 'index')
       })
       await axios({
         method: 'GET',
-        url: 'http://127.0.0.1:8080/api/users/' + ladderDetailList.user + '/'
+        url: 'https://api.ladder.noframeschools.com/api/users/' + ladderDetailList.user + '/'
       }).then((response) => {
         ladderCreator = response.data.name
       })
@@ -185,7 +185,7 @@
           const ladderId = this.$route.params.id
           axios({
             method: 'GET',
-            url: 'http://127.0.0.1:8080/api/ladder/' + ladderId + '/'
+            url: 'https://api.ladder.noframeschools.com/api/ladder/' + ladderId + '/'
           }).then((response) => {
             this.ladderDetailList = response.data
             this.unitList = _.indexBy(response.data.units, 'index')
@@ -213,7 +213,7 @@
         let userId = this.ladderDetailList.user
         axios({
           method: 'GET',
-          url: 'http://127.0.0.1:8080/api/users/' + userId + '/'
+          url: 'https://api.ladder.noframeschools.com/api/users/' + userId + '/'
         }).then((response) => {
           this.ladderCreator = response.data.name
         }).catch((error) => {
@@ -246,7 +246,7 @@
         if(this.userId){
           axios({
             method: 'GET',
-            url: 'http://127.0.0.1:8080/api/users/' + this.userId + '/learning-ladder/'
+            url: 'https://api.ladder.noframeschools.com/api/users/' + this.userId + '/learning-ladder/'
           }).then((response) => {
             this.learningList = response.data
           }).then(() => {
@@ -265,7 +265,7 @@
       },
       getLearningStatus() {
         const ladderId = this.ladderDetailList.id
-        const url = this.generatedUrl('http://127.0.0.1:8080/api/learningstatus/', this.userId, ladderId)
+        const url = this.generatedUrl('https://api.ladder.noframeschools.com/api/learningstatus/', this.userId, ladderId)
         axios({
           method: 'GET',
           url: url
@@ -299,7 +299,7 @@
         let thisTitle = this.ladderDetailList.title
         axios({
           method: 'GET',
-          url: 'http://127.0.0.1:8080/api/users/' + this.userId + '/finish-ladder/'
+          url: 'https://api.ladder.noframeschools.com/api/users/' + this.userId + '/finish-ladder/'
         }).then((response) => {
           response.data.forEach((value) => {
             if (value.title === thisTitle) {
@@ -341,7 +341,7 @@
         let units = this.unitList
         axios({
           method: 'POST',
-          url: 'http://127.0.0.1:8080/api/learningstatus/',
+          url: 'https://api.ladder.noframeschools.com/api/learningstatus/',
           headers: {
             "Accept": "application/json",
             "Authorization": "JWT " + this.token,
@@ -360,7 +360,7 @@
       putLearnActivate(id) {
         axios({
           method: 'PUT',
-          url: 'http://127.0.0.1:8080/api/learningstatus/' + id + '/',
+          url: 'https://api.ladder.noframeschools.com/api/learningstatus/' + id + '/',
           headers: {
             "Accept": "application/json",
             "Authorization": "JWT " + this.token,

@@ -54,6 +54,7 @@ module.exports = {
   },
   modules: [
     '@nuxtjs/vuetify',
+    '@nuxtjs/google-analytics',
     ['nuxt-sass-resources-loader',
       [
         '@/assets/styles/sass/_base.sass'
@@ -62,7 +63,6 @@ module.exports = {
   ],
   plugins: [
     {src: '~plugins/clientInit.js', ssr: false},
-    {src: '~plugins/ga.js', ssr: false}
   ],
   vuetify: {
     theme: {
@@ -71,6 +71,9 @@ module.exports = {
       accent: '#8c9eff',
       error: '#b71c1c'
     },
+  },
+  'google-analytics': {
+    id: 'UA-122869257-1'
   }
 }
 
