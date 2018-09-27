@@ -4,17 +4,16 @@
             id="scroll-wrap"
             class="layout-ladder-detail">
     <v-flex md2 lg2
-            align-cener
-            justify-center
+            :class="{'ladder-wrap-show': isShowLadder}"
             class="ladder-wrap">
       <div id="ladder-action-wrap" class="ladder-inner">
-        <div @click="clickLadder(0)"
+        <div @click="clickLadder(0, isShowLadder)"
              :class="{'ladder-item-active': isLearning||isLearned}"
              class="ladder-item">
           <p>{{ladderDetailList.title}}</p>
         </div>
         <div v-for="(units, index) in unitList" :key="index"
-             @click="clickLadder(index)"
+             @click="clickLadder(index, isShowLadder)"
              :class="{'ladder-item-active': isLearning&&!learnedStatus(learningUnits, index)||isLearned}"
              class="ladder-item">
           <p>unit:{{ units.index }}</p>
@@ -25,14 +24,14 @@
     <v-flex md7 lg7 align-start justify-center
             id="unit-items"
             class="unit-wrap">
-      <div class="unit-item">
+      <div class="unit-item unit-cover">
         <v-flex layout row class="unit-cover-info-wrap">
           <v-avatar tile :size=40 class="unit-cover-avatar">
             <img src="~assets/images/ladder_avatar.png" alt="avatar">
           </v-avatar>
           <div class="unit-cover-info">
-            <p class="unit-cover-info-name subheading">{{ladderCreator}}</p>
-            <p class="unit-cover-info-date body-1">
+            <p class="unit-cover-info-name">{{ladderCreator}}</p>
+            <p class="unit-cover-info-date">
               {{createdAtDate}}に更新
             </p>
           </div>
@@ -54,9 +53,10 @@
             </v-btn>
           </div>
           <ladder-menu :ladderId="ladderId"
-                       :user="ladderDetailList.user"/>
+                       :user="ladderDetailList.user"
+                       class="ladder-menu"/>
         </v-flex>
-        <h2 class="unit-title unit-cover-title display-1">{{ladderDetailList.title}}</h2>
+        <h2 class="unit-title unit-cover-title">{{ladderDetailList.title}}</h2>
         <div class="unit-description">
           <p class="unit-description-text">{{ladderDetailList.ladder_description}}</p>
         </div>
@@ -75,7 +75,7 @@
             学習済みです！
           </v-btn>
         </div>
-        <h2 class="unit-title display-1">{{ units.title }}</h2>
+        <h3 class="unit-title">{{ units.title }}</h3>
         <v-flex align-center justify-center
                 class="unit-image-wrap">
           <a :href="units.url" target="_blank">
@@ -89,6 +89,11 @@
         </div>
       </div>
     </v-flex>
+    <v-btn dark fab midium
+           @click="showLadder"
+           class="contribution-floating-btn ladder-activate-btn">
+      <img class="ladder-activate-btn-image" src="~static/icons/ladder_icon_white.png" alt="">
+    </v-btn>
   </v-layout>
 </template>
 <script>
@@ -132,14 +137,15 @@
     data: () => ({
       ladderActive: false,
       ladderToUnit: false,
-      duration: 300,
+      isShowLadder: false,
+      duration: 600,
       offsetTop: 0,
       scrollOffset: 0,
       scrollWrapH: 0,
       selectedLadder: 0,
       unitPosition: 0,
       updateId: 0,
-      easing: '',
+      easing: 'easeInOutCubic',
       ladderCreator: '',
       learning: 'willLearning',
       image: {
@@ -168,14 +174,13 @@
       window.addEventListener('scroll', this.handleScroll)
     },
     methods: {
-      clickLadder(index) {
-        this.duration = 600
-        this.easing = 'easeInOutCubic'
-
+      clickLadder(index, isMobile) {
+        const offsetDiff = isMobile ? 80 : 100
         this.$nextTick(() => {
-          this.scrollOffset = this.$el.getElementsByClassName('unit-item')[index].offsetTop - 100
+          this.scrollOffset = this.$el.getElementsByClassName('unit-item')[index].offsetTop - offsetDiff
           this.$vuetify.goTo('#scroll-wrap', this.options)
         })
+        this.isShowLadder = false
       },
       createdLadderDetail() {
         if (Object.keys(this.ladderDetailList).length && Object.keys(this.unitList).length) {
@@ -243,7 +248,7 @@
       },
       getLearningLadder() {
         this.learningList = []
-        if(this.userId){
+        if (this.userId) {
           axios({
             method: 'GET',
             url: 'http://localhost:8080/api/users/' + this.userId + '/learning-ladder/'
@@ -313,6 +318,9 @@
           console.log(error)
         })
       },
+      showLadder() {
+        this.isShowLadder = !this.isShowLadder
+      },
       async learnFinish(index) {
         const activateId = this.learningStatusList[index - 1].id
         if (activateId) {
@@ -320,7 +328,7 @@
         }
       },
       learnStart() {
-        if(this.isLogin) {
+        if (this.isLogin) {
           if (this.isWillLearning || this.learningList === 0) {
             let list = this.unitList
             for (let index in list) {
@@ -333,7 +341,7 @@
           } else {
             alert('学習お疲れ様でした！')
           }
-        }else{
+        } else {
           alert('学習を始めるにはまずログインです！')
         }
       },
@@ -439,57 +447,107 @@
   .unit-wrap
     position: relative
     align-items: flex-start
-    margin: 0 0 0 4%
-    max-width: 800px
+    @media (min-width: $media_desktop_sm)
+      margin: 0 0 0 4%
+      max-width: 800px
   .unit-head
     margin: 0 0 20px
     font-size: 18px
     color: #B0BEC5
   .unit-item
-    padding: 20px 30px 40px
-    margin: 0 0 60px
+    padding: 40px 15px 15px
+    margin: 0 0 30px
     height: 90vh
     background: #fff
+    box-shadow: $default_shadow_card
+    border-radius: 16px
+    @media (min-width: $media_desktop_sm)
+      padding: 20px 30px 40px
+      margin: 0 0 60px
+      box-shadow: none
   .unit-title
     margin: 0 0 30px
     text-align: center
-    font-size: 28px
+    font-size: 24px
+    font-weight: 400
+    @media (min-width: $media_desktop_sm)
+      margin: 0 0 30px
+      text-align: center
+      font-size: 32px
   .unit-point
     text-align: center
   .unit-point-item
-    background: #ECEFF1
     padding: 5px 10px
+    background: #ECEFF1
   .unit-image-wrap
-    margin: 40px auto
-    max-width: 800px
+    width: 100%
+    margin: 0 auto 30px
     text-align: center
-    a:hover
-      .unit-image
-        box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12)
+    @media (min-width: $media_desktop_sm)
+      margin: 40px auto
+      max-width: 800px
+      a:hover
+        .unit-image
+          box-shadow: $default_shadow_image_hover
   .unit-image
     margin: 0 auto
-    box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)
-    max-width: 60%
-    transition: .4s all
-    width: 60%
+    width: 80%
+    box-shadow: $default_shadow_image
+    @media (min-width: $media_desktop_sm)
+      transition: .4s all
+      box-shadow: $default_shadow_image
+      max-width: 60%
+      width: 60%
   .unit-description
-    font-size: 18px
+    font-size: 14px
     border-left: 3px solid #64B5F6
     padding: 0 0 0 10px
-    width: 80%
+    width: 90%
     margin: 0 auto
+    @media(min-width: $media_desktop_sm)
+      font-size: 18px
+      padding: 0 0 0 10px
+      width: 80%
+
+  .ladder-wrap
+    z-index: 100
+    position: fixed
+    top: -100%
+    display: flex
+    align-items: center
+    justify-content: center
+    width: 100vw
+    height: 100vh
+    opacity: 0
+    background-color: rgba(0, 0, 0, .5)
+    transition: all 1s
+    @media (min-width: $media_desktop_sm)
+      position: relative
+      top: 0
+      width: auto
+      height: auto
+      opacity: 1
+      background: none
+  .ladder-wrap-show
+    top: 0
+    opacity: 1
   .ladder-item
     position: relative
+    padding: 6px 10px
     background: $default_ladder_disable_color
-    padding: 10px
     border-bottom: 1px solid #546E7A
     cursor: pointer
-    &:hover
-      opacity: .7
+    @media(min-width: $media_desktop_sm)
+      padding: 10px
+      &:hover
+        opacity: .7
     p
       margin: 0
-      color: #fff
+      overflow: hidden
+      text-overflow: ellipsis
+      white-space: nowrap
       font-weight: bold
+      color: #fff
       pointer-events: none
     &:first-of-type
       background-color: $default_ladder_first_color
@@ -531,12 +589,15 @@
         width: 6px
         height: 40px
         background: $default_ladder_disable_color
-  .ladder-wrap
   .ladder-inner
-    position: fixed
-    top: 25%
-    max-width: inherit
-    width: 100%
+    position: relative
+    top: 0
+    width: 70%
+    @media (min-width: $media_desktop_sm)
+      position: fixed
+      top: 25%
+      max-width: inherit
+      width: 100%
   .ladder-item-active
     background: $default_ladder_activate_color
     &:first-of-type
@@ -580,34 +641,13 @@
         height: 40px
         background: $default_ladder_activate_color
 
-  .peg-link
-    z-index: 100
-    position: fixed
-    top: 65px
-    left: 30%
-    padding: 10px 50px
-    max-height: 120px
-    background-color: rgba(207, 216, 220, .5)
-    max-width: 900px
-    width: 60%
-    height: 120px
-    &:hover
-      opacity: .7
-  .peg-link-catch
-    margin: 0 0 10px
-    text-align: center
-    font-size: 18px
-    font-weight: normal
-  .peg-link-icon
-    margin: 0 15px 0 0
-  .peg-link-title
-    font-size: 30px
-    text-align: left
-    span
-      vertical-align: super
+  .ladder-menu
+    display: none
+    @media (min-width: $media_desktop_sm)
+      display: block
 
   .unit-cover
-    padding: 20px 30px 40px
+    padding-top: 20px
   .unit-cover-avatar
     border: 1px solid $default_border_color
   .unit-cover-info-wrap
@@ -615,17 +655,49 @@
   .unit-cover-info
     margin: 0 0 0 10px
     white-space: nowrap
+  .unit-cover-info-name
+    font-size: 14px
+    font-weight: 400
+    @media (min-width: $media_desktop_sm)
+      font-size: 16px
   .unit-cover-info-date
-    color: $default_small_text_color
     white-space: nowrap
+    font-size: 12px
+    font-weight: 400
+    color: $default_small_text_color
+    @media (min-width: $media_desktop_sm)
+      font-size: 14px
   .unit-cover-btn-wrap
-    margin: 0 0 0 auto
+    display: none
+    @media (min-width: $media_desktop_sm)
+      display: block
+      margin: 0 0 0 auto
   .unit-cover-title
-    margin: 0 0 10vh
+    margin: 0 0 5vh
+    @media (min-width: $media_desktop_sm)
+      margin: 0 0 10vh
   .unit-description-text
-    font-size: 18px
+    font-size: 14px
+    @media (min-width: $media_desktop_sm)
+      font-size: 18px
   .unit-btn-wrap
-    margin: 0 0 8vh
-    padding: 7px 0
-    text-align: right
+    display: none
+    @media (min-width: $media_desktop_sm)
+      display: block
+      padding: 7px 0
+      margin: 0 0 8vh
+      text-align: right
+
+  .ladder-activate-btn
+    z-index: 100
+    position: fixed
+    bottom: 8px
+    right: 8px
+    @media (min-width: $media_desktop_sm)
+      display: none
+  .ladder-activate-btn-image
+    width: 80%
+    height: 80%
+    opacity: .9
+
 </style>
