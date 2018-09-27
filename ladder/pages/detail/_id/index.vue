@@ -501,6 +501,10 @@
       font-size: 18px
       padding: 0 0 0 10px
       width: 80%
+
+  .ladder-wrap
+    position: absolute
+    top: -100%
   .ladder-item
     position: relative
     background: $default_ladder_disable_color
