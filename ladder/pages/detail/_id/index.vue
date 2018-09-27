@@ -31,8 +31,8 @@
             <img src="~assets/images/ladder_avatar.png" alt="avatar">
           </v-avatar>
           <div class="unit-cover-info">
-            <p class="unit-cover-info-name subheading">{{ladderCreator}}</p>
-            <p class="unit-cover-info-date body-1">
+            <p class="unit-cover-info-name">{{ladderCreator}}</p>
+            <p class="unit-cover-info-date">
               {{createdAtDate}}に更新
             </p>
           </div>
@@ -76,7 +76,7 @@
             学習済みです！
           </v-btn>
         </div>
-        <h2 class="unit-title">{{ units.title }}</h2>
+        <h3 class="unit-title">{{ units.title }}</h3>
         <v-flex align-center justify-center
                 class="unit-image-wrap">
           <a :href="units.url" target="_blank">
@@ -90,6 +90,10 @@
         </div>
       </div>
     </v-flex>
+    <v-btn dark fab midium
+           class="contribution-floating-btn ladder-activate-btn">
+      <img class="ladder-activate-btn-image" src="~static/icons/ladder_icon_white.png" alt="">
+    </v-btn>
   </v-layout>
 </template>
 <script>
@@ -505,6 +509,15 @@
   .ladder-wrap
     position: absolute
     top: -100%
+    width: 100vw
+    height: 100vh
+    @media (min-width: $media_desktop_sm)
+      position: relative
+      top: 0
+      width: auto
+      height: auto
+  .ladder-wrap-show
+    background-color: rgba(0,0,0,.5)
   .ladder-item
     position: relative
     background: $default_ladder_disable_color
@@ -559,10 +572,13 @@
         height: 40px
         background: $default_ladder_disable_color
   .ladder-inner
-    position: fixed
-    top: 25%
-    max-width: inherit
-    width: 100%
+    position: relative
+    top: 0
+    @media (min-width: $media_desktop_sm)
+      position: fixed
+      top: 25%
+      max-width: inherit
+      width: 100%
   .ladder-item-active
     background: $default_ladder_activate_color
     &:first-of-type
@@ -645,9 +661,18 @@
   .unit-cover-info
     margin: 0 0 0 10px
     white-space: nowrap
+  .unit-cover-info-name
+    font-size: 14px
+    font-weight: 400
+    @media (min-width: $media_desktop_sm)
+      font-size: 16px
   .unit-cover-info-date
-    color: $default_small_text_color
     white-space: nowrap
+    font-size: 12px
+    font-weight: 400
+    color: $default_small_text_color
+    @media (min-width: $media_desktop_sm)
+      font-size: 14px
   .unit-cover-btn-wrap
     display: none
     @media (min-width: $media_desktop_sm)
@@ -668,4 +693,17 @@
       padding: 7px 0
       margin: 0 0 8vh
       text-align: right
+
+  .ladder-activate-btn
+    z-index: 100
+    position: fixed
+    bottom: 8px
+    right: 8px
+    @media (min-width: $media_desktop_sm)
+      display: none
+  .ladder-activate-btn-image
+    width: 80%
+    height: 80%
+    opacity: .9
+
 </style>

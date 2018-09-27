@@ -90,6 +90,7 @@
 <style lang="sass" scoped>
   .contents-wrap
     overflow: hidden
+    padding: 0!important
   .g-container
     display: flex
     padding: 0 8px 0!important
