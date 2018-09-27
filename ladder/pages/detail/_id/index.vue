@@ -554,41 +554,57 @@
       &:after
         content: ''
         position: absolute
-        top: -40px
+        top: -30px
         left: 0
         display: inline-block
         width: 6px
-        height: 40px
+        height: 30px
         background: $default_ladder_first_color
+        border-radius: 4px 4px 0 0
+        @media(min-width: $media_desktop_sm)
+          top: -40px
+          height: 40px
       &:before
         content: ''
         position: absolute
-        top: -40px
+        top: -30px
         right: 0
         display: inline-block
         width: 6px
-        height: 40px
+        height: 30px
         background: $default_ladder_first_color
+        border-radius: 4px 4px 0 0
+        @media(min-width: $media_desktop_sm)
+          top: -40px
+          height: 40px
     &:last-of-type
       border-bottom: none
       &:after
         content: ''
         position: absolute
-        bottom: -40px
+        bottom: -30px
         left: 0
         display: inline-block
         width: 6px
-        height: 40px
+        height: 30px
         background: $default_ladder_disable_color
+        border-radius: 0 0 4px 4px
+        @media(min-width: $media_desktop_sm)
+          bottom: -40px
+          height: 40px
       &:before
         content: ''
         position: absolute
-        bottom: -40px
+        bottom: -30px
         right: 0
         display: inline-block
         width: 6px
-        height: 40px
+        height: 30px
         background: $default_ladder_disable_color
+        border-radius: 0 0 4px 4px
+        @media(min-width: $media_desktop_sm)
+          bottom: -40px
+          height: 40px
   .ladder-inner
     position: relative
     top: 0
