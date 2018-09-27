@@ -77,6 +77,7 @@
     overflow: scroll
     @media (min-width: $media_desktop_sm)
       display: inline-block
+      padding: 0
       max-width: 650px
       height: 85%
     &:last-child

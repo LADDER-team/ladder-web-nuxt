@@ -7,6 +7,7 @@
   .g-footer
     display: none
     @media (min-width: $media_desktop_sm)
+      display: flex
       background: $default_secondary_color !important
   .g-footer-text
     font-size: 12px

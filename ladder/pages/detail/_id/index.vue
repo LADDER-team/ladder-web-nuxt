@@ -4,17 +4,16 @@
             id="scroll-wrap"
             class="layout-ladder-detail">
     <v-flex md2 lg2
-            align-cener
-            justify-center
+            :class="{'ladder-wrap-show': isShowLadder}"
             class="ladder-wrap">
       <div id="ladder-action-wrap" class="ladder-inner">
-        <div @click="clickLadder(0)"
+        <div @click="clickLadder(0, isShowLadder)"
              :class="{'ladder-item-active': isLearning||isLearned}"
              class="ladder-item">
           <p>{{ladderDetailList.title}}</p>
         </div>
         <div v-for="(units, index) in unitList" :key="index"
-             @click="clickLadder(index)"
+             @click="clickLadder(index, isShowLadder)"
              :class="{'ladder-item-active': isLearning&&!learnedStatus(learningUnits, index)||isLearned}"
              class="ladder-item">
           <p>unit:{{ units.index }}</p>
@@ -91,6 +90,7 @@
       </div>
     </v-flex>
     <v-btn dark fab midium
+           @click="showLadder"
            class="contribution-floating-btn ladder-activate-btn">
       <img class="ladder-activate-btn-image" src="~static/icons/ladder_icon_white.png" alt="">
     </v-btn>
@@ -137,14 +137,15 @@
     data: () => ({
       ladderActive: false,
       ladderToUnit: false,
-      duration: 300,
+      isShowLadder: false,
+      duration: 600,
       offsetTop: 0,
       scrollOffset: 0,
       scrollWrapH: 0,
       selectedLadder: 0,
       unitPosition: 0,
       updateId: 0,
-      easing: '',
+      easing: 'easeInOutCubic',
       ladderCreator: '',
       learning: 'willLearning',
       image: {
@@ -173,14 +174,13 @@
       window.addEventListener('scroll', this.handleScroll)
     },
     methods: {
-      clickLadder(index) {
-        this.duration = 600
-        this.easing = 'easeInOutCubic'
-
+      clickLadder(index, isMobile) {
+        const offsetDiff = isMobile ? 80 : 100
         this.$nextTick(() => {
-          this.scrollOffset = this.$el.getElementsByClassName('unit-item')[index].offsetTop - 100
+          this.scrollOffset = this.$el.getElementsByClassName('unit-item')[index].offsetTop - offsetDiff
           this.$vuetify.goTo('#scroll-wrap', this.options)
         })
+        this.isShowLadder = false
       },
       createdLadderDetail() {
         if (Object.keys(this.ladderDetailList).length && Object.keys(this.unitList).length) {
@@ -317,6 +317,9 @@
         }).catch((error) => {
           console.log(error)
         })
+      },
+      showLadder() {
+        this.isShowLadder = !this.isShowLadder
       },
       async learnFinish(index) {
         const activateId = this.learningStatusList[index - 1].id
@@ -507,29 +510,44 @@
       width: 80%
 
   .ladder-wrap
-    position: absolute
+    z-index: 100
+    position: fixed
     top: -100%
+    display: flex
+    align-items: center
+    justify-content: center
     width: 100vw
     height: 100vh
+    opacity: 0
+    background-color: rgba(0, 0, 0, .5)
+    transition: all 1s
     @media (min-width: $media_desktop_sm)
       position: relative
       top: 0
       width: auto
       height: auto
+      opacity: 1
+      background: none
   .ladder-wrap-show
-    background-color: rgba(0,0,0,.5)
+    top: 0
+    opacity: 1
   .ladder-item
     position: relative
+    padding: 6px 10px
     background: $default_ladder_disable_color
-    padding: 10px
     border-bottom: 1px solid #546E7A
     cursor: pointer
-    &:hover
-      opacity: .7
+    @media(min-width: $media_desktop_sm)
+      padding: 10px
+      &:hover
+        opacity: .7
     p
       margin: 0
-      color: #fff
+      overflow: hidden
+      text-overflow: ellipsis
+      white-space: nowrap
       font-weight: bold
+      color: #fff
       pointer-events: none
     &:first-of-type
       background-color: $default_ladder_first_color
@@ -574,6 +592,7 @@
   .ladder-inner
     position: relative
     top: 0
+    width: 70%
     @media (min-width: $media_desktop_sm)
       position: fixed
       top: 25%
@@ -626,31 +645,6 @@
     display: none
     @media (min-width: $media_desktop_sm)
       display: block
-  .peg-link
-    z-index: 100
-    position: fixed
-    top: 65px
-    left: 30%
-    padding: 10px 50px
-    max-height: 120px
-    background-color: rgba(207, 216, 220, .5)
-    max-width: 900px
-    width: 60%
-    height: 120px
-    &:hover
-      opacity: .7
-  .peg-link-catch
-    margin: 0 0 10px
-    text-align: center
-    font-size: 18px
-    font-weight: normal
-  .peg-link-icon
-    margin: 0 15px 0 0
-  .peg-link-title
-    font-size: 30px
-    text-align: left
-    span
-      vertical-align: super
 
   .unit-cover
     padding-top: 20px
