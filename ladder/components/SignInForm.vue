@@ -6,19 +6,21 @@
     <v-card-text>
       <v-container grid-list-md>
         <v-layout wrap>
-          <v-form ref="form" v-model="valid"
-                  lazy-validation
+          <v-form lazy-validation
+                  ref="form"
+                  v-model="valid"
                   class="sign-in-form">
             <v-text-field
               v-model="modelEmail"
               :rules="emailRules"
+              prepend-icon="email"
               ref="emailRef"
               label="メールアドレス"
-              required
-            ></v-text-field>
+              required></v-text-field>
             <v-text-field
               v-model="modelPass"
               :rules="passRules"
+              prepend-icon="lock"
               ref="passRef"
               type="password"
               label="パスワード"
@@ -30,10 +32,10 @@
     <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn flat　color="blue darken-1"
-             @click="clickDialogCancel">キャンセル
+             @click="cancelDialog">キャンセル
       </v-btn>
       <v-btn flat　color="blue darken-1"
-             @click.native="clickLoginPost">ログイン
+             @click="loginUser">ログイン
       </v-btn>
     </v-card-actions>
   </v-card>
@@ -51,8 +53,8 @@
         loginToken: null,
         login: false,
         decodeId: 0,
-        userDetail: {},
         decodedToken: {},
+        userDetail: {},
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         //validation
         valid: true,
@@ -66,11 +68,11 @@
       }
     },
     methods: {
-      clickLoginPost() {
+      loginUser() {
         if (this.$refs.form.validate()) {
           axios({
             method: 'POST',
-            url: 'https://api.ladder.noframeschools.com/api/api-auth/',
+            url: 'http://localhost:8080/api/api-auth/',
             headers: {
               "Accept": "application/json",
               'Content-Type': 'application/json'
@@ -80,18 +82,11 @@
               password: this.modelPass
             }
           }).then((response) => {
-            this.loginToken = JSON.stringify(response.data.token).replace(/[\"]/g, "");
-            this.addToken();
+            this.loginToken = JSON.stringify(response.data.token).replace(/[\"]/g, "")
+            this.ADD_TOKEN_ACTION(this.loginToken)
+            this.login = true
           }).then(() => {
-            this.login = !this.$store.state.isLogin ? true : alert("ログイン済みです")
-          }).then(() => {
-            this.emitLogin()
-            alert("ログインしました！")
-            if (!this.$store.state.isLogin) {
-              setTimeout(() => {
-                this.loginPromise()
-              }, 200)
-            }
+            this.doLogin()
           }).then(() => {
             this.tokenDecoded()
           }).then(() => {
@@ -102,23 +97,22 @@
           })
         }
       },
-      addToken() {
-        this.addTokenAction(this.loginToken)
+      cancelDialog() {
+        this.$emit('cancel')
       },
-      loginPromise() {
-        this.loginAction(this.login)
-      },
-      emitLogin() {
+      doLogin(){
         this.$emit('login')
-      },
-      tokenDecoded() {
-        this.decodedToken = jwt(this.loginToken);
-        this.decodeId = this.decodedToken.user_id;
+        alert("ログインしました！")
+        if (!this.isLogin) {
+          setTimeout(() => {
+            this.LOGIN_ACTION(this.login)
+          }, 200)
+        }
       },
       getUser() {
         axios({
           method: 'GET',
-          url: 'https://api.ladder.noframeschools.com/api/users/' + this.decodeId + '/',
+          url: 'http://localhost:8080/api/users/' + this.decodeId + '/',
         }).then((response) => {
           this.userDetail = response.data
         }).then(() => {
@@ -129,28 +123,28 @@
         })
       },
       setUser() {
-        this.addNameAction(this.userDetail.name);
-        this.addEmailAction(this.decodedToken.email);
-        this.addUserIdAction(this.decodeId);
+        this.ADD_EMAIL_ACTION(this.decodedToken.email);
+        this.ADD_NAME_ACTION(this.userDetail.name);
+        this.ADD_USER_ACTION(this.decodeId);
       },
-      clickDialogCancel() {
-        this.$emit('cancel')
+      tokenDecoded() {
+        this.decodedToken = jwt(this.loginToken);
+        this.decodeId = this.decodedToken.user_id;
       },
       ...mapActions('user',[
-        'addEmailAction',
-        'addNameAction',
-        'addTokenAction',
-        'addUserIdAction',
-        'loginAction',
+        'ADD_EMAIL_ACTION',
+        'ADD_NAME_ACTION',
+        'ADD_TOKEN_ACTION',
+        'ADD_USER_ACTION',
+        'LOGIN_ACTION',
       ])
     },
     computed: {
       ...mapGetters('user',{
-        email: 'emailGetter',
-        isLogin: 'loginGetter',
-        password: 'passGetter',
-        token: 'tokenGetter',
-        userId: 'userIdGetter'
+        email: 'EMAIL_GETTER',
+        isLogin: 'LOGIN_GETTER',
+        token: 'TOKEN_GETTER',
+        userId: 'USER_ID_GETTER'
       }),
     },
   }

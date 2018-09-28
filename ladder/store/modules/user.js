@@ -1,5 +1,13 @@
 import 'babel-polyfill'
 
+const initialState = {
+  isLogin: false,
+  isSign: false,
+  email: null,
+  name: null,
+  token: null,
+  userId: null
+}
 const state = {
   isLogin: false,
   isSign: false,
@@ -9,78 +17,88 @@ const state = {
   userId: null
 }
 const getters = {
-  emailGetter(state) {
+  EMAIL_GETTER(state) {
     return state.email
   },
-  loginGetter(state) {
+  LOGIN_GETTER(state) {
     return state.isLogin
   },
-  nameGetter(state) {
+  NAME_GETTER(state) {
     return state.name
   },
-  signGetter(state) {
+  SIGN_GETTER(state) {
     return state.isSign
   },
-  tokenGetter(state) {
+  TOKEN_GETTER(state) {
     return state.token
   },
-  userIdGetter(state) {
+  USER_ID_GETTER(state) {
     return state.userId
   }
 }
 const mutations = {
-  accessTokenMutation(state, token) {
+  ACCESS_TOKEN_MUTATION(state, token) {
     state.token = token
     localStorage.setItem('token', state.token)
   },
-  addEmailMutation(state, payload) {
+  ADD_EMAIL_MUTATION(state, payload) {
     state.email = payload.email
   },
-  addUserMutation(state, payload) {
+  ADD_USER_MUTATION(state, payload) {
     state.name = payload.name
   },
-  addTokenMutation(state, payload) {
+  ADD_TOKEN_MUTATION(state, payload) {
     state.token = payload.token
     localStorage.setItem('token', state.token)
   },
-  addUserIdMutation(state, userId) {
+  ADD_USER_ID_MUTATION(state, userId) {
     state.userId = userId
     if(state.userId){
       localStorage.setItem('userId', state.userId)
     }
   },
-  loginEmailMutation(state, payload) {
+  LOGIN_EMAIL_MUTATION(state, payload) {
     state.email = payload.email
   },
-  loginMutation(state, payload) {
+  LOGIN_MUTATION(state, payload) {
     state.isLogin = payload.isLogin
   },
-  signMutation(state, payload) {
+  SIGN_MUTATION(state, payload) {
     state.isSign = payload.isSign
+  },
+  LOGOUT_MUTATION(state) {
+    state.isLogin = initialState.isLogin
+    state.isSign = initialState.isSign
+    state.email = initialState.email
+    state.name = initialState.name
+    state.userId = initialState.userId
   }
 }
 const actions = {
-  addEmailAction({commit}, email) {
-    commit('addEmailMutation', {email})
+  ADD_EMAIL_ACTION({commit}, email) {
+    commit('ADD_EMAIL_MUTATION', {email})
   },
-  addNameAction({commit}, name) {
-    commit('addUserMutation', {name})
+  ADD_NAME_ACTION({commit}, name) {
+    commit('ADD_USER_MUTATION', {name})
   },
-  addTokenAction({commit}, token) {
-    commit('addTokenMutation', {token})
+  ADD_TOKEN_ACTION({commit}, token) {
+    commit('ADD_TOKEN_MUTATION', {token})
   },
-  addUserIdAction({commit}, userId) {
-    commit('addUserIdMutation', {userId})
+  ADD_USER_ACTION({commit}, userId) {
+    commit('ADD_USER_ID_MUTATION', userId)
   },
-  signAction({commit}, isSign) {
-    commit('signMutation', {isSign})
+  SIGN_ACTION({commit}, isSign) {
+    commit('SIGN_MUTATION', {isSign})
   },
-  loginAction({commit}, isLogin) {
-    commit('loginMutation', {isLogin})
+  LOGIN_ACTION({commit}, isLogin) {
+    commit('LOGIN_MUTATION', {isLogin})
   },
-  loginEmailAction({commit}, email) {
-    commit('loginEmailMutation', {email})
+  LOGIN_EMAIL_ACTION({commit}, email) {
+    commit('LOGIN_EMAIL_MUTATION', {email})
   },
+  LOGOUT_ACTION({commit}){
+    commit('LOGOUT_MUTATION')
+  }
 }
 export default {
   namespaced: true,

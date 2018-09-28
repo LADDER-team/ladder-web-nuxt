@@ -1,11 +1,11 @@
 <template>
   <v-toolbar class="g-toolbar" fixed align-center>
     <h1 class="g-toolbar-title">
-      <router-link :to="`/`">
-        <img src="~assets/images/logo_title.png" class="g-toolbar-logo">
+      <router-link :to="`/`" class="g-toolbar-logo">
+
       </router-link>
     </h1>
-    <v-flex xs5 sm4 md2 class="g-search-wrap">
+    <v-flex md2 class="g-search-wrap">
       <v-text-field hide-details
                     name="input-1"
                     prepend-icon="search"
@@ -13,7 +13,7 @@
                     class="g-search-field"></v-text-field>
     </v-flex>
     <v-spacer></v-spacer>
-    <v-toolbar-items class="hidden-sm-and-down avatar align-center">
+    <v-toolbar-items class="avatar align-center g-toolbar-items">
       <v-btn depressed ripple
              @click="toLadderPost"
              class="primary-btn">
@@ -49,23 +49,23 @@
     methods: {
       toLadderPost() {
         if (this.isLogin) {
-          this.$router.push('/post')
+          this.$router.push('/post/')
         } else {
           alert("投稿ですか？まずはログインしてください！")
         }
       },
       toLadderManagement() {
         if (this.isLogin) {
-          this.$router.push('/ladder/'+this.userId)
+          this.$router.push('/ladder/' + this.userId + '/')
         } else {
           alert("ラダーページのご利用はログイン後に可能となります！")
         }
       }
     },
     computed: {
-      ...mapGetters('user',{
-        isLogin: 'loginGetter',
-        userId: 'userIdGetter'
+      ...mapGetters('user', {
+        isLogin: 'LOGIN_GETTER',
+        userId: 'LOGIN_GETTER'
       })
     },
   }
@@ -79,15 +79,25 @@
     color: #fff
     display: flex
     align-items: center
-    &:hover
-      opacity: .7
+    @media(min-width: $media_tablet)
+      &:hover
+        opacity: .7
   .g-toolbar-logo
+    display: inline-block
     vertical-align: middle
-    max-width: 150px
-    width: 150px
+    background: url('~assets/images/logo_title_sp.png') no-repeat center
+    background-size: contain
+    width: 100px
+    height: 30px
+    @media(min-width: $media_phone)
+      max-width: 150px
+      width: 150px
   .g-search-wrap
-    padding: 10px 0
-    margin: 0 0 0 30px
+    display: none
+    @media(min-width: $media_desktop_sm)
+      display: flex
+      padding: 10px 0
+      margin: 0 0 0 30px
   .g-search-field
     padding: 5px 10px 0
     background: #fff
@@ -95,6 +105,10 @@
     overflow: hidden
   .input-group__details
     display: none
+  .g-toolbar-items
+    display: none
+    @media(min-width: $media_desktop_sm)
+      display: flex
   .g-toolbar-btn
     margin: 0 0 0 20px !important
     border: none !important
@@ -102,7 +116,6 @@
     max-height: 80%
     max-width: 80%
     width: 100%
-
   .app-bar-btn
     margin: 0 0 0 20px
 </style>

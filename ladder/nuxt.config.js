@@ -25,7 +25,7 @@ module.exports = {
     return titleChunk ? `${titleChunk} | LADDER` : 'LADDER';
   },
   generate: {
-    fallback: true, // '404.html' を使用したい場合
+    fallback: true,
   },
   /*
   ** Customize the progress bar color
@@ -54,13 +54,16 @@ module.exports = {
   },
   modules: [
     '@nuxtjs/vuetify',
+    '@nuxtjs/google-analytics',
     ['nuxt-sass-resources-loader',
       [
         '@/assets/styles/sass/_base.sass'
       ]
     ]
   ],
-  plugins: [{src: '~/plugins/clientInit.js', ssr: false}],
+  plugins: [
+    {src: '~plugins/clientInit.js', ssr: false},
+  ],
   vuetify: {
     theme: {
       primary: '#3f51b5',
@@ -68,6 +71,9 @@ module.exports = {
       accent: '#8c9eff',
       error: '#b71c1c'
     },
+  },
+  'google-analytics': {
+    id: 'UA-122869257-1'
   }
 }
 

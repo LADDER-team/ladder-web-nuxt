@@ -1,12 +1,9 @@
 <template>
   <v-app id="inspire" indig>
     <app-bar/>
-    <v-content id="window">
+    <v-content id="window" class="contents-wrap">
       <v-container
-        fluid
-        fill-height
-        justify-center
-        align-start
+        fluid justify-center align-start
         class="g-container"
       >
         <nuxt/>
@@ -25,8 +22,8 @@
 
   export default {
     data: () => ({
-      loginToken: "",
       decodedId: "",
+      loginToken: "",
       decodedToken: {},
       userDetail: {}
     }),
@@ -53,44 +50,55 @@
       getUser() {
         axios({
           method: 'GET',
-          url: 'https://api.ladder.noframeschools.com/api/users/' + this.decodedId + '/',
+          url: 'http://localhost:8080/api/users/' + this.decodedId + '/',
         }).then((response) => {
           this.userDetail = response.data
         }).then(() => {
           this.setUser()
         }).then(() => {
           if (!this.isLogin) {
-            this.loginAction(true)
+            this.LOGIN_ACTION(true)
           }
         }).catch((error) => {
           console.log(error)
         })
       },
       setUser() {
-        this.addNameAction(this.userDetail.name);
-        this.addEmailAction(this.decodedToken.email);
+        this.ADD_EMAIL_ACTION(this.decodedToken.email);
+        this.ADD_NAME_ACTION(this.userDetail.name);
         if (!this.userId) {
-          this.addUserIdAction(this.decodedId);
+          this.ADD_USER_ACTION(this.decodedId);
         }
       },
       ...mapActions('user', [
-        'addEmailAction',
-        'addNameAction',
-        'addUserIdAction',
-        'loginAction',
+        'ADD_EMAIL_ACTION',
+        'ADD_NAME_ACTION',
+        'ADD_USER_ACTION',
+        'LOGIN_ACTION',
       ])
     },
     computed: {
       ...mapGetters('user', {
-        token: 'tokenGetter',
-        isLogin: 'loginGetter',
-        userId: 'userIdGetter',
+        isLogin: 'LOGIN_GETTER',
+        token: 'TOKEN_GETTER',
+        userId: 'USER_ID_GETTER',
       })
     }
   }
 </script>
 
 <style lang="sass" scoped>
-
+  .contents-wrap
+    overflow: hidden
+    padding: 0!important
+  .g-container
+    display: flex
+    padding: 0 8px 0!important
+    margin: 60px 0 0
+    height: 100%
+    @media (min-width: $media_desktop_sm)
+      padding: 0 16px 0!important
+      margin: 80px 0 0
+      height: 100%
 </style>
 

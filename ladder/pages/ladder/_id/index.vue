@@ -7,14 +7,28 @@
             color="white"
             slider-color="blue"
             class="my-page-tabs">
-      <v-tab href="#tab-1" class="my-page-tab">学習中 Ladder</v-tab>
-      <v-tab href="#tab-2" class="my-page-tab">学習済 Ladder</v-tab>
-      <v-tab href="#tab-3" class="my-page-tab">投稿 Ladder</v-tab>
+      <v-tab href="#tab-1" class="my-page-tab">投稿 Ladder</v-tab>
+      <v-tab href="#tab-2" class="my-page-tab">学習中 Ladder</v-tab>
+      <v-tab href="#tab-3" class="my-page-tab">学習済 Ladder</v-tab>
     </v-tabs>
     <v-tabs-items v-model="model" class="my-page-tab-items">
       <v-tab-item id="tab-1" class="my-page-tab-item">
-        <p v-show="!learningLadderList.length" class="my-page-not-ladder">投稿したLadderがありません</p>
+        <p v-show="!myLadderList.length" class="my-page-not-ladder">投稿したLadderがありません</p>
         <v-flex align-start　justify-center
+                class="ladder-links-wrap my-page-ladders-wrap">
+          <div v-for="(ladder, index) in myLadderList" :key="index"
+               class="ladder-link-wrap">
+            <ladder-list-item :ladderId="ladder.id"
+                              :title="ladder.title"
+                              :manage="true"
+                              :isPublic="ladder.is_public"
+                              @publish-emit="getMyLadders"/>
+          </div>
+        </v-flex>
+      </v-tab-item>
+      <v-tab-item id="tab-2" class="my-page-tab-item">
+        <p v-show="!learningLadderList.length" class="my-page-not-ladder">学習中のLadderがありません</p>
+        <v-flex md8 align-start　justify-center
                 class="ladder-links-wrap my-page-ladders-wrap">
           <div v-for="(ladder, index) in learningLadderList" :key="index"
                class="ladder-link-wrap">
@@ -23,7 +37,7 @@
           </div>
         </v-flex>
       </v-tab-item>
-      <v-tab-item id="tab-2" class="my-page-tab-item">
+      <v-tab-item id="tab-3" class="my-page-tab-item">
         <p v-show="!finishLadderList.length" class="my-page-not-ladder">学習済みのLadderがありません</p>
         <v-flex align-start　justify-center
                 class="ladder-links-wrap my-page-ladders-wrap">
@@ -34,20 +48,10 @@
           </div>
         </v-flex>
       </v-tab-item>
-      <v-tab-item id="tab-3" class="my-page-tab-item">
-        <p v-show="!myLadderList.length" class="my-page-not-ladder">投稿したLadderがありません</p>
-        <v-flex align-start　justify-center
-                class="ladder-links-wrap my-page-ladders-wrap">
-          <div v-for="(ladder, index) in myLadderList" :key="index"
-               class="ladder-link-wrap">
-            <ladder-list-item :ladderId="ladder.id"
-                              :title="ladder.title"/>
-          </div>
-        </v-flex>
-      </v-tab-item>
     </v-tabs-items>
   </v-layout>
 </template>
+
 
 <script>
   import axios from 'axios'
@@ -62,88 +66,76 @@
       name: 'page',
       mode: 'out-in'
     },
-    data() {
-      return {
-        posted: false,
-        avatarSize: 100,
-        defaultUsername: 'ユーザー',
-        model: 'tab-1',
-        profile: '',
-        defaultImage: {
-          src: "http://via.placeholder.com/350x150",
-          alt: "placeholder-image"
-        },
-        learningLadderList: [],
-        myLadderList: [],
-        finishLadderList: []
-      }
-    },
+    data: () => ({
+      posted: false,
+      avatarSize: 100,
+      defaultUsername: 'ユーザー',
+      model: 'tab-1',
+      profile: '',
+      defaultImage: {
+        src: "http://via.placeholder.com/350x150",
+        alt: "placeholder-image"
+      },
+      learningLadderList: [],
+      myLadderList: [],
+      finishLadderList: []
+    }),
     head() {
       return {
-        title: 'LadderManage'
+        title: 'Ladder-Manage'
       }
     },
     components: {
       LadderListItem
     },
     created() {
-      setTimeout(() => {
-        this.getMyLadders()
-        this.getFinishLadders()
-        this.getLearningLadders()
-      }, 100)
+      this.getFinishLadders()
+      this.getLearningLadders()
+      this.getMyLadders()
     },
     methods: {
       unimplemented() {
         alert("機能搭載までお待ちください！")
       },
-      getMyLadders(){
+      getFinishLadders() {
         axios({
           method: 'GET',
-          url: 'https://api.ladder.noframeschools.com/api/users/' + this.userId + '/'
-        }).then((response) => {
-          this.myLadderList = response.data.my_ladders
-        }).catch((error) => {
-          console.log(error)
-        })
-      },
-      getFinishLadders(){
-        axios({
-          method: 'GET',
-          url: 'https://api.ladder.noframeschools.com/api/users/' + this.userId + '/finish-ladder/'
+          url: 'http://localhost:8080/api/users/' + this.userId + '/finish-ladder/'
         }).then((response) => {
           this.finishLadderList = response.data
         }).catch((error) => {
           console.log(error)
         })
       },
-      getLearningLadders(){
+      getLearningLadders() {
         axios({
           method: 'GET',
-          url: 'https://api.ladder.noframeschools.com/api/users/' + this.userId + '/learning-ladder/'
+          url: 'http://localhost:8080/api/users/' + this.userId + '/learning-ladder/'
         }).then((response) => {
           this.learningLadderList = response.data
+        }).catch((error) => {
+          console.log(error)
+        })
+      },
+      getMyLadders() {
+        axios({
+          method: 'GET',
+          url: 'http://localhost:8080/api/users/' + this.userId + '/'
+        }).then((response) => {
+          this.myLadderList = response.data.my_ladders
         }).catch((error) => {
           console.log(error)
         })
       }
     },
     computed: {
-      compUser() {
-        if (this.$store.state.name) {
-          return this.$store.state.name
-        } else {
-          return this.defaultUsername
-        }
-      },
-      ...mapGetters('user',{
-        userId: 'userIdGetter',
-        isLogin: 'loginGetter'
+      ...mapGetters('user', {
+        isLogin: 'LOGIN_GETTER',
+        userId: 'USER_ID_GETTER',
       })
     },
   }
 </script>
-
 <style scoped lang="sass">
   .my-page-wrap
     overflow: hidden
@@ -154,7 +146,7 @@
     width: 100%
   .my-page-ladders-wrap
     width: 100%
-    max-width: 500px!important
+    max-width: 650px !important
   .my-page-ladders-title
     padding: 20px
     background: #fff
@@ -164,11 +156,13 @@
   .my-page-avatar
     margin: 0 40px 0 0
   .my-page-tab-items
-    max-width: 500px
+    max-width: 650px
     width: 100%
-    background-color: #fff
+    height: 100%
   .my-page-tab-item
+    overflow: scroll
     width: 100%
+    height: 80%
   .my-page-profile
     padding: 20px 40px
   .my-page-profile-title
@@ -176,8 +170,8 @@
     border-bottom: 1px solid $default_border_color
     font-weight: normal
   .my-page-not-ladder
-    display: block
-    margin: 20px 0 0
+    padding: 28px 0
+    background-color: #fff
     text-align: center
   .ladder-links-wrap
     display: inline-block

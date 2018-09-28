@@ -24,27 +24,19 @@
           class="post-text-field post-description"
           label="Ladderの説明"
           placeholder="半年前までプログラミング初心者だった私がDjangoでアプリケーションをどんな順序で開発することができたのか。初心者の方に参考になればなと思います！諦めずに最後までやりきってみましょう！"></v-textarea>
-        <v-flex v-for="index in unitIndex" :key="index">
-          <ladder-post-form :index="index"
+        <v-flex v-for="(unit, index) in unitsList" :key="index">
+          <ladder-post-form :index="index+1"
+                            :unit="unit"
+                            :isEdit="true"
                             @sub-title-emit="onSubTitle"
                             @url-emit="onUrl"
                             @description-emit="onDescription"
                             class="ladder-post-item"/>
         </v-flex>
-        <v-layout flex row justify-center
-                  class="ladder-post-icons">
-          <v-icon size="40" @click="addUnit"
-                  class="ladder-post-add">add_circle_outline
-          </v-icon>
-          <v-icon size="40" @click="removeUnit"
-                  class="ladder-post-remove">remove_circle
-          </v-icon>
-        </v-layout>
         <v-flex class="ladder-post-dialog-wrap">
           <v-dialog v-model="dialog" width="500">
             <v-btn slot="activator"
                    dark fab large
-                   @click="validateForm"
                    class="contribution-floating-btn ladder-post-submit">
               <v-icon dark>done</v-icon>
             </v-btn>
@@ -53,8 +45,8 @@
                 編集確認
               </v-card-title>
               <v-card-text>
-                {{this.modelTitle}}を投稿しますか？
-                投稿完了後はTOPに遷移します！
+                {{ladderDetailList.title}} の編集を適用しますか？
+                適用後はラダー画面へ遷移します！
               </v-card-text>
               <v-divider></v-divider>
               <v-card-actions>
@@ -66,8 +58,8 @@
                 </v-btn>
                 <v-btn
                   color="primary" flat
-                  @click="postLadder">
-                  投稿する
+                  @click="editLadder">
+                  適用する
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -80,16 +72,36 @@
 
 <script>
   import axios from 'axios'
+  import _ from 'underscore'
   import {mapGetters} from 'vuex'
   import LadderPostForm from '~/components/ladderPostForm.vue'
 
   export default {
-    name: "LadderPostDetail",
+    name: "ladder-edit",
     layout: 'engineer',
     scrollToTop: true,
     transitions: {
       name: 'page',
       mode: 'out-in'
+    },
+    async asyncData({params}) {
+      let ladderDetailList = []
+      let unitsList = []
+      await axios({
+        method: 'GET',
+        url: 'http://localhost:8080/api/ladder/' + params.id + '/'
+      }).then((response) => {
+        ladderDetailList = response.data
+        unitsList = _.sortBy(response.data.units, (value) => {
+          return value.index
+        })
+      })
+      return {
+        ladderDetailList: ladderDetailList,
+        unitsList: unitsList,
+        modelTitle: ladderDetailList.title,
+        modelLadderDescription: ladderDetailList.ladder_description ? ladderDetailList.ladder_description : "",
+      }
     },
     data: () => ({
       dialog: false,
@@ -98,6 +110,8 @@
       modelLadderDescription: "",
       modelTitle: "",
       unit: [],
+      unitsList: [],
+      ladderDetailList: [],
       descriptionList: {
         1: "",
       },
@@ -115,53 +129,44 @@
     }),
     head() {
       return {
-        title: 'Post'
+        title: 'Edit'
       }
     },
     components: {
       LadderPostForm
     },
-    beforeMount() {
-      this.modelTitle = this.modelTitle ? this.modelTitle : ""
+    created() {
+      const ladderId = this.$route.params.id
+      axios({
+        method: 'GET',
+        url: 'http://localhost:8080/api/ladder/' + ladderId + '/'
+      }).then((response) => {
+        this.ladderDetailList = response.data
+        this.unitsList = _.sortBy(response.data.units, (value) => {
+          return value.index
+        })
+      }).then(() => {
+        this.modelTitle = this.ladderDetailList.title
+        this.modelLadderDescription = this.ladderDetailList.ladder_description ? this.ladderDetailList.ladder_description : ""
+      }).catch((error) => {
+        console.log(error)
+      })
     },
     methods: {
-      addUnit() {
-        if (this.unitIndex < 8) {
-          this.unitIndex++;
-        } else {
-          alert('これ以上ユニットは増やせません！')
-        }
-      },
-      removeUnit() {
-        if (this.unitIndex === 1) {
-          alert('これ以上ユニットは削除できません！')
-        } else {
-          this.unitIndex--;
-        }
-      },
-      postLadder() {
+      editLadder() {
         if (!this.isLogin) {
           alert('ログインしてください！')
           return
         }
-        for (let i = 1; i <= this.unitIndex; i++) {
-          this.unit[i - 1] =
-            {
-              title: this.subtitleList[i],
-              url: this.urlList[i],
-              description: this.descriptionList[i],
-              index: i
-            }
-        }
-        let unit = JSON.stringify(this.unit)
-        unit = JSON.parse(unit)
-
         if (!this.$refs.form.validate()) {
-          alert('投稿に不備があります！')
-        } else {
+          alert('投稿内容に不備があります！確認してください！')
+          return
+        }
+
+        if (this.modelTitle || this.modelLadderDescription) {
           axios({
-            method: 'POST',
-            url: 'http://localhost:8080/api/ladder/',
+            method: 'PUT',
+            url: 'http://localhost:8080/api/ladder/' + this.ladderDetailList.id + '/',
             headers: {
               "Accept": "application/json",
               "Authorization": "JWT " + this.token,
@@ -170,16 +175,37 @@
             data: {
               title: this.modelTitle,
               ladder_description: this.modelLadderDescription,
-              tags: [],
-              units: unit
             }
-          }).then(() => {
-            this.$router.push('/')
           }).catch((error) => {
-            alert('投稿に失敗しました！！')
+            alert('ladderのタイトルと説明の変更に失敗しました！')
             console.log(error)
           })
         }
+
+        if (this.unitsList.length) {
+          this.unitsList.forEach((value, index) => {
+            axios({
+              method: 'PUT',
+              url: 'http://localhost:8080/api/unit/' + value.id + '/',
+              headers: {
+                "Accept": "application/json",
+                "Authorization": "JWT " + this.token,
+                "Content-type": "application/json"
+              },
+              data: {
+                title: this.subtitleList[index + 1],
+                description: this.descriptionList[index + 1],
+                url: this.urlList[index + 1],
+              }
+            }).catch((error) => {
+              alert('ユニットの変更に失敗しました！')
+              console.log(error)
+            })
+          })
+        }
+        setTimeout(() => {
+          this.$router.push('/detail/' + this.ladderDetailList.id + '/')
+        }, this.unitsList.length * 100)
       },
       onDescription(descriptionEmit, index) {
         this.$set(this.descriptionList, index, descriptionEmit);
@@ -191,27 +217,20 @@
         this.$set(this.urlList, index, urlEmit);
       },
       validateForm() {
-        !this.modelTitle && !this.modelLadderDescription ? this.unInputForm(0)
-          : !this.modelTitle ? this.unInputForm(1)
-          : !this.modelLadderDescription ? this.unInputForm(2)
-            : console.log('true')
-      },
-      unInputForm(input) {
-        const message = input === 0 ? "ラダーのタイトルと説明文を入力してください！"
-          : input === 1 ? "ラダーのタイトルを入力してください！"
-            : "ラダーの説明文を入力してください！"
-        alert(message)
+        if (!this.$refs.form.validate)
+          alert('フォームを全て埋めてください！')
         setTimeout(() => {
           this.dialog = false
         }, 1)
-      }
-    },
+      },
+    }
+    ,
     computed: {
       ...mapGetters('user', {
         token: 'TOKEN_GETTER',
         isLogin: 'LOGIN_GETTER'
       })
-    },
+    }
   }
 </script>
 

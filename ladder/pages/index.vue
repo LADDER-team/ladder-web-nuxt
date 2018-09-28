@@ -1,6 +1,5 @@
 <template>
-  <v-layout md8 lg8
-            justify-center
+  <v-layout justify-center fill-height
             class="layout-ladder-list">
     <v-flex align-start　justify-center
             class="ladder-links-wrap">
@@ -17,6 +16,7 @@
 <script>
   import axios from 'axios'
   import LadderListItem from '~/components/LadderListItem'
+  import _ from 'underscore'
 
   export default {
     name: "ladder-list",
@@ -29,19 +29,21 @@
     asyncData() {
       return axios({
         method: 'GET',
-        url: 'https://api.ladder.noframeschools.com/api/ladder/'
+        url: 'http://localhost:8080/api/ladder/',
       }).then((response) => {
-        return {ladderList: response.data.results}
-      }).catch((e) => {
-        error({statusCode: 404, message: 'Not Found...'})
+        return {
+          ladderList: _.sortBy(response.data.results, (value) => {
+            return -value.id
+          })
+        }
+      }).catch((error) => {
+        console.log(error)
       })
     },
-    data() {
-      return {
-        chartDialog: false,
-        ladderList: []
-      }
-    },
+    data: () => ({
+      chartDialog: false,
+      ladderList: []
+    }),
     head() {
       return {
         title: 'Top'
@@ -54,9 +56,11 @@
       if (!this.ladderList.length) {
         axios({
           method: 'GET',
-          url: 'https://api.ladder.noframeschools.com/api/ladder/'
+          url: 'http://localhost:8080/api/ladder/',
         }).then((response) => {
-          this.ladderList = response.data.results
+          this.ladderList = _.sortBy(response.data.results, (value) => {
+            return -value.id
+          })
         }).catch((error) => {
           console.log(error)
         })
@@ -67,7 +71,17 @@
 
 <style lang="sass" scoped>
   .ladder-links-wrap
-    display: inline-block
+    padding: 0 0 56px
+    width: 100%
+    height: 100%
+    overflow: scroll
+    @media (min-width: $media_desktop_sm)
+      display: inline-block
+      padding: 0
+      max-width: 650px
+      height: 85%
     &:last-child
       border-bottom: none
+  .ladder-link-wrap
+    width: 100%
 </style>

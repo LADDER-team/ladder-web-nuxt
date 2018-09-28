@@ -34,20 +34,25 @@
   export default {
     name: "ladder-post-form",
     props: {
-      index: 0
+      index: 0,
+      unit: null,
+      isEdit: false
     },
-    data() {
-      return {
-        testRule: [v => !!v || 'タイトルを入力してください'],
-        modelDescription: "",
-        modelSubTitle: "",
-        modelUrl: "",
+    data: () => ({
+      modelDescription: "",
+      modelSubTitle: "",
+      modelUrl: "",
+      testRule: [v => !!v || 'タイトルを入力してください'],
+    }),
+    mounted() {
+      if(this.isEdit){
+        this.modelDescription = this.unit.description ? this.unit.description : ""
+        this.modelSubTitle = this.unit.title ? this.unit.title : ""
+        this.modelUrl = this.unit.url ? this.unit.url : ""
+        this.inputSubTitle()
+        this.inputUrl()
+        this.inputDescription()
       }
-    },
-    created() {
-      this.modelDescription = this.modelDescription ? this.modelDescription : ""
-      this.modelSubTitle = this.modelSubTitle ? this.modelSubTitle : ""
-      this.modelUrl = this.modelUrl ? this.modelUrl : ""
     },
     methods: {
       inputSubTitle() {

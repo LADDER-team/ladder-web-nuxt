@@ -13,8 +13,8 @@
       <sign-up-form v-show="sign&&!this.isLogin"
                     v-on:cancel="onCancelDialog"
                     v-on:direct-login="onDirectLogin"
-                    v-on:sign="signin"
-                    v-on:login="receivedLogin"/>
+                    v-on:login="receivedLogin"
+                    v-on:sign="signin"/>
     </transition>
     <transition name="sign-in">
       <sign-in-form v-show="login&&!this.isLogin"
@@ -26,8 +26,8 @@
 
 <script>
   import {mapGetters, mapActions} from 'vuex'
-  import SignUpForm from '~/components/SignUpForm'
   import SignInForm from '~/components/SignInForm'
+  import SignUpForm from '~/components/SignUpForm'
 
   export default {
     name: "sign-dialog",
@@ -35,14 +35,12 @@
       SignInForm,
       SignUpForm,
     },
-    data() {
-      return {
-        sign: true,
-        dialog: false,
-        login: false,
-        avatar: "person_outline",
-      }
-    },
+    data: () => ({
+      dialog: false,
+      login: false,
+      sign: true,
+      avatar: "person_outline",
+    }),
     mounted() {
       if (this.isLogin) {
         this.sign = false;
@@ -67,22 +65,20 @@
       },
       signin() {
         this.dialog = false
-        this.login = false
-        this.sign = false
       },
       receivedLogin() {
         this.avatar = "face"
         this.dialog = false
       },
       ...mapActions([
-        'user/addTokenAction',
-        'user/loginAction'
+        'user/ADD_TOKEN_ACTION',
+        'user/LOGIN_ACTION'
       ])
     },
     computed: {
-      ...mapGetters('user',{
-        token: 'tokenGetter',
-        isLogin: 'loginGetter'
+      ...mapGetters('user', {
+        isLogin: 'LOGIN_GETTER',
+        token: 'TOKEN_GETTER'
       }),
     },
   }

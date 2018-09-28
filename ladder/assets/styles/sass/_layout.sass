@@ -1,37 +1,29 @@
-.g-container
-  overflow: hidden
-  padding-top: 0 !important
-  padding-bottom: 0 !important
-  display: flex
-  flex-direction: column
 .layout-ladder-list
-  padding: 100px 0 40px
-  overflow: hidden
-  width: 45%
-  max-width: 600px
+  position: fixed
+  margin: 0 0 40px
+  width: 100%
+
 .layout-ladder-detail
   position: relative
-  top: 100px
   left: 0
-  padding: 0 0 50px
   width: 100%
+  @media (min-width: $media_desktop_sm)
+    margin: 0 0 50px
+
 .layout-ladder-post
-  position: relative
-  top: 100px
-  padding: 0 0 100px
   overflow: hidden
   width: 100%
+
 .layout-my-page
-  position: relative
-  top: 100px
   flex-direction: column
-  overflow: hidden
-  max-width: 800px
   width: 100%
+
 .layout-ladder-management
-  position: relative
-  top: 100px
+  position: fixed
   flex-direction: column
-  overflow: hidden
-  max-width: 800px
   width: 100%
+
+.layout-error
+  position: relative
+  top: -50px
+
