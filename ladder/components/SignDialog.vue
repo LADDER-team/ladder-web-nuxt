@@ -71,14 +71,14 @@
         this.dialog = false
       },
       ...mapActions([
-        'user/addTokenAction',
-        'user/loginAction'
+        'user/ADD_TOKEN_ACTION',
+        'user/LOGIN_ACTION'
       ])
     },
     computed: {
       ...mapGetters('user', {
-        isLogin: 'loginGetter',
-        token: 'tokenGetter'
+        isLogin: 'LOGIN_GETTER',
+        token: 'TOKEN_GETTER'
       }),
     },
   }

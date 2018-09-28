@@ -105,7 +105,7 @@
       },
       doLogin() {
         this.$emit('login')
-        this.loginAction(this.login)
+        this.LOGIN_ACTION(this.login)
       },
       loginUser() {
         axios({
@@ -122,7 +122,7 @@
         }).then((response) => {
           this.loginToken = JSON.stringify(response.data.token).replace(/[\"]/g, "")
           this.login = true
-          this.addTokenAction(this.loginToken)
+          this.ADD_TOKEN_ACTION(this.loginToken)
         }).then(() => {
           this.doLogin()
         }).then(() => {
@@ -148,7 +148,7 @@
               password: this.modelPass
             }
           }).then(() => {
-            this.signAction(true)
+            this.SIGN_ACTION(true)
           }).then(() => {
             this.$emit('sign')
           }).then(() => {
@@ -164,26 +164,26 @@
         this.decodedId = decodedToken.user_id;
       },
       setUser() {
-        this.addEmailAction(this.modelEmail);
-        this.addNameAction(this.modelName);
-        this.addUserIdAction(this.decodedId);
+        this.ADD_EMAIL_ACTION(this.modelEmail);
+        this.ADD_NAME_ACTION(this.modelName);
+        this.ADD_USER_ACTION(this.decodedId);
         alert('ご登録ありがとうございます！')
       },
       ...mapActions('user', [
-        'addEmailAction',
-        'addNameAction',
-        'addTokenAction',
-        'addUserIdAction',
-        'loginAction',
-        'signAction'
+        'ADD_EMAIL_ACTION',
+        'ADD_NAME_ACTION',
+        'ADD_TOKEN_ACTION',
+        'ADD_USER_ACTION',
+        'LOGIN_ACTION',
+        'SIGN_ACTION'
       ])
     },
     computed: {
       ...mapGetters('user', {
-        email: 'emailGetter',
-        name: 'nameGetter',
-        isLogin: 'loginGetter',
-        token: 'tokenGetter'
+        email: 'EMAIL_GETTER',
+        name: 'NAME_GETTER',
+        isLogin: 'LOGIN_GETTER',
+        token: 'TOKEN_GETTER'
       }),
     },
   }

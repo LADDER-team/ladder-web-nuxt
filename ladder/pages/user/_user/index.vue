@@ -114,9 +114,9 @@
         }
       },
       ...mapGetters('user', {
-        isLogin: 'loginGetter',
-        name: 'nameGetter',
-        userId: 'userIdGetter'
+        isLogin: 'LOGIN_GETTER',
+        name: 'NAME_GETTER',
+        userId: 'USER_ID_GETTER'
       })
     },
   }

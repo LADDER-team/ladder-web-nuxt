@@ -83,7 +83,7 @@
             }
           }).then((response) => {
             this.loginToken = JSON.stringify(response.data.token).replace(/[\"]/g, "")
-            this.addTokenAction(this.loginToken)
+            this.ADD_TOKEN_ACTION(this.loginToken)
             this.login = true
           }).then(() => {
             this.doLogin()
@@ -105,7 +105,7 @@
         alert("ログインしました！")
         if (!this.isLogin) {
           setTimeout(() => {
-            this.loginAction(this.login)
+            this.LOGIN_ACTION(this.login)
           }, 200)
         }
       },
@@ -123,28 +123,28 @@
         })
       },
       setUser() {
-        this.addEmailAction(this.decodedToken.email);
-        this.addNameAction(this.userDetail.name);
-        this.addUserIdAction(this.decodeId);
+        this.ADD_EMAIL_ACTION(this.decodedToken.email);
+        this.ADD_NAME_ACTION(this.userDetail.name);
+        this.ADD_USER_ACTION(this.decodeId);
       },
       tokenDecoded() {
         this.decodedToken = jwt(this.loginToken);
         this.decodeId = this.decodedToken.user_id;
       },
       ...mapActions('user',[
-        'addEmailAction',
-        'addNameAction',
-        'addTokenAction',
-        'addUserIdAction',
-        'loginAction',
+        'ADD_EMAIL_ACTION',
+        'ADD_NAME_ACTION',
+        'ADD_TOKEN_ACTION',
+        'ADD_USER_ACTION',
+        'LOGIN_ACTION',
       ])
     },
     computed: {
       ...mapGetters('user',{
-        email: 'emailGetter',
-        isLogin: 'loginGetter',
-        token: 'tokenGetter',
-        userId: 'userIdGetter'
+        email: 'EMAIL_GETTER',
+        isLogin: 'LOGIN_GETTER',
+        token: 'TOKEN_GETTER',
+        userId: 'USER_ID_GETTER'
       }),
     },
   }

@@ -40,9 +40,9 @@
     }),
     computed: {
       ...mapGetters('user', {
-        token: 'tokenGetter',
-        isLogin: 'loginGetter',
-        userId: 'userIdGetter'
+        token: 'TOKEN_GETTER',
+        isLogin: 'LOGIN_GETTER',
+        userId: 'USER_ID_GETTER'
       })
     }
   }

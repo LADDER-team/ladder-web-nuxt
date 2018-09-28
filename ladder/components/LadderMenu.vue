@@ -43,7 +43,7 @@
     },
     computed: {
       ...mapGetters('user', {
-        userId: 'userIdGetter',
+        userId: 'USER_ID_GETTER',
       })
     },
   }

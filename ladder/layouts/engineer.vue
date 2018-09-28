@@ -57,31 +57,31 @@
           this.setUser()
         }).then(() => {
           if (!this.isLogin) {
-            this.loginAction(true)
+            this.LOGIN_ACTION(true)
           }
         }).catch((error) => {
           console.log(error)
         })
       },
       setUser() {
-        this.addEmailAction(this.decodedToken.email);
-        this.addNameAction(this.userDetail.name);
+        this.ADD_EMAIL_ACTION(this.decodedToken.email);
+        this.ADD_NAME_ACTION(this.userDetail.name);
         if (!this.userId) {
-          this.addUserIdAction(this.decodedId);
+          this.ADD_USER_ACTION(this.decodedId);
         }
       },
       ...mapActions('user', [
-        'addEmailAction',
-        'addNameAction',
-        'addUserIdAction',
-        'loginAction',
+        'ADD_EMAIL_ACTION',
+        'ADD_NAME_ACTION',
+        'ADD_USER_ACTION',
+        'LOGIN_ACTION',
       ])
     },
     computed: {
       ...mapGetters('user', {
-        isLogin: 'loginGetter',
-        token: 'tokenGetter',
-        userId: 'userIdGetter',
+        isLogin: 'LOGIN_GETTER',
+        token: 'TOKEN_GETTER',
+        userId: 'USER_ID_GETTER',
       })
     }
   }

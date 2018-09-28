@@ -208,8 +208,8 @@
     },
     computed: {
       ...mapGetters('user', {
-        token: 'tokenGetter',
-        isLogin: 'loginGetter'
+        token: 'TOKEN_GETTER',
+        isLogin: 'LOGIN_GETTER'
       })
     },
   }

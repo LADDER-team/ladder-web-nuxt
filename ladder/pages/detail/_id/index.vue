@@ -436,9 +436,9 @@
         return date ? date.slice(0, 4) + "-" + date.slice(5, 7) + "-" + date.slice(8, 10) : ""
       },
       ...mapGetters('user', {
-        isLogin: 'loginGetter',
-        token: 'tokenGetter',
-        userId: 'userIdGetter'
+        isLogin: 'LOGIN_GETTER',
+        token: 'TOKEN_GETTER',
+        userId: 'USER_ID_GETTER'
       })
     }
   }

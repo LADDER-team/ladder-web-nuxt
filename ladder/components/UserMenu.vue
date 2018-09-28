@@ -40,17 +40,17 @@
       },
       doLogout() {
         localStorage.clear()
-        this.logoutAction()
+        this.LOGOUT_ACTION()
         alert('正常にログアウトされました！TOPへ遷移します！')
         this.$router.push('/')
       },
       ...mapActions('user', [
-        'logoutAction'
+        'LOGOUT_ACTION'
       ])
     },
     computed: {
       ...mapGetters('user', {
-        userId: 'userIdGetter'
+        userId: 'USER_ID_GETTER'
       })
     },
   }

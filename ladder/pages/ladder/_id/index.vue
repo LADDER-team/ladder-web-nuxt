@@ -130,8 +130,8 @@
     },
     computed: {
       ...mapGetters('user', {
-        isLogin: 'loginGetter',
-        userId: 'userIdGetter',
+        isLogin: 'LOGIN_GETTER',
+        userId: 'USER_ID_GETTER',
       })
     },
   }
