@@ -1,21 +1,21 @@
 <template>
   <v-layout align-center justify-start column
-            class="layout-ladder-management">
+            class="layout-manage">
     <v-tabs slot="extension"
             v-model="model"
             centered
             color="white"
             slider-color="blue"
-            class="my-page-tabs">
-      <v-tab href="#tab-1" class="my-page-tab">投稿 Ladder</v-tab>
-      <v-tab href="#tab-2" class="my-page-tab">学習中 Ladder</v-tab>
-      <v-tab href="#tab-3" class="my-page-tab">学習済 Ladder</v-tab>
+            class="manage-tabs">
+      <v-tab href="#tab-1" class="manage-tab">投稿 Ladder</v-tab>
+      <v-tab href="#tab-2" class="manage-tab">学習中 Ladder</v-tab>
+      <v-tab href="#tab-3" class="manage-tab">学習済 Ladder</v-tab>
     </v-tabs>
-    <v-tabs-items v-model="model" class="my-page-tab-items">
-      <v-tab-item id="tab-1" class="my-page-tab-item">
-        <p v-show="!myLadderList.length" class="my-page-not-ladder">投稿したLadderがありません</p>
+    <v-tabs-items v-model="model" class="manage-tab-items">
+      <v-tab-item id="tab-1" class="manage-tab-item">
+        <p v-show="!myLadderList.length" class="manage-not-ladder">投稿したLadderがありません</p>
         <v-flex align-start　justify-center
-                class="ladder-links-wrap my-page-ladders-wrap">
+                class="ladder-links-wrap manage-ladders-wrap">
           <div v-for="(ladder, index) in myLadderList" :key="index"
                class="ladder-link-wrap">
             <ladder-list-item :ladderId="ladder.id"
@@ -26,10 +26,10 @@
           </div>
         </v-flex>
       </v-tab-item>
-      <v-tab-item id="tab-2" class="my-page-tab-item">
-        <p v-show="!learningLadderList.length" class="my-page-not-ladder">学習中のLadderがありません</p>
+      <v-tab-item id="tab-2" class="manage-tab-item">
+        <p v-show="!learningLadderList.length" class="manage-not-ladder">学習中のLadderがありません</p>
         <v-flex md8 align-start　justify-center
-                class="ladder-links-wrap my-page-ladders-wrap">
+                class="ladder-links-wrap manage-ladders-wrap">
           <div v-for="(ladder, index) in learningLadderList" :key="index"
                class="ladder-link-wrap">
             <ladder-list-item :ladderId="ladder.id"
@@ -37,10 +37,10 @@
           </div>
         </v-flex>
       </v-tab-item>
-      <v-tab-item id="tab-3" class="my-page-tab-item">
-        <p v-show="!finishLadderList.length" class="my-page-not-ladder">学習済みのLadderがありません</p>
+      <v-tab-item id="tab-3" class="manage-tab-item">
+        <p v-show="!finishLadderList.length" class="manage-not-ladder">学習済みのLadderがありません</p>
         <v-flex align-start　justify-center
-                class="ladder-links-wrap my-page-ladders-wrap">
+                class="ladder-links-wrap manage-ladders-wrap">
           <div v-for="(ladder, index) in finishLadderList" :key="index"
                class="ladder-link-wrap">
             <ladder-list-item :ladderId="ladder.id"
@@ -143,44 +143,54 @@
   }
 </script>
 <style scoped lang="sass">
-  .my-page-wrap
+  .manage-wrap
     overflow: hidden
     display: flex
     flex-direction: row
     padding: 15px
     margin: 0 0 40px
     width: 100%
-  .my-page-ladders-wrap
+
+  .manage-ladders-wrap
     width: 100%
     max-width: 650px !important
-  .my-page-ladders-title
+
+  .manage-ladders-title
     padding: 20px
     background: #fff
     border-bottom: 1px solid $default_border_color
     text-align: center
     font-weight: normal
-  .my-page-avatar
+
+  .manage-avatar
     margin: 0 40px 0 0
-  .my-page-tab-items
+
+  .manage-tab-items
     max-width: 650px
     width: 100%
     height: 100%
-  .my-page-tab-item
+
+  .manage-tab-item
     overflow: scroll
     width: 100%
     height: 80%
-  .my-page-profile
+
+  .manage-profile
     padding: 20px 40px
-  .my-page-profile-title
+
+  .manage-profile-title
     margin: 0 0 6px
     border-bottom: 1px solid $default_border_color
     font-weight: normal
-  .my-page-not-ladder
+
+  .manage-not-ladder
     padding: 28px 0
     background-color: #fff
     text-align: center
+
   .ladder-links-wrap
     display: inline-block
     &:last-child
       border-bottom: none
+
 </style>

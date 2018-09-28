@@ -1,12 +1,12 @@
 <template>
-  <v-flex class="post-wrap">
+  <v-flex class="post-item-wrap">
     <v-text-field
       v-model="modelSubTitle"
       @input="inputSubTitle"
       outline
       :label="'Unitタイトル'+index"
       :rules="[v => !!v || 'Unitタイトルを入力してください']"
-      class="post-text-field post-sub-title"
+      class="post-item-text-field post-item-sub-title"
       placeholder="Pythonに触れよう！"></v-text-field>
     <v-text-field
       v-model="modelUrl"
@@ -15,7 +15,7 @@
       :rules="[v => !!v || '参考サイトURLを入力してください',
                          v => /(^http:\/\/|^https:\/\/)\w{1,}/.test(v) || 'http://xxxもしくはhttps://xxxの形式で入力してください']"
       label="参考サイトURL"
-      class="post-text-field post-url"
+      class="post-item-text-field post-item-url"
       placeholder="https://www.python.org/"></v-text-field>
     <v-textarea
       v-model="modelDescription"
@@ -25,14 +25,14 @@
       :rules="[v => !!v || '学べることを入力してください',
                          v => v.length <= 200 || '学べることは200字以内で入力してください']"
       label="学べること"
-      class="post-text-field post-description"
+      class="post-item-text-field post-item-description"
       placeholder="Djangoでアプリケーションをつくるには、Pythonから勉強することが必要です！なので、まずはPythonに触れてプログラミングがどういったものかをProgateで試してみましょう！"></v-textarea>
   </v-flex>
 </template>
 
 <script>
   export default {
-    name: "ladder-post-form",
+    name: "ladder-post-item-form",
     props: {
       index: 0,
       unit: null,
@@ -69,6 +69,9 @@
 </script>
 
 <style lang="sass" scoped>
-  .post-wrap
+  .post-item-wrap
     margin: 0 0 30px
+
+  .post-item-text-field
+    font-size: 18px
 </style>

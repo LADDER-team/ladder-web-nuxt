@@ -75,6 +75,7 @@
   .g-toolbar
     z-index: 300
     background-color: $default_primary_color !important
+
   .g-toolbar-title
     color: #fff
     display: flex
@@ -82,40 +83,52 @@
     @media(min-width: $media_tablet)
       &:hover
         opacity: .7
+
   .g-toolbar-logo
     display: inline-block
     vertical-align: middle
-    background: url('~assets/images/logo_title_sp.png') no-repeat center
     background-size: contain
     width: 100px
     height: 30px
+    background: url('#{$image_path}/logo_title_sp.png') no-repeat center
+    background-size: contain
     @media(min-width: $media_phone)
       max-width: 150px
       width: 150px
+      background: url('#{$image_path}/logo_title.png') no-repeat center
+      background-size: contain
+
   .g-search-wrap
     display: none
     @media(min-width: $media_desktop_sm)
       display: flex
       padding: 10px 0
       margin: 0 0 0 30px
+
   .g-search-field
     padding: 5px 10px 0
     background: #fff
     border-radius: 30px
     overflow: hidden
+
   .input-group__details
     display: none
+
   .g-toolbar-items
     display: none
     @media(min-width: $media_desktop_sm)
       display: flex
+
   .g-toolbar-btn
     margin: 0 0 0 20px !important
     border: none !important
+
   .g-toolbar-btn-icon
     max-height: 80%
     max-width: 80%
     width: 100%
+
   .app-bar-btn
     margin: 0 0 0 20px
+
 </style>

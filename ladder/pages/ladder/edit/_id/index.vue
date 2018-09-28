@@ -2,13 +2,13 @@
   <v-layout justify-center
             ref="scrollWrapRef"
             id="scroll-wrap"
-            class="layout-ladder-post">
+            class="layout-post">
     <v-flex justify-center align-start
             md7
-            class="ladder-posts-wrap">
+            class="post-form-wrap">
       <v-form ref="form" v-model="valid"
               lazy-validation
-              class="ladder-post-form">
+              class="post-form">
         <v-text-field
           v-model="modelTitle"
           outline
@@ -25,23 +25,23 @@
           label="Ladderの説明"
           placeholder="半年前までプログラミング初心者だった私がDjangoでアプリケーションをどんな順序で開発することができたのか。初心者の方に参考になればなと思います！諦めずに最後までやりきってみましょう！"></v-textarea>
         <v-flex v-for="(unit, index) in unitsList" :key="index">
-          <ladder-post-form :index="index+1"
+          <ladder-post-item :index="index+1"
                             :unit="unit"
                             :isEdit="true"
                             @sub-title-emit="onSubTitle"
                             @url-emit="onUrl"
                             @description-emit="onDescription"
-                            class="ladder-post-item"/>
+                            class="post-item"/>
         </v-flex>
-        <v-flex class="ladder-post-dialog-wrap">
+        <v-flex class="post-dialog-wrap">
           <v-dialog v-model="dialog" width="500">
             <v-btn slot="activator"
                    dark fab large
-                   class="contribution-floating-btn ladder-post-submit">
+                   class="submit-floating-btn post-submit-btn">
               <v-icon dark>done</v-icon>
             </v-btn>
             <v-card>
-              <v-card-title class="headline dialog-title" primary-title>
+              <v-card-title class="headline dialog-title" >
                 編集確認
               </v-card-title>
               <v-card-text>
@@ -74,10 +74,10 @@
   import axios from 'axios'
   import _ from 'underscore'
   import {mapGetters} from 'vuex'
-  import LadderPostForm from '~/components/ladderPostForm.vue'
+  import LadderPostItem from '~/components/LadderPostItem'
 
   export default {
-    name: "ladder-edit",
+    name: "Ladder-edit",
     layout: 'engineer',
     scrollToTop: true,
     transitions: {
@@ -133,7 +133,7 @@
       }
     },
     components: {
-      LadderPostForm
+      LadderPostItem
     },
     created() {
       const ladderId = this.$route.params.id
@@ -235,23 +235,13 @@
 </script>
 
 <style scoped lang="sass">
-  .ladder-posts-wrap
+  .post-form-wrap
     position: relative
     padding: 70px
     max-width: 800px
     background-color: #fff
-  .ladder-post-icons
-    max-width: 40px
-    max-height: 40px
-    margin: 0 auto
-    cursor: pointer
-  .ladder-post-add
-    &:hover
-      opacity: .7
-  .ladder-post-remove
-    &:hover
-      opacity: .7
-  .ladder-post-dialog-wrap
+
+  .post-dialog-wrap
     z-index: 100
     position: fixed
     bottom: 150px
@@ -259,13 +249,17 @@
     margin: 0 auto
     max-width: 770px
     width: 55%
-  .ladder-post-submit
+
+  .post-submit-btn
     position: absolute !important
     right: 0
+
   .post-description
     margin: 0 0 24px !important
     border-bottom: 3px solid $default_border_color
+
   .post-text-field
     font-size: 18px
+
 </style>
 

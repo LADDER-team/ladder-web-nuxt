@@ -10,14 +10,14 @@
         <div @click="clickLadder(0, isShowLadder)"
              :class="{'ladder-item-active': isLearning||isLearned}"
              class="ladder-item">
-          <p>{{ladderDetailList.title}}</p>
+          <p class="ladder-items-title">{{ladderDetailList.title}}</p>
         </div>
         <div v-for="(units, index) in unitList" :key="index"
              @click="clickLadder(index, isShowLadder)"
              :class="{'ladder-item-active': isLearning&&!learnedStatus(learningUnits, index)||isLearned}"
              class="ladder-item">
-          <p>unit:{{ units.index }}</p>
-          <p>{{ units.title }}</p>
+          <p class="ladder-item-index">unit:{{ units.index }}</p>
+          <p class="ladder-item-title">{{ units.title }}</p>
         </div>
       </div>
     </v-flex>
@@ -78,7 +78,7 @@
         <h3 class="unit-title">{{ units.title }}</h3>
         <v-flex align-center justify-center
                 class="unit-image-wrap">
-          <a :href="units.url" target="_blank">
+          <a :href="units.url" class="unit-image-link" target="_blank">
             <img :src="image.src+units.url+'?w='+image.width+'&h='+image.height+'?'"
                  :alt="image.alt"
                  class="unit-image">
@@ -91,7 +91,7 @@
     </v-flex>
     <v-btn dark fab midium
            @click="showLadder"
-           class="contribution-floating-btn ladder-activate-btn">
+           class="submit-floating-btn ladder-activate-btn">
       <img class="ladder-activate-btn-image" src="~static/icons/ladder_icon_white.png" alt="">
     </v-btn>
   </v-layout>
@@ -450,10 +450,12 @@
     @media (min-width: $media_desktop_sm)
       margin: 0 0 0 4%
       max-width: 800px
+
   .unit-head
     margin: 0 0 20px
     font-size: 18px
     color: #B0BEC5
+
   .unit-item
     padding: 40px 15px 15px
     margin: 0 0 30px
@@ -461,10 +463,15 @@
     background: #fff
     box-shadow: $default_shadow_card
     border-radius: 16px
+    &:last-child
+      margin: 0 0 15px
     @media (min-width: $media_desktop_sm)
       padding: 20px 30px 40px
       margin: 0 0 60px
       box-shadow: none
+      &:last-child
+        margin: 0 0 30px
+
   .unit-title
     margin: 0 0 30px
     text-align: center
@@ -474,11 +481,14 @@
       margin: 0 0 30px
       text-align: center
       font-size: 32px
+
   .unit-point
     text-align: center
+
   .unit-point-item
     padding: 5px 10px
     background: #ECEFF1
+
   .unit-image-wrap
     width: 100%
     margin: 0 auto 30px
@@ -486,9 +496,10 @@
     @media (min-width: $media_desktop_sm)
       margin: 40px auto
       max-width: 800px
-      a:hover
+      .unit-image-link:hover
         .unit-image
           box-shadow: $default_shadow_image_hover
+
   .unit-image
     margin: 0 auto
     width: 80%
@@ -498,6 +509,7 @@
       box-shadow: $default_shadow_image
       max-width: 60%
       width: 60%
+
   .unit-description
     font-size: 14px
     border-left: 3px solid #64B5F6
@@ -507,7 +519,7 @@
     @media(min-width: $media_desktop_sm)
       font-size: 18px
       padding: 0 0 0 10px
-      width: 80%
+      width: 85%
 
   .ladder-wrap
     z-index: 100
@@ -528,9 +540,11 @@
       height: auto
       opacity: 1
       background: none
+
   .ladder-wrap-show
     top: 0
     opacity: 1
+
   .ladder-item
     position: relative
     padding: 6px 10px
@@ -605,6 +619,7 @@
         @media(min-width: $media_desktop_sm)
           bottom: -40px
           height: 40px
+
   .ladder-inner
     position: relative
     top: 0
@@ -614,6 +629,7 @@
       top: 25%
       max-width: inherit
       width: 100%
+
   .ladder-item-active
     background: $default_ladder_activate_color
     &:first-of-type
@@ -664,18 +680,23 @@
 
   .unit-cover
     padding-top: 20px
+
   .unit-cover-avatar
     border: 1px solid $default_border_color
+
   .unit-cover-info-wrap
     margin: 0 0 10vh
+
   .unit-cover-info
     margin: 0 0 0 10px
     white-space: nowrap
+
   .unit-cover-info-name
     font-size: 14px
     font-weight: 400
     @media (min-width: $media_desktop_sm)
       font-size: 16px
+
   .unit-cover-info-date
     white-space: nowrap
     font-size: 12px
@@ -683,19 +704,23 @@
     color: $default_small_text_color
     @media (min-width: $media_desktop_sm)
       font-size: 14px
+
   .unit-cover-btn-wrap
     display: none
     @media (min-width: $media_desktop_sm)
       display: block
       margin: 0 0 0 auto
+
   .unit-cover-title
     margin: 0 0 5vh
     @media (min-width: $media_desktop_sm)
       margin: 0 0 10vh
+
   .unit-description-text
     font-size: 14px
     @media (min-width: $media_desktop_sm)
       font-size: 18px
+
   .unit-btn-wrap
     display: none
     @media (min-width: $media_desktop_sm)
@@ -711,6 +736,7 @@
     right: 8px
     @media (min-width: $media_desktop_sm)
       display: none
+
   .ladder-activate-btn-image
     width: 80%
     height: 80%

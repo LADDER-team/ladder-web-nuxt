@@ -9,7 +9,7 @@
           <v-form lazy-validation
                   ref="form"
                   v-model="valid"
-                  class="sign-in-form">
+                  class="sign-form">
             <v-text-field
               v-model="modelEmail"
               :rules="emailRules"
@@ -31,10 +31,11 @@
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn flat　color="blue darken-1"
+      <v-btn flat color="blue darken-1"
              @click="cancelDialog">キャンセル
       </v-btn>
-      <v-btn flat　color="blue darken-1"
+      <v-btn color="blue darken-1" flat
+             :disabled="!valid"
              @click="loginUser">ログイン
       </v-btn>
     </v-card-actions>
@@ -57,7 +58,7 @@
         userDetail: {},
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         //validation
-        valid: true,
+        valid: false,
         modelEmail: "",
         emailRules: [
           v => !!v || 'メールアドレスを入力してください',
@@ -150,11 +151,4 @@
   }
 </script>
 
-<style scoped lang="sass">
-  .dialog-help
-    font-size: 12px
-    a
-      color: $default_primary_color
-  .sign-in-form
-    width: 100%
-</style>
+<style scoped lang="sass"></style>
