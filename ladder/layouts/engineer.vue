@@ -90,15 +90,17 @@
 <style lang="sass" scoped>
   .contents-wrap
     overflow: hidden
-    padding: 0!important
+    padding: 0 !important
+
   .g-container
     display: flex
-    padding: 0 8px 0!important
+    padding: 0 8px 0 !important
     margin: 60px 0 0
     height: 100%
     @media (min-width: $media_desktop_sm)
-      padding: 0 16px 0!important
+      padding: 0 16px 0 !important
       margin: 80px 0 0
       height: 100%
+
 </style>
 

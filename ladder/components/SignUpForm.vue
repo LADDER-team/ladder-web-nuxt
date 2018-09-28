@@ -9,7 +9,7 @@
           <v-form lazy-validation
                   v-model="valid"
                   ref="form"
-                  class="sign-up-form">
+                  class="sign-form">
             <v-text-field
               v-model="modelName"
               :rules="nameRules"
@@ -43,7 +43,7 @@
         </v-layout>
         <p class="dialog-help">
           登録済みの方はこちらから
-          <a href="#" @click="directLogin">ログイン</a>
+          <a @click="directLogin" class="dialog-link">ログイン</a>
           してください
         </p>
       </v-container>
@@ -53,8 +53,8 @@
       <v-btn color="blue darken-1" flat
              @click="cancelDialog">キャンセル
       </v-btn>
-      <v-btn :disabled="!valid"
-             color="blue darken-1" flat
+      <v-btn color="blue darken-1" flat
+             :disabled="!valid"
              @click="postUser">登録
       </v-btn>
     </v-card-actions>
@@ -71,7 +71,7 @@
     data() {
       return {
         sign: false,
-        valid: true,
+        valid: false,
         decodedId: 0,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
@@ -189,12 +189,4 @@
   }
 </script>
 
-<style scoped lang="sass">
-  .dialog-help
-    margin: 10px 0 0
-    font-size: 12px
-    a
-      color: $default_primary_color
-  .sign-up-form
-    width: 100%
-</style>
+<style lang="sass" scoped></style>

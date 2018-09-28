@@ -51,6 +51,7 @@
 <style lang="sass" scoped>
   .ladder-link-wrap
     position: relative
+
   .ladder-link
     position: relative
     display: flex
@@ -65,8 +66,10 @@
     transition: opacity .3s
     &:hover
       opacity: .6
+
   .ladder-info-wrap
     width: 100%
+
   .ladder-link-title
     margin: 0 0 10px
     width: 100%
@@ -74,6 +77,7 @@
     font-size: 20px
     font-weight: normal
     color: #000
+
   .ladder-link-attach
     text-decoration: none
     text-align: right
@@ -83,11 +87,13 @@
       font-size: 14px
       color: #000
       margin: 0 0 0 5px
+
   .ladder-thumb-wrap
     min-width: 50px
     width: 50px
     height: 50px
     margin: 0 20px 0 0
+
   .ladder-thumb
     max-width: 100%
     width: 100%
@@ -96,6 +102,7 @@
   .manage-ladder-wrap
     display: flex
     padding: 0 75px 0 0
+
   .ladder-manage-btn-wrap
     position: absolute
     top: 0

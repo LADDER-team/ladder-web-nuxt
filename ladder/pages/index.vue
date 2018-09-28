@@ -7,7 +7,8 @@
            class="ladder-link-wrap">
         <ladder-list-item :ladderId="ladder.id"
                           :title="ladder.title"
-                          :count="ladder.count_learning_number"/>
+                          :count="ladder.count_learning_number"
+                          class="ladder-list-item"/>
       </div>
     </v-flex>
   </v-layout>
@@ -82,6 +83,8 @@
       height: 85%
     &:last-child
       border-bottom: none
+
   .ladder-link-wrap
     width: 100%
+
 </style>
