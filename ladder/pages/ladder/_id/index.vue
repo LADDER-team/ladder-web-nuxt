@@ -98,34 +98,40 @@
         alert("機能搭載までお待ちください！")
       },
       getFinishLadders() {
-        axios({
-          method: 'GET',
-          url: 'http://localhost:8080/api/users/' + this.userId + '/finish-ladder/'
-        }).then((response) => {
-          this.finishLadderList = response.data
-        }).catch((error) => {
-          console.log(error)
-        })
+        if(this.userId) {
+          axios({
+            method: 'GET',
+            url: 'http://localhost:8080/api/users/' + this.userId + '/finish-ladder/'
+          }).then((response) => {
+            this.finishLadderList = response.data
+          }).catch((error) => {
+            console.log(error)
+          })
+        }
       },
       getLearningLadders() {
-        axios({
-          method: 'GET',
-          url: 'http://localhost:8080/api/users/' + this.userId + '/learning-ladder/'
-        }).then((response) => {
-          this.learningLadderList = response.data
-        }).catch((error) => {
-          console.log(error)
-        })
+        if(this.userId) {
+          axios({
+            method: 'GET',
+            url: 'http://localhost:8080/api/users/' + this.userId + '/learning-ladder/'
+          }).then((response) => {
+            this.learningLadderList = response.data
+          }).catch((error) => {
+            console.log(error)
+          })
+        }
       },
       getMyLadders() {
-        axios({
-          method: 'GET',
-          url: 'http://localhost:8080/api/users/' + this.userId + '/'
-        }).then((response) => {
-          this.myLadderList = response.data.my_ladders
-        }).catch((error) => {
-          console.log(error)
-        })
+        if(this.userId) {
+          axios({
+            method: 'GET',
+            url: 'http://localhost:8080/api/users/' + this.userId + '/'
+          }).then((response) => {
+            this.myLadderList = response.data.my_ladders
+          }).catch((error) => {
+            console.log(error)
+          })
+        }
       }
     },
     computed: {
