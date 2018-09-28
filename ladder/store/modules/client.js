@@ -1,7 +1,7 @@
 import jwt from 'jwt-decode'
 
 const actions = {
-  clientInit({commit, state, dispatch}, {req}) {
+  clientInit({commit}) {
     if (localStorage.token) {
       commit('user/ACCESS_TOKEN_MUTATION', localStorage.token)
     }

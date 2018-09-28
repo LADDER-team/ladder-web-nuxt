@@ -65,7 +65,7 @@
     computed: {
       ...mapGetters('user', {
         isLogin: 'LOGIN_GETTER',
-        userId: 'LOGIN_GETTER'
+        userId: 'USER_ID_GETTER'
       })
     },
   }
