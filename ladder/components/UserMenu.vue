@@ -14,6 +14,9 @@
             マイページ
           </v-list-tile-title>
         </v-list-tile>
+        <v-list-tile @click="toPassword">
+          <v-list-tile-title>パスワード再設定</v-list-tile-title>
+        </v-list-tile>
         <v-list-tile @click="toHelp">
           <v-list-tile-title>ヘルプ</v-list-tile-title>
         </v-list-tile>
@@ -37,6 +40,9 @@
       toMyPage() {
         const userId = typeof this.userId === 'number' ? this.userId : parseInt(this.userId)
         this.$router.push('/user/' + userId + '/')
+      },
+      toPassword(){
+        this.$router.push('/settings/password/')
       },
       doLogout() {
         localStorage.clear()
