@@ -42,7 +42,7 @@
         this.$router.push('/user/' + userId + '/')
       },
       toPassword(){
-        this.$router.push('/settings/password/')
+        this.$router.push('/settings/password/edit/')
       },
       doLogout() {
         localStorage.clear()
