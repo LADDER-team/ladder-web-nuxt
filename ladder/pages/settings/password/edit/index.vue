@@ -1,51 +1,51 @@
 <template>
   <v-layout justify-center
-            ref="scrollWrapRef"
-            id="scroll-wrap"
-            class="layout-post">
-    <v-flex justify-center align-start
-            md7 lg7
-            class="password-edit-form-wrap">
+            class="layout-password-edit">
+    <div class="password-edit-form-wrap">
       <v-form ref="form"
               class="password-edit-form">
         <v-text-field
           prepend-icon="lock"
           ref="passRef"
-          class="password-edit-form-input"
+          class="password-edit-input"
           type="password"
           label="現在のパスワード"
           required></v-text-field>
         <v-text-field
           prepend-icon="lock"
-          ref="passRef"
-          class="password-edit-form-input"
+          ref="nextPassRef"
+          class="password-edit-input"
           type="password"
           label="新しいパスワード"
           required></v-text-field>
         <v-text-field
           prepend-icon="lock"
+          ref="nextConfirmPassRef"
+          class="password-edit-input"
           type="password"
-          class="password-edit-form-input"
           label="新しいパスワード（再確認）"
           required></v-text-field>
-        <v-btn depressed ripple
-               class="primary-btn">変更
-        </v-btn>
+        <div class="password-edit-btn-wrap">
+          <v-btn block ripple
+                 class="primary-block-btn password-edit-btn">パスワードを変更する
+          </v-btn>
+        </div>
       </v-form>
-    </v-flex>
+    </div>
   </v-layout>
 </template>
 
 <script>
   export default {
-    name: "password",
+    name: "password-edit",
     layout: 'engineer',
     scrollToTop: true,
     transitions: {
       name: 'page',
       mode: 'out-in'
     },
-    asyncData() {},
+    asyncData() {
+    },
     data: () => ({}),
     head() {
       return {
@@ -58,5 +58,19 @@
 </script>
 
 <style lang="sass" scoped>
+  .password-edit-form-wrap
+    max-width: 600px
+    width: 100%
+    height: 80%
+
+  .password-edit-form
+    background: #fff
+    padding: 30px
+
+  .password-edit-btn-wrap
+    text-align: right
+
+  .password-edit-btn
+    margin: 30px 0 0
 
 </style>
