@@ -1,7 +1,35 @@
 <template>
-  <v-layout justify-center fill-height
-            class="layout-password">
-    <p>you will use Vuetify components. Access to <a href="https://vuetifyjs.com/ja/">https://vuetifyjs.com/ja/</a></p>
+  <v-layout justify-center
+            ref="scrollWrapRef"
+            id="scroll-wrap"
+            class="layout-post">
+    <v-flex justify-center align-start
+            md7 lg7
+            class="post-form-wrap">
+      <v-form ref="form"
+              class="sign-form">
+        <v-text-field
+          prepend-icon="lock"
+          ref="passRef"
+          type="password"
+          label="現在のパスワード"
+          required></v-text-field>
+        <v-text-field
+          prepend-icon="lock"
+          ref="passRef"
+          type="password"
+          label="新しいパスワード"
+          required></v-text-field>
+        <v-text-field
+          prepend-icon="lock"
+          type="password"
+          label="新しいパスワード（再確認）"
+          required></v-text-field>
+        <v-btn depressed ripple
+               class="primary-btn">変更
+        </v-btn>
+      </v-form>
+    </v-flex>
   </v-layout>
 </template>
 
@@ -27,15 +55,5 @@
 </script>
 
 <style lang="sass" scoped>
-  /*!
-      >>> sass write here <<<
 
-      colors: /assets/styles/sass/_colors.sass
-      media queries: /assets/styles/sass/_devices.sass
-      some styles: /assets/styles/sass/_base.sass
-    */
-  a
-    color: blue
-    &:hover
-      border-bottom: 1px solid blue
 </style>
