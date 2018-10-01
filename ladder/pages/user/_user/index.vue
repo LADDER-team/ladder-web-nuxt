@@ -5,7 +5,8 @@
       <v-flex align-center justify-end layout
               class="user-page-avatar">
         <v-avatar :size="avatarSize" color="grey lighten-4">
-          <img src="~assets/images/logo.png" alt="avatar">
+          <img v-if="userDetailList.icon" :src="userDetailList.icon" alt="avatar">
+          <img v-if="!userDetailList.icon" src="~static/images/logo.png" alt="avatar">
         </v-avatar>
       </v-flex>
       <v-flex justify-start align-center>
@@ -20,7 +21,7 @@
           </v-btn>
           <v-card>
             <v-card-title>
-              <span class="headline">ユーザログイン</span>
+              <span class="headline">プロフィール変更</span>
             </v-card-title>
             <v-card-text>
               <v-container grid-list-md>
@@ -49,8 +50,7 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn flat color="blue darken-1" @click="dialog=false">キャンセル
-              </v-btn>
+              <v-btn flat color="blue darken-1" @click="dialog=false">キャンセル</v-btn>
               <v-btn flat color="blue darken-1"
                      @click="editProfile"
                      :disabled="!valid">変更する
@@ -74,7 +74,7 @@
         <v-flex>
           <div>
             <h3 class="user-page-profile-title">自己紹介</h3>
-            <p>{{userDetailList.profile}}</p>
+            <p class="user-page-profile-body">{{userDetailList.profile}}</p>
           </div>
         </v-flex>
       </v-tab-item>
@@ -237,5 +237,8 @@
 
   .user-edit-form
     width: 100%
+
+  .user-page-profile-body
+    word-break: break-word
 
 </style>
