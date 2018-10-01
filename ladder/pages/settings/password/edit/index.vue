@@ -5,24 +5,27 @@
             class="layout-post">
     <v-flex justify-center align-start
             md7 lg7
-            class="post-form-wrap">
+            class="password-edit-form-wrap">
       <v-form ref="form"
-              class="sign-form">
+              class="password-edit-form">
         <v-text-field
           prepend-icon="lock"
           ref="passRef"
+          class="password-edit-form-input"
           type="password"
           label="現在のパスワード"
           required></v-text-field>
         <v-text-field
           prepend-icon="lock"
           ref="passRef"
+          class="password-edit-form-input"
           type="password"
           label="新しいパスワード"
           required></v-text-field>
         <v-text-field
           prepend-icon="lock"
           type="password"
+          class="password-edit-form-input"
           label="新しいパスワード（再確認）"
           required></v-text-field>
         <v-btn depressed ripple
