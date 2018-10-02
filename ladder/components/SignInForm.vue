@@ -10,21 +10,26 @@
                   ref="form"
                   v-model="valid"
                   class="sign-form">
-            <v-text-field
-              v-model="modelEmail"
-              :rules="emailRules"
-              prepend-icon="email"
-              ref="emailRef"
-              label="メールアドレス"
-              required></v-text-field>
-            <v-text-field
-              v-model="modelPass"
-              :rules="passRules"
-              prepend-icon="lock"
-              ref="passRef"
-              type="password"
-              label="パスワード"
-              required></v-text-field>
+            <v-text-field v-model="modelEmail"
+                          :rules="emailRules"
+                          prepend-icon="email"
+                          ref="emailRef"
+                          label="メールアドレス"
+                          required></v-text-field>
+            <v-text-field v-model="modelPass"
+                          :rules="passRules"
+                          prepend-icon="lock"
+                          ref="passRef"
+                          type="password"
+                          label="パスワード"
+                          required></v-text-field>
+            <p class="dialog-help">
+              パスワードを忘れた方は
+              <a @click="toPasswordReset"
+                 class="dialog-link">こちら
+              </a>
+              をクリック！
+            </p>
           </v-form>
         </v-layout>
       </v-container>
@@ -101,7 +106,7 @@
       cancelDialog() {
         this.$emit('cancel')
       },
-      doLogin(){
+      doLogin() {
         this.$emit('login')
         alert("ログインしました！")
         if (!this.isLogin) {
@@ -132,7 +137,11 @@
         this.decodedToken = jwt(this.loginToken);
         this.decodeId = this.decodedToken.user_id;
       },
-      ...mapActions('user',[
+      async toPasswordReset() {
+        await this.cancelDialog()
+        await this.$router.push('/settings/password/reset/')
+      },
+      ...mapActions('user', [
         'ADD_EMAIL_ACTION',
         'ADD_NAME_ACTION',
         'ADD_TOKEN_ACTION',
@@ -141,7 +150,7 @@
       ])
     },
     computed: {
-      ...mapGetters('user',{
+      ...mapGetters('user', {
         email: 'EMAIL_GETTER',
         isLogin: 'LOGIN_GETTER',
         token: 'TOKEN_GETTER',
@@ -151,4 +160,7 @@
   }
 </script>
 
-<style scoped lang="sass"></style>
+<style scoped lang="sass">
+  .password-reset-link
+    color: $default_primary_color
+</style>

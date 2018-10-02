@@ -81,6 +81,13 @@
         token: 'TOKEN_GETTER'
       }),
     },
+    watch: {
+      $route: {
+        handler(){
+          this.dialog = false
+        }
+      }
+    }
   }
 </script>
 
