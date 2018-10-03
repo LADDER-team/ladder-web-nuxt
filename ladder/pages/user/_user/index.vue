@@ -132,6 +132,7 @@
       dialog: false,
       posted: false,
       defaultName: '',
+      imageFile: null,
       imageUrl: '',
       model: 'tab-1',
       profile: '',
@@ -165,7 +166,7 @@
 
         if (this.$refs.form.validate()) {
           axios({
-            method: 'PATCH',
+            method: 'PUT',
             url: 'http://localhost:8080/api/users/' + userId + '/',
             headers: {
               "Authorization": "JWT " + this.token,
@@ -174,7 +175,7 @@
             data: {
               name: this.modelName,
               profile: this.modelProfile,
-              icon: this.imageUrl,
+              // icon: this.imageFile,
             }
           }).then(() => {
             this.getUserDetail()
@@ -220,7 +221,7 @@
           })
           fileReader.readAsDataURL(files[0])
 
-          this.$emit('input', files[0])
+          this.imageFile = files[0]
         }
       },
 
