@@ -37,6 +37,7 @@
           <v-dialog v-model="dialog" width="500">
             <v-btn slot="activator"
                    dark fab large
+                   @click="validateForm"
                    class="submit-floating-btn post-submit-btn">
               <v-icon dark>done</v-icon>
             </v-btn>
@@ -217,11 +218,10 @@
         this.$set(this.urlList, index, urlEmit);
       },
       validateForm() {
-        if (!this.$refs.form.validate)
-          alert('フォームを全て埋めてください！')
-        setTimeout(() => {
-          this.dialog = false
-        }, 1)
+        !this.modelTitle && !this.modelLadderDescription ? this.unInputForm(0)
+          : !this.modelTitle ? this.unInputForm(1)
+          : !this.modelLadderDescription ? this.unInputForm(2)
+            : console.log('true')
       },
     }
     ,
@@ -234,21 +234,29 @@
   }
 </script>
 
-<style scoped lang="sass">
+<style lang="sass" scoped>
   .post-form-wrap
     position: relative
-    padding: 70px
-    max-width: 800px
     background-color: #fff
+    @media (min-width: $media_desktop_sm)
+      padding: 49px
+      width: 100%
+      max-width: 600px
+    @media (min-width: $media_desktop_md)
+      padding: 60px 76px
+      max-width: 800px
 
   .post-dialog-wrap
     z-index: 100
     position: fixed
-    bottom: 150px
     display: block
     margin: 0 auto
-    max-width: 770px
-    width: 55%
+    @media (min-width: $media_desktop_sm)
+      bottom: 120px
+      max-width: 600px
+      width: 100%
+    @media (min-width: $media_desktop_md)
+      max-width: 770px
 
   .post-submit-btn
     position: absolute !important
@@ -259,7 +267,9 @@
     border-bottom: 3px solid $default_border_color
 
   .post-text-field
-    font-size: 18px
+    font-size: 14px
+    @media (min-width: $media_desktop_md)
+      font-size: 18px
 
 </style>
 

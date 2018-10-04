@@ -215,7 +215,7 @@
   }
 </script>
 
-<style scoped lang="sass">
+<style lang="sass" scoped>
   .post-form-wrap
     position: relative
     background-color: #fff
