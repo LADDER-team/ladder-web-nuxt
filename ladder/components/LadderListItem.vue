@@ -75,7 +75,10 @@
     font-weight: normal
     color: #000
     @media (min-width: $media_desktop_sm)
+      font-size: 16px
+    @media (min-width: $media_desktop_md)
       font-size: 18px
+
   .ladder-link-attach
     text-decoration: none
     text-align: right

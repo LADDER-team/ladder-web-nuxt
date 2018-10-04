@@ -128,6 +128,7 @@
             url: 'https://api.ladder.noframeschools.com/api/users/' + this.userId + '/'
           }).then((response) => {
             this.myLadderList = response.data.my_ladders
+            console.log(this.myLadderList)
           }).catch((error) => {
             console.log(error)
           })
@@ -166,7 +167,7 @@
     margin: 0 40px 0 0
 
   .manage-tab-items
-    max-width: 650px
+    max-width: 600px
     width: 100%
     height: 100%
 

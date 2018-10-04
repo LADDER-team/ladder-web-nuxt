@@ -79,10 +79,13 @@
     @media (min-width: $media_desktop_sm)
       display: inline-block
       padding: 0
+      max-width: 600px
+      height: 80%
+      &:last-child
+        border-bottom: none
+    @media (min-width: $media_desktop_md)
       max-width: 650px
       height: 85%
-    &:last-child
-      border-bottom: none
 
   .ladder-link-wrap
     width: 100%

@@ -85,7 +85,7 @@
           </a>
         </v-flex>
         <div class="unit-description">
-          {{ units.description }}
+          <p class="unit-description-text">{{ units.description }}</p>
         </div>
       </div>
     </v-flex>
@@ -448,6 +448,9 @@
     position: relative
     align-items: flex-start
     @media (min-width: $media_desktop_sm)
+      margin: 0 0 0 6%
+      max-width: 600px
+    @media (min-width: $media_desktop_md)
       margin: 0 0 0 4%
       max-width: 800px
 
@@ -478,8 +481,9 @@
     font-size: 20px
     font-weight: 400
     @media (min-width: $media_desktop_sm)
+      font-size: 20px
+    @media (min-width: $media_desktop_md)
       margin: 0 0 30px
-      text-align: center
       font-size: 32px
 
   .unit-point
@@ -494,11 +498,13 @@
     margin: 0 auto 30px
     text-align: center
     @media (min-width: $media_desktop_sm)
-      margin: 40px auto
-      max-width: 800px
+      max-width: 600px
       .unit-image-link:hover
         .unit-image
           box-shadow: $default_shadow_image_hover
+    @media (min-width: $media_desktop_md)
+      margin: 40px auto
+      max-width: 800px
 
   .unit-image
     margin: 0 auto
@@ -511,15 +517,17 @@
       width: 60%
 
   .unit-description
-    font-size: 14px
     border-left: 3px solid #64B5F6
     padding: 0 0 0 10px
     width: 90%
     margin: 0 auto
-    @media(min-width: $media_desktop_sm)
-      font-size: 18px
-      padding: 0 0 0 10px
+    @media(min-width: $media_desktop_md)
       width: 85%
+
+  .unit-description-text
+    font-size: 14px
+    @media(min-width: $media_desktop_md)
+      font-size: 18px
 
   .ladder-wrap
     z-index: 100
@@ -551,10 +559,12 @@
     background: $default_ladder_disable_color
     border-bottom: 1px solid #546E7A
     cursor: pointer
-    @media(min-width: $media_desktop_sm)
-      padding: 10px
+    @media (min-width: $media_desktop_sm)
+      padding: 8px
       &:hover
         opacity: .7
+    @media (min-width: $media_desktop_md)
+      padding: 10px
     p
       margin: 0
       overflow: hidden
@@ -563,6 +573,10 @@
       font-weight: bold
       color: #fff
       pointer-events: none
+      @media (min-width: $media_desktop_sm)
+        font-size: 12px
+      @media (min-width: $media_desktop_md)
+        font-size: 14px
     &:first-of-type
       background-color: $default_ladder_first_color
       &:after
@@ -626,7 +640,7 @@
     width: 70%
     @media (min-width: $media_desktop_sm)
       position: fixed
-      top: 25%
+      top: 20%
       max-width: inherit
       width: 100%
 
@@ -694,7 +708,7 @@
   .unit-cover-info-name
     font-size: 14px
     font-weight: 400
-    @media (min-width: $media_desktop_sm)
+    @media (min-width: $media_desktop_md)
       font-size: 16px
 
   .unit-cover-info-date
@@ -702,7 +716,7 @@
     font-size: 12px
     font-weight: 400
     color: $default_small_text_color
-    @media (min-width: $media_desktop_sm)
+    @media (min-width: $media_desktop_md)
       font-size: 14px
 
   .unit-cover-btn-wrap
@@ -716,18 +730,15 @@
     @media (min-width: $media_desktop_sm)
       margin: 0 0 10vh
 
-  .unit-description-text
-    font-size: 14px
-    @media (min-width: $media_desktop_sm)
-      font-size: 18px
-
   .unit-btn-wrap
     display: none
     @media (min-width: $media_desktop_sm)
       display: block
       padding: 7px 0
-      margin: 0 0 8vh
+      margin: 0 0 4vh
       text-align: right
+    @media (min-width: $media_desktop_md)
+      margin: 0 0 6vh
 
   .ladder-activate-btn
     z-index: 100

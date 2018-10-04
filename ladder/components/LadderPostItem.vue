@@ -73,5 +73,7 @@
     margin: 0 0 30px
 
   .post-item-text-field
-    font-size: 18px
+    font-size: 14px
+    @media (min-width: $media_desktop_md)
+      font-size: 18px
 </style>

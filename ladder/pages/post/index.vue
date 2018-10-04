@@ -218,9 +218,14 @@
 <style scoped lang="sass">
   .post-form-wrap
     position: relative
-    padding: 70px
-    max-width: 800px
     background-color: #fff
+    @media (min-width: $media_desktop_sm)
+      padding: 49px
+      width: 100%
+      max-width: 600px
+    @media (min-width: $media_desktop_md)
+      padding: 60px 76px
+      max-width: 800px
 
   .post-icons
     max-width: 40px
@@ -236,11 +241,14 @@
   .post-dialog-wrap
     z-index: 100
     position: fixed
-    bottom: 150px
     display: block
     margin: 0 auto
-    max-width: 770px
-    width: 55%
+    @media (min-width: $media_desktop_sm)
+      bottom: 120px
+      max-width: 600px
+      width: 100%
+    @media (min-width: $media_desktop_md)
+      max-width: 770px
 
   .post-submit-btn
     position: absolute !important
@@ -251,7 +259,9 @@
     border-bottom: 3px solid $default_border_color
 
   .post-text-field
-    font-size: 18px
+    font-size: 14px
+    @media (min-width: $media_desktop_md)
+      font-size: 18px
 
 </style>
 
