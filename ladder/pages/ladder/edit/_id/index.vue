@@ -89,7 +89,7 @@
       let unitsList = []
       await axios({
         method: 'GET',
-        url: 'http://localhost:8080/api/ladder/' + params.id + '/'
+        url: 'https://api.ladder.noframeschools.com/api/ladder/' + params.id + '/'
       }).then((response) => {
         ladderDetailList = response.data
         unitsList = _.sortBy(response.data.units, (value) => {
@@ -139,7 +139,7 @@
       const ladderId = this.$route.params.id
       axios({
         method: 'GET',
-        url: 'http://localhost:8080/api/ladder/' + ladderId + '/'
+        url: 'https://api.ladder.noframeschools.com/api/ladder/' + ladderId + '/'
       }).then((response) => {
         this.ladderDetailList = response.data
         this.unitsList = _.sortBy(response.data.units, (value) => {
@@ -166,7 +166,7 @@
         if (this.modelTitle || this.modelLadderDescription) {
           axios({
             method: 'PUT',
-            url: 'http://localhost:8080/api/ladder/' + this.ladderDetailList.id + '/',
+            url: 'https://api.ladder.noframeschools.com/api/ladder/' + this.ladderDetailList.id + '/',
             headers: {
               "Accept": "application/json",
               "Authorization": "JWT " + this.token,
@@ -186,7 +186,7 @@
           this.unitsList.forEach((value, index) => {
             axios({
               method: 'PUT',
-              url: 'http://localhost:8080/api/unit/' + value.id + '/',
+              url: 'https://api.ladder.noframeschools.com/api/unit/' + value.id + '/',
               headers: {
                 "Accept": "application/json",
                 "Authorization": "JWT " + this.token,

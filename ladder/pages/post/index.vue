@@ -161,7 +161,7 @@
         } else {
           axios({
             method: 'POST',
-            url: 'http://localhost:8080/api/ladder/',
+            url: 'https://api.ladder.noframeschools.com/api/ladder/',
             headers: {
               "Accept": "application/json",
               "Authorization": "JWT " + this.token,

@@ -73,7 +73,7 @@
         if (this.$refs.form.validate()) {
           axios({
             method: 'POST',
-            url: 'http://localhost:8080/api/api-auth/',
+            url: 'https://api.ladder.noframeschools.com/api/api-auth/',
             headers: {
               "Accept": "application/json",
               'Content-Type': 'application/json'
@@ -113,7 +113,7 @@
       getUser() {
         axios({
           method: 'GET',
-          url: 'http://localhost:8080/api/users/' + this.decodeId + '/',
+          url: 'https://api.ladder.noframeschools.com/api/users/' + this.decodeId + '/',
         }).then((response) => {
           this.userDetail = response.data
         }).then(() => {
