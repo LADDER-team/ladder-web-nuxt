@@ -30,7 +30,7 @@
     asyncData() {
       return axios({
         method: 'GET',
-        url: 'https://api.ladder.noframeschools.com/api/ladder/',
+        url: 'http://localhost:8080/api/ladder/',
       }).then((response) => {
         return {
           ladderList: _.sortBy(response.data.results, (value) => {
@@ -57,7 +57,7 @@
       if (!this.ladderList.length) {
         axios({
           method: 'GET',
-          url: 'https://api.ladder.noframeschools.com/api/ladder/',
+          url: 'http://localhost:8080/api/ladder/',
         }).then((response) => {
           this.ladderList = _.sortBy(response.data.results, (value) => {
             return -value.id

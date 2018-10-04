@@ -50,7 +50,7 @@
       getUser() {
         axios({
           method: 'GET',
-          url: 'https://api.ladder.noframeschools.com/api/users/' + this.decodedId + '/',
+          url: 'http://localhost:8080/api/users/' + this.decodedId + '/',
         }).then((response) => {
           this.userDetail = response.data
         }).then(() => {
