@@ -8,9 +8,6 @@
       </div>
       <div :class="{'manage-ladder-wrap': manage}" class="ladder-info-wrap">
         <h2 class="ladder-link-title">{{ title }}</h2>
-        <p v-if="0<=count" class="ladder-link-attach">
-          学習中: <span>{{ count }}</span>
-        </p>
       </div>
     </router-link>
     <div v-if="manage" class="ladder-manage-btn-wrap">
@@ -74,10 +71,11 @@
     margin: 0 0 10px
     width: 100%
     text-decoration: none
-    font-size: 20px
+    font-size: 14px
     font-weight: normal
     color: #000
-
+    @media (min-width: $media_desktop_sm)
+      font-size: 18px
   .ladder-link-attach
     text-decoration: none
     text-align: right
@@ -89,10 +87,15 @@
       margin: 0 0 0 5px
 
   .ladder-thumb-wrap
-    min-width: 50px
-    width: 50px
-    height: 50px
+    min-width: 40px
+    width: 40px
+    height: 40px
     margin: 0 20px 0 0
+    @media (min-width: $media_desktop_sm)
+      min-width: 50px
+      width: 50px
+      height: 50px
+      margin: 0 20px 0 0
 
   .ladder-thumb
     max-width: 100%

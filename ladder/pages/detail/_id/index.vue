@@ -475,7 +475,7 @@
   .unit-title
     margin: 0 0 30px
     text-align: center
-    font-size: 24px
+    font-size: 20px
     font-weight: 400
     @media (min-width: $media_desktop_sm)
       margin: 0 0 30px
