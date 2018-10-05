@@ -2,9 +2,13 @@
   <v-layout justify-center
             class="layout-password-edit">
     <div class="password-edit-form-wrap">
-      <v-form ref="form"
+      <v-form lazy-validation
+              ref="form"
+              v-model="valid"
               class="password-edit-form">
         <v-text-field
+          v-model="modelPass"
+          :rules="passRules"
           prepend-icon="lock"
           ref="passRef"
           class="password-edit-input"
@@ -12,6 +16,8 @@
           label="現在のパスワード"
           required></v-text-field>
         <v-text-field
+          v-model="modelNextpass"
+          :rules="passRules"
           prepend-icon="lock"
           ref="nextPassRef"
           class="password-edit-input"
@@ -19,6 +25,8 @@
           label="新しいパスワード"
           required></v-text-field>
         <v-text-field
+          v-model="modelConfirm"
+          :rules="confirmRules"
           prepend-icon="lock"
           ref="nextConfirmPassRef"
           class="password-edit-input"
@@ -27,7 +35,8 @@
           required></v-text-field>
         <div class="password-edit-btn-wrap">
           <v-btn block ripple
-                 class="primary-block-btn password-edit-btn">パスワードを変更する
+                 class="primary-block-btn password-edit-btn">
+            パスワードを変更する
           </v-btn>
         </div>
       </v-form>
@@ -36,6 +45,10 @@
 </template>
 
 <script>
+  import {mapGetters, mapActions} from 'vuex'
+  import axios from 'axios'
+  import jwt from 'jwt-decode'
+
   export default {
     name: "password-edit",
     layout: 'engineer',
@@ -44,9 +57,21 @@
       name: 'page',
       mode: 'out-in'
     },
-    asyncData() {
-    },
-    data: () => ({}),
+    data: () => ({
+      //validation
+      valid: true,
+      modelPass: "",
+      passRules: [
+        v => !!v || 'パスワードを入力してください',
+        v => (v && v.length >= 8) || 'パスワードは8文字以上で入力してください'
+      ],
+      modelNextpass: "",
+      modelConfirm: "",
+      confirmRules: [
+        v => !!v || 'パスワードを入力してください',
+        v => (v === this.modelNextpass) || 'パスワードが一致しません'
+      ]
+    }),
     head() {
       return {
         title: 'Password'
