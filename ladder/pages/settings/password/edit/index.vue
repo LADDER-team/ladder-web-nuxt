@@ -16,25 +16,30 @@
           label="現在のパスワード"
           required></v-text-field>
         <v-text-field
-          v-model="modelNextpass"
-          :rules="passRules"
+          v-model="modelNewPass"
+          :rules="newPassRules"
           prepend-icon="lock"
-          ref="nextPassRef"
+          ref="newPassRef"
           class="password-edit-input"
           type="password"
           label="新しいパスワード"
           required></v-text-field>
         <v-text-field
           v-model="modelConfirm"
-          :rules="confirmRules"
+          :rules="[
+            v => !!v || '新しいパスワードを入力してください',
+            v => (v === this.modelNewPass) || '新しいパスワードが一致しません'
+          ]"
           prepend-icon="lock"
-          ref="nextConfirmPassRef"
+          ref="nextConfirmRef"
           class="password-edit-input"
           type="password"
           label="新しいパスワード（再確認）"
           required></v-text-field>
         <div class="password-edit-btn-wrap">
           <v-btn block ripple
+                 @click="editPassword"
+                 :disabled="!btnDisabled"
                  class="primary-block-btn password-edit-btn">
             パスワードを変更する
           </v-btn>
@@ -45,10 +50,6 @@
 </template>
 
 <script>
-  import {mapGetters, mapActions} from 'vuex'
-  import axios from 'axios'
-  import jwt from 'jwt-decode'
-
   export default {
     name: "password-edit",
     layout: 'engineer',
@@ -59,26 +60,44 @@
     },
     data: () => ({
       //validation
-      valid: true,
+      valid: false,
       modelPass: "",
       passRules: [
-        v => !!v || 'パスワードを入力してください',
+        v => !!v || '現在のパスワードを入力してください',
         v => (v && v.length >= 8) || 'パスワードは8文字以上で入力してください'
       ],
-      modelNextpass: "",
+      modelNewPass: "",
+      newPassRules: [
+        v => !!v || '新しいパスワードを入力してください',
+        v => (v && v.length >= 8) || 'パスワードは8文字以上で入力してください'
+      ],
       modelConfirm: "",
       confirmRules: [
-        v => !!v || 'パスワードを入力してください',
-        v => (v === this.modelNextpass) || 'パスワードが一致しません'
-      ]
+        v => !!v || '新しいパスワードを入力してください',
+        v => (v === this.modelNewPass) || '新しいパスワードが一致しません'
+      ],
     }),
     head() {
       return {
-        title: 'Password'
+        title: 'パスワード変更'
       }
     },
-    methods: {},
-    computed: {}
+    methods: {
+      editPassword() {
+        if (this.$refs.form.validate()) {
+          console.log('through request!!!')
+        } else {
+          if(this.btnDisabled){
+            alert('フォームを埋めてください〜！')
+          }
+        }
+      }
+    },
+    computed: {
+      btnDisabled() {
+        return this.modelPass && this.modelNewPass && this.modelConfirm
+      }
+    }
   }
 </script>
 
