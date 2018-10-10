@@ -126,6 +126,7 @@
       },
       testClick(){
         this.dialog = false
+        this.$router.push('/')
       }
     },
     computed: {
