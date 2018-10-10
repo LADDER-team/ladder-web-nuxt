@@ -39,13 +39,14 @@
           required></v-text-field>
         <v-flex class="password-edit-dialog-wrap">
           <v-dialog v-model="dialog" width="500"
+                    class="password-edit-dialog"
                     v-bind:disabled="!btnDisabled">
             <v-btn slot="activator"
-                     block ripple
-                     @click="validateForm"
-                     :disabled="!btnDisabled"
-                     class="primary-block-btn password-edit-btn">
-                パスワードを変更する
+                   block ripple
+                   @click="validateForm"
+                   :disabled="!btnDisabled"
+                   class="primary-block-btn password-edit-btn">
+              パスワードを変更する
             </v-btn>
             <v-card>
               <v-card-title class="headline dialog-title">
@@ -64,7 +65,9 @@
                   キャンセル
                 </v-btn>
                 <v-btn
-                  color="primary" flat>
+                  color="primary"
+                  @click="testClick"
+                  flat>
                   変更する
                 </v-btn>
               </v-card-actions>
@@ -113,16 +116,17 @@
     methods: {
       validateForm() {
         !this.modelPass && !this.modelNewPass && !this.modelConfirm ? this.unInputForm(0)
-            : console.log('true')
+          : console.log('true')
       },
       unInputForm(input) {
         const message = input === 0 ? "フォームを埋めてください！"
-            : "フォームを埋めてください！"
+          : "フォームを埋めてください！"
         alert(message)
-        setTimeout(() => {
-          this.dialog = false
-        }, 1)
-  }
+
+      },
+      testClick(){
+        this.dialog = false
+      }
     },
     computed: {
       btnDisabled() {
@@ -148,5 +152,8 @@
   .password-edit-btn
     margin: 30px 0 0
     width: 100%
+
+  .password-edit-dialog
+    display: block!important
 
 </style>
