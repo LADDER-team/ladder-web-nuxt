@@ -115,14 +115,12 @@
     },
     methods: {
       validateForm() {
-        !this.modelPass && !this.modelNewPass && !this.modelConfirm ? this.unInputForm(0)
-          : console.log('true')
-      },
-      unInputForm(input) {
-        const message = input === 0 ? "フォームを埋めてください！"
-          : "フォームを埋めてください！"
-        alert(message)
-
+        if (!this.$refs.form.validate()) {
+          alert('フォームに不備があります！')
+          setTimeout(() => {
+            this.dialog = false
+          }, 1)
+        }
       },
       editPassword() {
         this.dialog = false
