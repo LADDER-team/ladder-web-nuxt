@@ -1,7 +1,8 @@
 <template>
   <v-layout justify-center
             class="layout-password-edit">
-    <div class="password-edit-form-wrap">
+    <v-flex justify-center align-start
+            class="password-edit-form-wrap">
       <v-form lazy-validation
               ref="form"
               v-model="valid"
@@ -36,16 +37,42 @@
           type="password"
           label="新しいパスワード（再確認）"
           required></v-text-field>
-        <div class="password-edit-btn-wrap">
-          <v-btn block ripple
-                 @click="editPassword"
-                 :disabled="!btnDisabled"
-                 class="primary-block-btn password-edit-btn">
-            パスワードを変更する
-          </v-btn>
-        </div>
+        <v-flex class="password-edit-dialog-wrap">
+          <v-dialog v-model="dialog" width="500"
+                    v-bind:disabled="!btnDisabled">
+            <v-btn slot="activator"
+                     block ripple
+                     @click="validateForm"
+                     :disabled="!btnDisabled"
+                     class="primary-block-btn password-edit-btn">
+                パスワードを変更する
+            </v-btn>
+            <v-card>
+              <v-card-title class="headline dialog-title">
+                変更確認
+              </v-card-title>
+              <v-card-text>
+                パスワードを変更しますか？
+                変更後はTOPに遷移します！
+              </v-card-text>
+              <v-divider></v-divider>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  color="secondary" flat
+                  @click="dialog = false">
+                  キャンセル
+                </v-btn>
+                <v-btn
+                  color="primary" flat>
+                  変更する
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-flex>
       </v-form>
-    </div>
+    </v-flex>
   </v-layout>
 </template>
 
@@ -59,6 +86,7 @@
       mode: 'out-in'
     },
     data: () => ({
+      dialog: false,
       //validation
       valid: false,
       modelPass: "",
@@ -83,15 +111,18 @@
       }
     },
     methods: {
-      editPassword() {
-        if (this.$refs.form.validate()) {
-          console.log('through request!!!')
-        } else {
-          if(this.btnDisabled){
-            alert('フォームを埋めてください〜！')
-          }
-        }
-      }
+      validateForm() {
+        !this.modelPass && !this.modelNewPass && !this.modelConfirm ? this.unInputForm(0)
+            : console.log('true')
+      },
+      unInputForm(input) {
+        const message = input === 0 ? "フォームを埋めてください！"
+            : "フォームを埋めてください！"
+        alert(message)
+        setTimeout(() => {
+          this.dialog = false
+        }, 1)
+  }
     },
     computed: {
       btnDisabled() {
@@ -116,5 +147,6 @@
 
   .password-edit-btn
     margin: 30px 0 0
+    width: 100%
 
 </style>
