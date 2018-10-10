@@ -66,7 +66,7 @@
                 </v-btn>
                 <v-btn
                   color="primary"
-                  @click="testClick"
+                  @click="editPassword"
                   flat>
                   変更する
                 </v-btn>
@@ -124,7 +124,7 @@
         alert(message)
 
       },
-      testClick(){
+      editPassword() {
         this.dialog = false
         this.$router.push('/')
       }
