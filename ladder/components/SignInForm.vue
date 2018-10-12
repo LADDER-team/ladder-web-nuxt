@@ -27,6 +27,11 @@
               required></v-text-field>
           </v-form>
         </v-layout>
+        <p class="dialog-help">
+          パスワードをお忘れの方は
+          <a @click="toPasswordReset" class="dialog-link">こちら</a>
+          へ
+        </p>
       </v-container>
     </v-card-text>
     <v-card-actions>
@@ -131,6 +136,10 @@
       tokenDecoded() {
         this.decodedToken = jwt(this.loginToken);
         this.decodeId = this.decodedToken.user_id;
+      },
+      toPasswordReset(){
+        this.cancelDialog()
+        this.$router.push('/settings/password/reset')
       },
       ...mapActions('user',[
         'ADD_EMAIL_ACTION',
