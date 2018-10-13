@@ -93,7 +93,7 @@
         confirmRules: [
           v => !!v || 'パスワードを入力してください',
           v => (v === this.modelPass) || 'パスワードが一致しません'
-        ]
+        ],
       }
     },
     methods: {

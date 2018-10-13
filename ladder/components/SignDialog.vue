@@ -9,39 +9,37 @@
         <v-icon>person_outline</v-icon>
       </v-avatar>
     </v-btn>
-    <transition name="sign-up">
+    <transition name="sign-dialog">
       <sign-up-form v-show="sign&&!this.isLogin"
                     v-on:cancel="onCancelDialog"
                     v-on:direct-login="onDirectLogin"
-                    v-on:login="receivedLogin"
-                    v-on:sign="signin"/>
-    </transition>
-    <transition name="sign-in">
-      <sign-in-form v-show="login&&!this.isLogin"
-                    v-on:cancel="onSignInDialog"
-                    v-on:password-reset="onPassReset"
                     v-on:login="receivedLogin"/>
     </transition>
-    <transition name="password-reset-email">
-      <password-reset-email-form v-show="reset&&!this.isLogin"
-                                v-on:cancel="onResetDialog"
-                                v-on:login="receivedLogin"/>
+    <transition name="sign-dialog">
+      <sign-in-form v-show="login&&!this.isLogin"
+                    v-on:cancel="onSignInDialog"
+                    v-on:password-reset="onPasswordReset"
+                    v-on:login="receivedLogin"/>
+    </transition>
+    <transition name="sign-dialog">
+      <send-email-form v-show="reset&&!this.isLogin"
+                       v-on:reset-dialog="onResetDialog"/>
     </transition>
   </v-dialog>
 </template>
 
 <script>
   import {mapGetters, mapActions} from 'vuex'
+  import SendEmailForm from '~/components/SendEmailForm'
   import SignInForm from '~/components/SignInForm'
   import SignUpForm from '~/components/SignUpForm'
-  import PasswordResetEmailForm from '~/components/PasswordResetEmailForm'
 
   export default {
     name: "sign-dialog",
     components: {
       SignInForm,
       SignUpForm,
-      PasswordResetEmailForm,
+      SendEmailForm,
     },
     data: () => ({
       dialog: false,
@@ -72,27 +70,22 @@
           this.login = true
         }, 350)
       },
-      signin() {
-        this.dialog = false
-      },
       receivedLogin() {
         this.avatar = "face"
         this.dialog = false
       },
-      onPassReset() {
-        this.sign = false
+      onPasswordReset() {
         this.login = false
         setTimeout(() => {
           this.reset = true
         }, 350)
       },
-      onResetDialog() {
+      onResetDialog(){
         this.dialog = false
+        this.reset = false
         setTimeout(() => {
-          this.reset = false
-          this.login = false
           this.sign = true
-        }, 200)
+        }, 350)
       },
       ...mapActions([
         'user/ADD_TOKEN_ACTION',

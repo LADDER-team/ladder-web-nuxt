@@ -54,25 +54,23 @@
 
   export default {
     name: "sign-in-form",
-    data() {
-      return {
-        loginToken: null,
-        login: false,
-        decodeId: 0,
-        decodedToken: {},
-        userDetail: {},
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        //validation
-        valid: false,
-        modelEmail: "",
-        emailRules: [
-          v => !!v || 'メールアドレスを入力してください',
-          v => /.+@.+/.test(v) || '正しいメールアドレスを入力してください'
-        ],
-        modelPass: "",
-        passRules: [v => !!v || 'パスワードを入力してください',],
-      }
-    },
+    data: () => ({
+      loginToken: null,
+      login: false,
+      decodeId: 0,
+      decodedToken: {},
+      userDetail: {},
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      //validation
+      valid: false,
+      modelEmail: "",
+      emailRules: [
+        v => !!v || 'メールアドレスを入力してください',
+        v => /.+@.+/.test(v) || '正しいメールアドレスを入力してください'
+      ],
+      modelPass: "",
+      passRules: [v => !!v || 'パスワードを入力してください',],
+    }),
     methods: {
       loginUser() {
         if (this.$refs.form.validate()) {
@@ -106,7 +104,7 @@
       cancelDialog() {
         this.$emit('cancel')
       },
-      doLogin(){
+      doLogin() {
         this.$emit('login')
         alert("ログインしました！")
         if (!this.isLogin) {
@@ -137,10 +135,10 @@
         this.decodedToken = jwt(this.loginToken);
         this.decodeId = this.decodedToken.user_id;
       },
-      toPasswordReset(){
+      toPasswordReset() {
         this.$emit('password-reset');
       },
-      ...mapActions('user',[
+      ...mapActions('user', [
         'ADD_EMAIL_ACTION',
         'ADD_NAME_ACTION',
         'ADD_TOKEN_ACTION',
@@ -149,7 +147,7 @@
       ])
     },
     computed: {
-      ...mapGetters('user',{
+      ...mapGetters('user', {
         email: 'EMAIL_GETTER',
         isLogin: 'LOGIN_GETTER',
         token: 'TOKEN_GETTER',

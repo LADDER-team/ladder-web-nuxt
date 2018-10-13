@@ -24,7 +24,7 @@
     <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn flat color="blue darken-1"
-             @click="cancelDialog">キャンセル
+             @click="resetDialog">キャンセル
       </v-btn>
       <v-btn color="blue darken-1" flat
              :disabled="!valid"
@@ -35,34 +35,31 @@
 </template>
 
 <script>
-    export default {
-      name: "password-reset-email-form",
-      data() {
-        return {
-          loginToken: null,
-          reset: false,
-          //validation
-          valid: false,
-          modelEmail: "",
-          emailRules: [
-            v => !!v || 'メールアドレスを入力してください',
-            v => /.+@.+/.test(v) || '正しいメールアドレスを入力してください'
-          ]
-        }
+  export default {
+    name: "send-email-form",
+    data: () => ({
+      //validation
+      valid: false,
+      modelEmail: "",
+      emailRules: [
+        v => !!v || 'メールアドレスを入力してください',
+        v => /.+@.+/.test(v) || 'exam@exam.comなどの形式で入力してください'
+      ]
+    }),
+    methods: {
+      resetDialog(){
+        this.$emit('reset-dialog')
       },
-      methods: {
-        cancelDialog() {
-          this.$emit('cancel')
-        },
-        sendEmail() {
-          if (this.$refs.form.validate()) {
-            this.$router.push('/settings/password/reset/')
-          } else {
-            alert('フォームに不備があります！')
-          }
+      sendEmail() {
+        if (this.$refs.form.validate()) {
+          // post to api serve
+          this.resetDialog()
+        } else {
+          alert('メールアドレスを入力してください！')
         }
       }
     }
+  }
 </script>
 
 <style lang="sass" scoped></style>
