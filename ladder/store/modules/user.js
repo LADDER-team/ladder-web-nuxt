@@ -2,7 +2,6 @@ import 'babel-polyfill'
 
 const initialState = {
   isLogin: false,
-  isSign: false,
   email: null,
   name: null,
   token: null,
@@ -10,7 +9,6 @@ const initialState = {
 }
 const state = {
   isLogin: false,
-  isSign: false,
   email: null,
   name: null,
   token: null,
@@ -25,9 +23,6 @@ const getters = {
   },
   NAME_GETTER(state) {
     return state.name
-  },
-  SIGN_GETTER(state) {
-    return state.isSign
   },
   TOKEN_GETTER(state) {
     return state.token
@@ -63,12 +58,8 @@ const mutations = {
   LOGIN_MUTATION(state, payload) {
     state.isLogin = payload.isLogin
   },
-  SIGN_MUTATION(state, payload) {
-    state.isSign = payload.isSign
-  },
   LOGOUT_MUTATION(state) {
     state.isLogin = initialState.isLogin
-    state.isSign = initialState.isSign
     state.email = initialState.email
     state.name = initialState.name
     state.userId = initialState.userId
@@ -86,9 +77,6 @@ const actions = {
   },
   ADD_USER_ACTION({commit}, userId) {
     commit('ADD_USER_ID_MUTATION', userId)
-  },
-  SIGN_ACTION({commit}, isSign) {
-    commit('SIGN_MUTATION', {isSign})
   },
   LOGIN_ACTION({commit}, isLogin) {
     commit('LOGIN_MUTATION', {isLogin})

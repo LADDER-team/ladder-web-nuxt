@@ -13,7 +13,6 @@
       <sign-up-form v-show="sign&&!this.isLogin"
                     v-on:cancel="onCancelDialog"
                     v-on:direct-login="onDirectLogin"
-                    v-on:login="receivedLogin"
                     v-on:sign="signin"/>
     </transition>
     <transition name="sign-in">
