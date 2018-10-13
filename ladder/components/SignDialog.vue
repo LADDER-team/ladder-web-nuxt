@@ -13,8 +13,8 @@
       <sign-up-form v-show="sign&&!this.isLogin"
                     v-on:cancel="onCancelDialog"
                     v-on:direct-login="onDirectLogin"
-                    v-on:login="receivedLogin"
-                    v-on:sign="signin"/>
+                    v-on:login="receivedLogin"/>
+                    v-on:login="receivedLogin"/>
     </transition>
     <transition name="sign-in">
       <sign-in-form v-show="login&&!this.isLogin"
@@ -62,9 +62,6 @@
         setTimeout(() => {
           this.login = true
         }, 350)
-      },
-      signin() {
-        this.dialog = false
       },
       receivedLogin() {
         this.avatar = "face"

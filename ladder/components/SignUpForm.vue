@@ -70,13 +70,12 @@
     name: "sign-up-form",
     data() {
       return {
-        sign: false,
-        valid: false,
         decodedId: 0,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
         //validation
+        valid: false,
         modelName: "",
         nameRules: [v => !!v || '名前を入力してください'],
         modelEmail: "",
@@ -150,7 +149,7 @@
           }).then(() => {
             this.SIGN_ACTION(true)
           }).then(() => {
-            this.$emit('sign')
+            this.$emit('cancel')
           }).then(() => {
             this.loginUser()
           }).catch((error) => {

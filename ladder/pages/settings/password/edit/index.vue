@@ -153,6 +153,6 @@
     width: 100%
 
   .password-edit-dialog
-    display: block!important
+    display: block !important
 
 </style>
