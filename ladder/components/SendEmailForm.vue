@@ -9,6 +9,7 @@
           <v-form lazy-validation
                   ref="form"
                   v-model="valid"
+                  @submit.prevent="validateSubmit"
                   class="sign-form">
             <v-text-field
               v-model="modelEmail"
@@ -49,6 +50,11 @@
     methods: {
       resetDialog(){
         this.$emit('reset-dialog')
+      },
+      validateSubmit(){
+        if (!this.$refs.form.validate()) {
+          return false
+        }
       },
       sendEmail() {
         if (this.$refs.form.validate()) {
