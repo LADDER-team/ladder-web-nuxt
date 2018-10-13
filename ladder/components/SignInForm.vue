@@ -138,8 +138,7 @@
         this.decodeId = this.decodedToken.user_id;
       },
       toPasswordReset(){
-        this.cancelDialog()
-        this.$router.push('/settings/password/reset')
+        this.$emit('password-reset');
       },
       ...mapActions('user',[
         'ADD_EMAIL_ACTION',

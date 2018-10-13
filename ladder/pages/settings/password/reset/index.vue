@@ -6,33 +6,46 @@
       <v-form lazy-validation
               ref="form"
               v-model="valid"
-              class="password-reset-email-form">
+              class="password-reset-form">
         <v-text-field
-          v-model="modelEmail"
-          :rules="emailRules"
-          prepend-icon="email"
-          ref="emailRef"
-          class="password-reset-email-input"
-          label="メールアドレス"
+          v-model="modelNewPass"
+          :rules="newPassRules"
+          prepend-icon="lock"
+          ref="newPassRef"
+          class="password-reset-input"
+          type="password"
+          label="新しいパスワード"
+          required></v-text-field>
+        <v-text-field
+          v-model="modelConfirm"
+          :rules="[
+            v => !!v || '新しいパスワードを入力してください',
+            v => (v === this.modelNewPass) || '新しいパスワードが一致しません'
+          ]"
+          prepend-icon="lock"
+          ref="nextConfirmRef"
+          class="password-reset-input"
+          type="password"
+          label="新しいパスワード（再確認）"
           required></v-text-field>
         <v-flex class="password-edit-dialog-wrap">
           <v-dialog v-model="dialog" width="500"
-                    class="password-reset-email-dialog"
+                    class="password-reset-dialog"
                     v-bind:disabled="!btnDisabled">
             <v-btn slot="activator"
                    block ripple
                    @click="validateForm"
                    :disabled="!btnDisabled"
-                   class="primary-block-btn password-reset-email-btn">
-              メールアドレスを送信する
+                   class="primary-block-btn password-reset-btn">
+              パスワードを変更する
             </v-btn>
             <v-card>
               <v-card-title class="headline dialog-title">
-                確認
+                変更確認
               </v-card-title>
               <v-card-text>
-                メールアドレスにお間違えはございませんか？
-                送信後はメールをご確認ください！
+                パスワードを変更しますか？
+                変更後はTOPに遷移します！
               </v-card-text>
               <v-divider></v-divider>
               <v-card-actions>
@@ -44,9 +57,9 @@
                 </v-btn>
                 <v-btn
                   color="primary"
-                  @click="sendEmail"
+                  @click="resetPassword"
                   flat>
-                  送信する
+                  変更する
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -70,11 +83,16 @@
       dialog: false,
       //validation
       valid: false,
-      modelEmail: "",
-      emailRules: [
-        v => !!v || 'メールアドレスを入力してください',
-        v => /.+@.+/.test(v) || '正しいメールアドレスを入力してください'
+      modelNewPass: "",
+      newPassRules: [
+        v => !!v || 'パスワードを入力してください',
+        v => (v && v.length >= 8) || 'パスワードは8文字以上で入力してください'
       ],
+      modelConfirm: "",
+      confirmRules: [
+        v => !!v || 'パスワードを入力してください',
+        v => (v === this.modelNewPass) || 'パスワードが一致しません'
+      ]
     }),
     head() {
       return {
@@ -90,15 +108,14 @@
           }, 1)
         }
       },
-      sendEmail() {
+      resetPassword() {
         this.dialog = false
         this.$router.push('/')
-        alert("送信しました！メールをご確認ください！")
       }
     },
     computed: {
       btnDisabled() {
-        return this.modelEmail
+        return this.modelNewPass && this.modelConfirm
       }
     }
   }
@@ -110,14 +127,14 @@
     width: 100%
     height: 80%
 
-  .password-reset-email-form
+  .password-reset-form
     background: #fff
     padding: 30px
 
-  .password-reset-email-btn
+  .password-reset-btn
     margin: 30px 0 0
     width: 100%
 
-  .password-reset-email-dialog
+  .password-reset-dialog
     display: block!important
 </style>

@@ -19,7 +19,13 @@
     <transition name="sign-in">
       <sign-in-form v-show="login&&!this.isLogin"
                     v-on:cancel="onSignInDialog"
+                    v-on:password-reset="onPassReset"
                     v-on:login="receivedLogin"/>
+    </transition>
+    <transition name="password-reset-email">
+      <password-reset-email-form v-show="reset&&!this.isLogin"
+                                v-on:cancel="onResetDialog"
+                                v-on:login="receivedLogin"/>
     </transition>
   </v-dialog>
 </template>
@@ -28,17 +34,20 @@
   import {mapGetters, mapActions} from 'vuex'
   import SignInForm from '~/components/SignInForm'
   import SignUpForm from '~/components/SignUpForm'
+  import PasswordResetEmailForm from '~/components/PasswordResetEmailForm'
 
   export default {
     name: "sign-dialog",
     components: {
       SignInForm,
       SignUpForm,
+      PasswordResetEmailForm,
     },
     data: () => ({
       dialog: false,
       login: false,
       sign: true,
+      reset: false,
       avatar: "person_outline",
     }),
     mounted() {
@@ -69,6 +78,21 @@
       receivedLogin() {
         this.avatar = "face"
         this.dialog = false
+      },
+      onPassReset() {
+        this.sign = false
+        this.login = false
+        setTimeout(() => {
+          this.reset = true
+        }, 350)
+      },
+      onResetDialog() {
+        this.dialog = false
+        setTimeout(() => {
+          this.reset = false
+          this.login = false
+          this.sign = true
+        }, 200)
       },
       ...mapActions([
         'user/ADD_TOKEN_ACTION',
