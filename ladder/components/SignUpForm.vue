@@ -112,11 +112,11 @@
             data: {
               name: this.modelName,
               email: this.modelEmail,
-              password: this.modelPass
+              password: this.modelPass,
             }
           }).then(() => {
             this.$emit('cancel')
-            alert('登録ありがとうございます！登録いただいたメールアドレスに本登録用のメールを送信しました。メールの添付URLから本登録を完了してください！')
+            alert('仮登録が完了しました！登録いただいたアドレスに本登録用のメールを送信しましたので、添付URLから本登録を完了してください！')
           }).then(() => {
             this.$refs.form.reset()
           }).catch((error) => {
