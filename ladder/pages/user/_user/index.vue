@@ -12,8 +12,8 @@
                src="~static/images/logo.png" alt="avatar">
         </v-flex>
       </v-flex>
-      <v-flex align-center justify-start>
-        <h2 class="display-1">{{userDetailList.name}}</h2>
+      <v-flex layout column align-start justify-center>
+        <h2 class="headline">{{userDetailList.name}}</h2>
         <v-dialog v-model="dialog"
                   persistent
                   max-width="600">
@@ -32,12 +32,13 @@
                   <v-form lazy-validation
                           ref="form"
                           v-model="valid"
+                          name="user-edit"
                           class="user-edit-form">
                     <v-flex layout align-center justify-center
                             class="user-edit-avatar-wrap">
                       <img :src="imageUrl"
-                            ref="imageUrl"
-                            class="user-edit-avatar-image">
+                           ref="imageUrl"
+                           class="user-edit-avatar-image">
                       <v-btn v-if="!imageUrl"
                              raised @click="onPickFile"
                              class="user-edit-circle-btn"></v-btn>
@@ -50,7 +51,7 @@
                         type="file">
                       <a @click="onPickFile"
                          class="user-edit-avatar-overlay transition-item">
-                        <v-icon dark size="40" >camera_alt</v-icon>
+                        <v-icon dark size="40">camera_alt</v-icon>
                       </a>
                     </v-flex>
                     <v-text-field
@@ -166,7 +167,7 @@
 
         if (this.$refs.form.validate()) {
           axios({
-            method: 'PUT',
+            method: 'PATCH',
             url: 'http://localhost:8080/api/users/' + userId + '/',
             headers: {
               "Authorization": "JWT " + this.token,
@@ -175,17 +176,46 @@
             data: {
               name: this.modelName,
               profile: this.modelProfile,
-              // icon: this.imageFile,
             }
           }).then(() => {
             this.getUserDetail()
           })
             .catch((error) => {
-              alert('プロフィール情報の変更に失敗しました!')
+              alert('プロフィールの変更に失敗しました!')
               console.log(error)
             })
+
+          if (this.imageFile) {
+            this.editIcon()
+          }else{
+            this.dialog = false
+            return false
+          }
         }
         this.dialog = false
+      },
+      editIcon() {
+        const userId = this.userId ? this.userId : 0
+        const selectedIcon = new FormData()
+        selectedIcon.append('image', this.imageFile)
+
+        axios({
+          method: 'PATCH',
+          url: 'http://localhost:8080/api/users/' + userId + '/',
+          headers: {
+            "Authorization": "JWT " + this.token,
+            "Content-type": "multipart/form-data"
+          },
+          data: {
+            icon: selectedIcon,
+          }
+        }).then(() => {
+          this.getUserDetail()
+        })
+          .catch((error) => {
+            alert('画像の変更に失敗しました!')
+            console.log(error.response)
+          })
       },
       getUserDetail() {
         const userId = this.userId ? this.userId : 0
@@ -214,7 +244,6 @@
           if (filename && filename.lastIndexOf('.') <= 0) {
             return
           }
-
           const fileReader = new FileReader()
           fileReader.addEventListener('load', () => {
             this.imageUrl = fileReader.result
@@ -322,7 +351,7 @@
     max-height: 100%
 
   .user-edit-circle-btn
-    background-color: $default_tertiary_color
+    opacity: 0
 
   .user-edit-avatar-overlay
     position: absolute
@@ -331,8 +360,8 @@
     display: inline-flex
     align-items: center
     justify-content: center
-    padding: 0!important
-    margin: 0!important
+    padding: 0 !important
+    margin: 0 !important
     width: 100%
     height: 100%
     opacity: .9
