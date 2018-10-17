@@ -80,6 +80,9 @@
 </template>
 
 <script>
+  import axios from 'axios'
+  import {mapGetters} from 'vuex'
+
   export default {
     name: "password-edit",
     layout: 'engineer',
@@ -148,6 +151,9 @@
       }
     },
     computed: {
+      ...mapGetters('user', {
+        token: 'TOKEN_GETTER'
+      }),
       btnDisabled() {
         return this.modelPass && this.modelNewPass && this.modelConfirm
       }
