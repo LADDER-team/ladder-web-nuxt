@@ -71,15 +71,12 @@
               email: this.modelEmail
             }
           }).then(() => {
+            alert("パスワード変更用メールを送信しました！")
             this.resetDialog()
-          }).then(() => {
-            alert("パスワード変更用メールを送信しました")
           }).catch((error) => {
-            alert("登録されていないメールアドレスです")
+            alert("登録されていないメールアドレスです！")
             console.log(error)
           })
-        } else {
-          alert('メールアドレスを入力してください！')
         }
       }
     },
