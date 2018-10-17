@@ -8,10 +8,10 @@
               v-model="valid"
               class="password-edit-form">
         <v-text-field
-          v-model="modelPass"
-          :rules="passRules"
+          v-model="modelOldPass"
+          :rules="oldPassRules"
           prepend-icon="lock"
-          ref="passRef"
+          ref="oldPassRef"
           class="password-edit-input"
           type="password"
           label="現在のパスワード"
@@ -27,10 +27,7 @@
           required></v-text-field>
         <v-text-field
           v-model="modelConfirm"
-          :rules="[
-            v => !!v || '新しいパスワードを入力してください',
-            v => (v === this.modelNewPass) || '新しいパスワードが一致しません'
-          ]"
+          :rules="confirmRules"
           prepend-icon="lock"
           ref="nextConfirmRef"
           class="password-edit-input"
@@ -60,14 +57,13 @@
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn
-                  color="secondary" flat
+                  color="primary" flat
                   @click="dialog = false">
                   キャンセル
                 </v-btn>
                 <v-btn
-                  color="primary"
-                  @click="editPassword"
-                  flat>
+                  color="primary" flat
+                  @click="editPassword">
                   変更する
                 </v-btn>
               </v-card-actions>
@@ -91,26 +87,27 @@
       name: 'page',
       mode: 'out-in'
     },
-    data: () => ({
-      dialog: false,
-      //validation
-      valid: false,
-      modelPass: "",
-      passRules: [
-        v => !!v || '現在のパスワードを入力してください',
-        v => (v && v.length >= 8) || 'パスワードは8文字以上で入力してください'
-      ],
-      modelNewPass: "",
-      newPassRules: [
-        v => !!v || '新しいパスワードを入力してください',
-        v => (v && v.length >= 8) || 'パスワードは8文字以上で入力してください'
-      ],
-      modelConfirm: "",
-      confirmRules: [
-        v => !!v || '新しいパスワードを入力してください',
-        v => (v === this.modelNewPass) || '新しいパスワードが一致しません'
-      ],
-    }),
+    data() {
+      return {
+        dialog: false,
+        //validation
+        valid: false,
+        modelOldPass: "",
+        oldPassRules: [
+          v => !!v || '現在のパスワードを入力してください'
+        ],
+        modelNewPass: "",
+        newPassRules: [
+          v => !!v || '新しいパスワードを入力してください',
+          v => (v && v.length >= 8) || 'パスワードは8文字以上で入力してください'
+        ],
+        modelConfirm: "",
+        confirmRules: [
+          v => !!v || '新しいパスワードを入力してください',
+          v => (v === this.modelNewPass) || '新しいパスワードが一致しません'
+        ],
+      }
+    },
     head() {
       return {
         title: 'パスワード変更'
@@ -131,20 +128,20 @@
             method: 'PUT',
             url: 'http://localhost:8080/api/password/change/',
             headers: {
-              "Accept": "application/json",
               "Authorization": "JWT " + this.token,
               "Content-type": "application/json"
             },
             data: {
-              old_password: this.modelPass,
+              old_password: this.modelOldPass,
               new_password: this.modelNewPass
             }
           }).then(() => {
-            alert("パスワードを変更しました！")
+            alert("パスワードが変更されました！")
           }).then(() => {
             this.$router.push('/')
           }).catch((error) => {
-            alert("パスワードが間違っています")
+            alert("現在のパスワードが間違っています")
+            this.dialog = false
             console.log(error)
           })
         }
@@ -155,7 +152,7 @@
         token: 'TOKEN_GETTER'
       }),
       btnDisabled() {
-        return this.modelPass && this.modelNewPass && this.modelConfirm
+        return this.modelOldPass && this.modelNewPass && this.modelConfirm
       }
     }
   }
