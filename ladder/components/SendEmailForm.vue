@@ -36,6 +36,8 @@
 </template>
 
 <script>
+  import axios from 'axios'
+
   export default {
     name: "send-email-form",
     data: () => ({
@@ -58,13 +60,29 @@
       },
       sendEmail() {
         if (this.$refs.form.validate()) {
-          // post to api serve
-          this.resetDialog()
+          axios({
+            method: 'POST',
+            url: 'http://localhost:8080/api/password/reset/',
+            headers: {
+              "Accept": "application/json",
+              'Content-Type': 'application/json'
+            },
+            data: {
+              email: this.modelEmail
+            }
+          }).then(() => {
+            this.resetDialog()
+          }).then(() => {
+            alert("パスワード変更用メールを送信しました")
+          }).catch((error) => {
+            alert("登録されていないメールアドレスです")
+            console.log(error)
+          })
         } else {
           alert('メールアドレスを入力してください！')
         }
       }
-    }
+    },
   }
 </script>
 
