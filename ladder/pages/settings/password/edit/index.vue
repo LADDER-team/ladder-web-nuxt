@@ -123,8 +123,28 @@
         }
       },
       editPassword() {
-        this.dialog = false
-        this.$router.push('/')
+        if (this.$refs.form.validate()) {
+          axios({
+            method: 'PUT',
+            url: 'http://localhost:8080/api/password/change/',
+            headers: {
+              "Accept": "application/json",
+              "Authorization": "JWT " + this.token,
+              "Content-type": "application/json"
+            },
+            data: {
+              old_password: this.modelPass,
+              new_password: this.modelNewPass
+            }
+          }).then(() => {
+            alert("パスワードを変更しました！")
+          }).then(() => {
+            this.$router.push('/')
+          }).catch((error) => {
+            alert("パスワードが間違っています")
+            console.log(error)
+          })
+        }
       }
     },
     computed: {
