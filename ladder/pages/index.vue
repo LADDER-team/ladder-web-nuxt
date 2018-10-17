@@ -53,6 +53,11 @@
     components: {
       LadderListItem
     },
+    beforeMount() {
+      if (this.$route.params.isRegister) {
+        alert('本登録が完了したところで、まずは右上のアイコンをクリックしてログインしましょう！')
+      }
+    },
     mounted() {
       if (!this.ladderList.length) {
         axios({
